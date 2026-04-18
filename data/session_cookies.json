@@ -1,0 +1,194 @@
+[
+    {
+        "name": "fflastvisit",
+        "value": "1776494516",
+        "domain": ".www.forexfactory.com",
+        "path": "/",
+        "expires": 1808030516.888668,
+        "httpOnly": false,
+        "secure": true,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "fflastactivity",
+        "value": "0",
+        "domain": ".www.forexfactory.com",
+        "path": "/",
+        "expires": 1808030516.888795,
+        "httpOnly": false,
+        "secure": true,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "ffsettingshash",
+        "value": "9c7454d858d3b66dabd5b80f3cf010c6",
+        "domain": ".www.forexfactory.com",
+        "path": "/",
+        "expires": 1808030516.88882,
+        "httpOnly": true,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "fftab-history",
+        "value": "calendar",
+        "domain": ".www.forexfactory.com",
+        "path": "/",
+        "expires": 1776498116.88886,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "auth_user",
+        "value": "cd4c6b2c3c2d04065eee8c5a1291006675e13ab76e40a9c9560fef8ce0cde754%3A4a021826e7fdc644517c1f55829d48b21907a24f5e41c3372f83cc20094c3cb8",
+        "domain": ".www.forexfactory.com",
+        "path": "/",
+        "expires": 1808030516.88888,
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "cf_clearance",
+        "value": "I_0UDx6CGJkGy0dIaqh8lgsH6gtQJZDzDXMu4xgwutE-1776494518-1.2.1.1-8THjm88GpiqIwqmWGtC4BwGt3xULpZ3xF0HqeE2TL1wbnqbGLP.eyXkuL8HzoCMLgd3X2ZCsPAFU0uBfx9EVC9jv623axEeur2QZcvw5QmHab.CX7DQGapmLEArMqCMEHrWANxv8UIG9CxSN_Z8rSziyo2mhdbd1oqC9IXrp9pbWzqNjqMQib2mXAzugzFkqkXbi.kUv6SJ5pcaBRYb6YTEcSXlfL.T_qZr3WN7Ta036jsqDIRPjUISAq9hN.MsoKvpQFxdE0RBbnJw.ZAgYyhA7NUdr3pzCV8.Xi4IGDtlv2iEO6RWNeq6KXw60_33TiqWOWZW5iKuNgLUQ12gejg",
+        "domain": ".forexfactory.com",
+        "path": "/",
+        "expires": 1808030518.679522,
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "None",
+        "partitionKey": "https://forexfactory.com",
+        "_crHasCrossSiteAncestor": false
+    },
+    {
+        "name": "__cf_bm",
+        "value": "Uc3HyaqMmCMUk2pykjMX83u4pAI7zqNKxYPT3Qib9pI-1776494518.433852-1.0.1.1-LXcmERgsmm0bPhZnayW0pz1d.nkH0oBj1fEKNsCdAPQpTGP3kHIExPPHHqmz4rKbNbTLX7p.o_G5S9klKbmuwZXYiq2pSXFEEheR3cdxuQ1vBLXVg4aWi6vQ3tUyUxPZiDl2WG2GIv0cf3LSmJSVOA",
+        "domain": ".forexfactory.com",
+        "path": "/",
+        "expires": 1776496318.679639,
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "__gads",
+        "value": "ID=b012b220d868ab05:T=1776494518:RT=1776494518:S=ALNI_MYQjelxIXavQR3Wr_zz-cUKejcJLg",
+        "domain": ".forexfactory.com",
+        "path": "/",
+        "expires": 1810190518,
+        "httpOnly": false,
+        "secure": true,
+        "sameSite": "None"
+    },
+    {
+        "name": "__gpi",
+        "value": "UID=00001268fe9bd973:T=1776494518:RT=1776494518:S=ALNI_MYQwJtv4ayRmI9pgjiZJtXFun2ngw",
+        "domain": ".forexfactory.com",
+        "path": "/",
+        "expires": 1810190518,
+        "httpOnly": false,
+        "secure": true,
+        "sameSite": "None"
+    },
+    {
+        "name": "__eoi",
+        "value": "ID=e8f092b63dc3f9a4:T=1776494518:RT=1776494518:S=AA-AfjZ2u4TfSiSsfXtTbuD6cfrA",
+        "domain": ".forexfactory.com",
+        "path": "/",
+        "expires": 1792046518,
+        "httpOnly": false,
+        "secure": true,
+        "sameSite": "None"
+    },
+    {
+        "name": "ffadon",
+        "value": "1",
+        "domain": "www.forexfactory.com",
+        "path": "/",
+        "expires": 1776580918,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "IDE",
+        "value": "AHWqTUlIfz_Hxym5fl4dEQnHutgvRsO69pDbgV8NZdjhf4IA8zwHDlDqF6_yPomghuc",
+        "domain": ".doubleclick.net",
+        "path": "/",
+        "expires": 1811054518.835527,
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "None"
+    },
+    {
+        "name": "_ga_QFGG4THJR2",
+        "value": "GS2.1.s1776494518$o1$g1$t1776494518$j60$l0$h0",
+        "domain": ".forexfactory.com",
+        "path": "/",
+        "expires": 1811054518.842158,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "_ga",
+        "value": "GA1.2.1500343006.1776494519",
+        "domain": ".forexfactory.com",
+        "path": "/",
+        "expires": 1811054518.939093,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "_gid",
+        "value": "GA1.2.1365117620.1776494519",
+        "domain": ".forexfactory.com",
+        "path": "/",
+        "expires": 1776580918,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "_gat_gtag_UA_3311429_1",
+        "value": "1",
+        "domain": ".forexfactory.com",
+        "path": "/",
+        "expires": 1776494578,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "_hjSessionUser_3279922",
+        "value": "eyJpZCI6IjQ5MmY1MTkxLTdlMGYtNTFjZi1iN2IxLTQzNmFmMDhkNWY0MCIsImNyZWF0ZWQiOjE3NzY0OTQ1MTk0MzIsImV4aXN0aW5nIjpmYWxzZX0=",
+        "domain": ".forexfactory.com",
+        "path": "/",
+        "expires": 1808030519,
+        "httpOnly": false,
+        "secure": true,
+        "sameSite": "None"
+    },
+    {
+        "name": "_hjSession_3279922",
+        "value": "eyJpZCI6IjdhZDhmZjNiLWFiODMtNDhjYS04N2ZjLTRmZjEyNTQ2ZjgyMSIsImMiOjE3NzY0OTQ1MTk0MzMsInMiOjAsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjoxLCJzcCI6MX0=",
+        "domain": ".forexfactory.com",
+        "path": "/",
+        "expires": 1776496319,
+        "httpOnly": false,
+        "secure": true,
+        "sameSite": "None"
+    },
+    {
+        "name": "_hjHasCachedUserAttributes",
+        "value": "true",
+        "domain": "www.forexfactory.com",
+        "path": "/",
+        "expires": -1,
+        "httpOnly": false,
+        "secure": true,
+        "sameSite": "None"
+    }
+]
