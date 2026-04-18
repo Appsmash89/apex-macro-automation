@@ -1,0 +1,7 @@
+elevenlabs
+manim
+python-dotenv
+asyncio
+playwright
+requests
+beautifulsoup4
