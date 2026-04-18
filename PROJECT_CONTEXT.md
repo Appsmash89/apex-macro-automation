@@ -29,6 +29,7 @@
   - Shared Config: Statically scoped `path.join(process.cwd(), 'shared', filename)`.
   - Assets: Statically scoped `path.join(process.cwd(), 'public', 'data', filename)`.
   - **Mission 0.3 Standard**: All engines must utilize **Absolute Root Pathing**. Python engines resolve root via file-directory anchors; TypeScript resolves via `process.cwd()`. Indexed Mapping using the [LIVE_FILE_SYSTEM_MAP] is the required navigation protocol.
+- **Institutional Standard**: Design follows the Stitch No-Line Mandate. Component boundaries defined by background color shifts. Typography set to Inter (UI) and Space Grotesk (Data).
 
 ## [CURRENT_MISSION_STATE]
 - **Mission 2.2**: Sovereign Observer UI Implementation.
@@ -53,20 +54,10 @@
   - intelligence/
     - analyst_engine.py
     - scout_forex.py
-- media/
-  - images
-  - texts
-  - videos
-- public/
-  - data/
-    - FINAL_OUTPUT.mp4
-    - visuals_raw.mp4
-    - voiceover.mp3
 - shared/
   - config.json
 - src/
   - app/
-    - favicon.ico
     - globals.css
     - layout.tsx
     - page.tsx
@@ -82,9 +73,15 @@
   - lib/
     - actions.ts
     - auth.ts
-  - middleware.ts
+- public/ (Assets)
+  - data/
+    - FINAL_OUTPUT.mp4
+    - visuals_raw.mp4
+    - voiceover.mp3
 - .env.example
 - .gitignore
+- ROADMAP.md
+- PROJECT_CONTEXT.md
 - AGENTS.md
 - CLAUDE.md
 - client_secret.json
