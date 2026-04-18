@@ -1,25 +1,13 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/request';
 
+/**
+ * MISSION 4.4: OPEN ACCESS PROTOCOL
+ * Security de-escalated for Alpha testing. 
+ * Bypassing authentication gate.
+ */
 export function middleware(request: NextRequest) {
-  const adminPassword = process.env.ADMIN_PASSWORD;
-
-  // 1. If no password is set, allow all traffic
-  if (!adminPassword || adminPassword === "your_secure_password_here") {
-    return NextResponse.next();
-  }
-
-  // 2. Define protected paths
-  const isLoginPage = request.nextUrl.pathname === '/login';
-  const sessionToken = request.cookies.get('session-auth')?.value;
-
-  // 3. Simple auth check
-  if (!sessionToken && !isLoginPage) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/login';
-    return NextResponse.redirect(url);
-  }
-
+  // Always allow access during Alpha phase
   return NextResponse.next();
 }
 
