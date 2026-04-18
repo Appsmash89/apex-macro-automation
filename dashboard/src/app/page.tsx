@@ -144,12 +144,12 @@ export default async function Dashboard() {
                 </div>
                 <ChevronRight className="text-gray-600" size={16} />
               </div>
-              <div className="flex items-center justify-between p-4 bg-[#121212] rounded border border-[#4C6545]/10 opacity-50">
+              <div className="flex items-center justify-between p-4 bg-[#121212] rounded border border-[#4C6545]/10">
                 <div className="flex items-center gap-3">
                   <Video className="text-[#4C6545]" size={18} />
-                  <span className="text-xs font-mono">visuals_raw.mp4</span>
+                  <span className="text-xs font-mono">FINAL_OUTPUT.mp4</span>
                 </div>
-                <span className="text-[10px] bg-red-900 px-2 py-1 rounded text-red-200">FFMPEG_PENDING</span>
+                <span className="text-[10px] bg-[#4C6545] px-2 py-1 rounded text-[#FAF9F5]">READY</span>
               </div>
             </div>
           </section>
