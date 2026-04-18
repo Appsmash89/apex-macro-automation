@@ -26,7 +26,7 @@ export async function getConfig() {
 }
 
 export async function getScript() {
-  const filePath = await getRootPath("current_script.json", "public/data");
+  const filePath = await getRootPath("current_script.json", "data");
   const content = await fs.readFile(filePath, "utf-8");
   return JSON.parse(content);
 }

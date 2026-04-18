@@ -40,7 +40,7 @@ export async function uploadToYouTube() {
   });
 
   // 2. Load Metadata
-  const scriptFilePath = path.join(process.cwd(), "public", "data", "current_script.json");
+  const scriptFilePath = path.join(process.cwd(), "data", "current_script.json");
   const videoFilePath = path.join(process.cwd(), "public", "data", "FINAL_OUTPUT.mp4");
 
   if (!fs.existsSync(scriptFilePath) || !fs.existsSync(videoFilePath)) {

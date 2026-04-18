@@ -77,7 +77,7 @@ async def run_scout():
                 })
         
         # 6. Save Data
-        output_path = "public/data/latest_news.json"
+        output_path = "data/latest_news.json"
         with open(output_path, "w") as f:
             json.dump(extracted_news, f, indent=4)
             

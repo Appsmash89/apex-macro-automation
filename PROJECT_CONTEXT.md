@@ -12,19 +12,23 @@
 - **Framework**: Next.js 16.2.4 (Security Hardened).
 - **React**: 19.0.0.
 - **Structure**: Flat Architecture (Root-level src/app).
-- **Asset Directive**: All assets for distribution MUST reside in `/public/data`. 
+- **Data Blueprint**: 
+  - **Internal Data**: JSON metadata (scripts, config) resides in root `/data` for build-time bundling and trace compliance.
+  - **Public Assets**: Media files (MP4, MP3) reside in `/public/data` for runtime serving and external accessibility.
 - **Backend Restriction**: Python is strictly forbidden in the production environment.
 - **Distribution**: Unified TypeScript Engine (Native Node.js via googleapis).
-- **Data Pathing**: Consolidated to `public/data/`. Files are read using `path.join(process.cwd(), 'public', 'data', filename)`.
+- **Pathing Resolution**: 
+  - Metadata: `path.join(process.cwd(), 'data', filename)`
+  - Assets: `path.join(process.cwd(), 'public', 'data', filename)`
 
 ## [CURRENT_MISSION_STATE]
-- **Mission 7.3.2**: Path Realignment & Manifest Automation.
-- **Status**: Asset core moved to `/public/data`. All cross-language scripts (TS/Python) synchronized. Automated manifest protocol active.
+- **Mission 7.4**: Build Integrity & Data Separation.
+- **Status**: Metadata/Asset split implemented. JSON moved back to root `/data` to resolve Vercel `ENOENT` build failures. Unified Engine synchronized.
 
 ## [WALL_OF_FAILURES]
 - **DO NOT ATTEMPT**: Python-based server actions on Vercel. Structural impossibility.
-- **DO NOT ATTEMPT**: Sub-directory dashboard nesting (causes Vercel trace and build-path failures).
-- **DO NOT ATTEMPT**: Direct file-system writes in production Vercel environments.
+- **DO NOT ATTEMPT**: Sub-directory dashboard nesting (causes Vercel trace failures).
+- **DO NOT ATTEMPT**: Reading from `/public` during build-time server execution on Vercel (causes `ENOENT`).
 - **IDENTIFIED FAILURE**: Metadata/Token parsing issues in Mission 7.2 transition (Resolved in Mission 7.3).
 
 ## [LIVE_FILE_SYSTEM_MAP]
@@ -33,12 +37,13 @@
   - director_audio.py
   - director_visuals.py
   - scout_forex.py
+- data/
+  - current_script.json
+  - latest_news.json
+  - session_cookies.json
 - public/
   - data/
-    - current_script.json
     - FINAL_OUTPUT.mp4
-    - latest_news.json
-    - session_cookies.json
     - visuals_raw.mp4
     - voiceover.mp3
 - src/
