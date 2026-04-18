@@ -10,8 +10,7 @@
 ## Mission 2: Analyst Agent (Content Generation)
 - [x] [Mission 2.0: Script Engine Deployed] - Alpha script generated for the $78k breakout.
 - [x] [Mission 2.1: The Control Matrix Overhaul] - UI transitioned to high-density Industrial aesthetic (Sage Green/Bone). Implemented security-hardened interactions (Hold-to-Confirm, Mechanical Toggles).
-- [x] [Mission 2.1.2: Sovereign Deployment Sync] - Forced cloud sync and synchronized Shared Dictionary.
-- [x] [Mission 2.2: Sovereign Observer UI Implementation] - Rebuilt dashboard to 100% fidelity with high-density tactical vision and No-Line mandate.
+- [x] [Mission 2.2: Sovereign Observer UI Implementation] - Dashboard rebuilt to 100% fidelity with the high-density tactical cockpit vision. Enforced No-Line mandate and tonal depth.
 
 ## Mission 3: The Director (Asset Generation Engine)
 - [x] [Mission 3.1: Audio Pivot] - Replaced ElevenLabs with Edge-TTS for zero-cost production.
@@ -45,8 +44,10 @@
 - [x] [Architectural Truth] - Codified Path Efficiency standards in PROJECT_CONTEXT.md.
 - [x] [Manifest Sync] - Automated file-system manifest protocols established.
 
-## NEXT SESSION STARTUP
-- **Resume at Mission 2.3**: Integration of the Live Macro Ticker into the footer using `latest_news.json`.
-
 ---
-*LAST_SYNC: 2026-04-19 | Sovereign Observer State-Locked.*
+*LAST_SYNC: 2026-04-19 | Session State-Lock: Mission 2.2 Finalized.*
+
+## NEXT SESSION STARTUP
+- [ ] **Mission 2.3: Video Engine Hardening**
+- [ ] Immediate Step: Verify FFmpeg pathing and permissions in the creative engine.
+- [ ] Target: Resolve 'Dependency Warning' in Mission 3.
