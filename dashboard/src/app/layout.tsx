@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space",
+});
 
 export const metadata: Metadata = {
-  title: "Apex Command Center",
-  description: "Digital Command Center for Project Apex",
+  title: "Sovereign Observer // Apex Command",
+  description: "Institutional-Grade Macro Automation Dashboard",
 };
 
 export default function RootLayout({
@@ -16,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} bg-[#121212] text-[#FAF9F5] antialiased`}>
+      <body className={`${inter.variable} ${spaceGrotesk.variable} bg-obsidian text-[#FAF9F5] antialiased overflow-x-hidden`}>
         {children}
       </body>
     </html>

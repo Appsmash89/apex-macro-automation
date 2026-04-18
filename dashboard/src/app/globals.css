@@ -1,20 +1,46 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-obsidian: #0B0C10;
+  --color-slate-950: #020617;
+  --color-cyan-400: #00D1FF;
+  --color-emerald-400: #34D399;
+  
+  /* Tonal Surfaces */
+  --color-surface: #111318;
+  --color-surface-low: #1a1c20;
+  --color-surface-mid: #1e2024;
+
+  --font-space: "Space Grotesk", sans-serif;
+  --font-inter: "Inter", sans-serif;
+}
 
 :root {
-  --foreground-rgb: 250, 249, 245; /* Bone */
-  --background-start-rgb: 18, 18, 18; /* Graphite */
-  --background-end-rgb: 18, 18, 18;
+  --background: #0B0C10;
+  --foreground: #FAF9F5;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-start-rgb));
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter);
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .tactical-glow {
+    box-shadow: 0 0 20px 2px rgba(0, 209, 255, 0.05);
   }
+  
+  .glass-morphism {
+    @apply backdrop-blur-xl bg-slate-900/60;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+h1, h2, h3, h4, .tech-data {
+  font-family: var(--font-space);
+  letter-spacing: -0.02em;
 }
