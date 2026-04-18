@@ -48,20 +48,20 @@ export async function updateRoadmap(newContent: string) {
  */
 export async function publishToYouTube() {
   console.log("Strategic Server Action: Triggering Unified Distribution Engine...");
-  
+
   try {
     const result = await uploadToYouTube();
-    
-    return { 
-      success: true, 
+
+    return {
+      success: true,
       output: `SUCCESS: Video Broadcasted! Video ID: ${result.videoId}`,
-      url: result.url 
+      url: result.url
     };
   } catch (error: any) {
     console.error("Unified Engine Failure:", error);
-    return { 
-      success: false, 
-      error: error.message || "Unknown error during native distribution." 
+    return {
+      success: false,
+      error: error.message || "Unknown error during native distribution."
     };
   }
 }

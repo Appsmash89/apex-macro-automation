@@ -2,14 +2,14 @@ import { getRoadmap, getConfig, getScript } from "@/lib/actions";
 import InteractiveDials from "@/components/InteractiveDials";
 import InteractiveWarRoom from "@/components/InteractiveWarRoom";
 import InteractivePublish from "@/components/InteractivePublish";
-import { 
-  Terminal, 
-  Settings, 
-  ChevronRight, 
-  Video, 
-  Volume2, 
-  Cpu, 
-  Shield, 
+import {
+  Terminal,
+  Settings,
+  ChevronRight,
+  Video,
+  Volume2,
+  Cpu,
+  Shield,
   Globe,
   BarChart3,
   ArrowUpRight,
@@ -50,7 +50,7 @@ export default async function DashboardPage() {
             <span className="flex items-center gap-2 underline decoration-cyan-400/30 underline-offset-8 pointer-events-none">SECTOR: GLOBAL_MACRO_INTEL</span>
           </div>
         </div>
-        
+
         <div className="flex gap-8">
           <div className="bg-surface p-6 rounded-xl text-center min-w-[170px] border border-cyan-400/10 shadow-lg">
             <p className="text-xs text-gray-500 font-mono uppercase mb-3 tracking-tighter opacity-70">BTC_REALTIME_FEED</p>
@@ -65,7 +65,7 @@ export default async function DashboardPage() {
 
       {/* 2. CORE TACTICAL GRID (12 Cols) */}
       <div className="grid grid-cols-12 gap-12">
-        
+
         {/* LEFT SECTOR: MISSIONS & CONTROL (4 Cols) */}
         <div className="col-span-12 lg:col-span-4 space-y-12">
           <InteractiveWarRoom missions={roadmapMissions} />
@@ -74,13 +74,13 @@ export default async function DashboardPage() {
 
         {/* RIGHT SECTOR: ANALYSIS & OUTPUT (8 Cols) */}
         <div className="col-span-12 lg:col-span-8 space-y-12">
-          
+
           {/* NARRATIVE MATRIX (High-Fidelity Dual Pane) */}
           <section className="glass-morphism p-14 rounded-2xl border border-cyan-400/10 relative overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.6)]">
             <div className="absolute top-0 right-0 p-8 opacity-20 select-none pointer-events-none">
               <Shield className="text-cyan-400" size={200} />
             </div>
-            
+
             <div className="relative z-10 h-full flex flex-col">
               <div className="flex items-center justify-between mb-16">
                 <h2 className="text-3xl font-black flex items-center gap-5 font-space uppercase tracking-tight">
@@ -112,7 +112,7 @@ export default async function DashboardPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="bg-surface-mid p-12 rounded-2xl border border-cyan-400/10 hover:border-cyan-400/40 transition-all shadow-2xl relative group h-full flex flex-col justify-between">
                   <div>
                     <div className="absolute -top-4 -right-4 w-12 h-12 bg-surface flex items-center justify-center rounded-2xl border border-cyan-400/20 group-hover:border-cyan-400/60 transition-colors shadow-2xl">
@@ -149,7 +149,7 @@ export default async function DashboardPage() {
               </h2>
               <div className="text-sm text-gray-600 font-mono font-black tracking-widest bg-surface-low px-4 py-1.5 rounded-md border border-white/5 uppercase">Sector_Usage: 88%</div>
             </div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
               {[
                 { name: "voiceover.mp3", type: "audio", icon: Volume2, status: "STABLE", detail: "AndrewNeural Master" },
@@ -164,7 +164,7 @@ export default async function DashboardPage() {
                       <ChevronRight size={24} className="text-cyan-400" />
                     </div>
                   </div>
-                  
+
                   <div className="p-8 space-y-4">
                     <div className="flex justify-between items-center">
                       <span className="text-xs text-cyan-400/60 font-mono font-black uppercase tracking-widest">{asset.type}_SOURCE</span>
@@ -198,7 +198,7 @@ export default async function DashboardPage() {
           </button>
         ))}
       </nav>
-      
+
       {/* SCANLINES INTENSITY OVERLAY */}
       <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.05] overflow-hidden pointer-events-none mix-blend-overlay">
         <div className="w-full h-full bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,#00D1FF_3px)]"></div>

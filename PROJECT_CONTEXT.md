@@ -27,15 +27,15 @@
   - Assets: Statically scoped `path.join(process.cwd(), 'public', 'data', filename)`.
 
 ## [CURRENT_MISSION_STATE]
-- **Mission 0.1**: Architectural Refactor - Domain Isolation.
-- **Status**: Completed transition to Modular Micro-Engine Framework. Migrated legacy `backend/` and `src/lib/` logic into domain-isolated directories. Established `/shared` for cross-language configurations. All logic is now functionally isolated.
+- **Mission 0.1.1**: Final Housekeeping.
+- **Status**: Completed. Eliminated legacy `backend/` artifacts. Re-aligned `src/lib/actions.ts` with correct modular paths. Verified absolute isolation of Intelligence and Creative domains.
 
 ## [WALL_OF_FAILURES]
 - **DO NOT ATTEMPT**: Python-based server actions on Vercel. Structural impossibility.
 - **DO NOT ATTEMPT**: Sub-directory dashboard nesting (causes Vercel trace failures).
 - **DO NOT ATTEMPT**: Reading from `/public` during build-time server execution on Vercel (causes `ENOENT`).
 - **RESOLVED**: Dependency Leakage - Fixed in Mission 0.1 with Domain Isolation.
-- **RESOLVED**: Double-Publish Risk - Fixed in Mission 8.1 with stateful idempotency.
+- **RESOLVED**: Legacy Artifacts - Fixed in Mission 0.1.1 with `backend/` removal.
 
 ## [LIVE_FILE_SYSTEM_MAP]
 - data/
