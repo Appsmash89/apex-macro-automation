@@ -16,3 +16,8 @@
 - [!] [Dependency Warning] - FFmpeg installation requires manual CEO intervention due to permissions.
 - [ ] Render `data/voiceover.mp3` (Pending API Key)
 - [ ] Render `data/visuals_raw.mp4` (Pending FFmpeg)
+
+## Mission 4: The Apex Command Center (Next.js Dashboard)
+- [x] [Mission 4.0: Dashboard Scaffolding] - Next.js Command Center initialized for CEO oversight.
+- [ ] Implement Live Data Sync.
+- [ ] Connect to Production Pipeline.
