@@ -31,7 +31,17 @@ export async function uploadToYouTube() {
     throw new Error("Authentication missing. Set YOUTUBE_TOKEN env var or provide token.json.");
   }
 
-  const oauth2Client = new google.auth.OAuth2();
+  // MISSION 7.8: Identity Restoration
+  const clientId = creds.client_id || creds.installed?.client_id || creds.web?.client_id;
+  const clientSecret = creds.client_secret || creds.installed?.client_secret || creds.web?.client_secret;
+  const redirectUri = creds.redirect_uris?.[0] || creds.installed?.redirect_uris?.[0] || creds.web?.redirect_uris?.[0];
+
+  if (!clientId || !clientSecret) {
+    console.error("SECURITY_ALERT: YOUTUBE_TOKEN in Vercel is missing Client Identity fields (client_id/client_secret).");
+    throw new Error("OAuth2 Identity Crisis: Missing client_id or client_secret in credentials.");
+  }
+
+  const oauth2Client = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
   oauth2Client.setCredentials(creds);
 
   const youtube = google.youtube({

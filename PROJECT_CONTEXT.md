@@ -22,13 +22,15 @@
   - Assets: Statically scoped `path.join(process.cwd(), 'public', 'data', filename)`.
 
 ## [CURRENT_MISSION_STATE]
-- **Mission 7.5**: Build Restoration & Security Refinement.
-- **Status**: Resolved `.gitignore` conflicts blocking build-time metadata. Sanitized `next.config.ts` for Next.js 16 rules. Implemented static scoping for trace-compliant pathing.
+- **Mission 7.8**: Identity Restoration.
+- **Status**: Resolved OAuth2 'Identity Crisis' by explicitly initializing the client with client_id/client_secret. Unified Engine is now capable of determining identity during token refresh operations.
 
 ## [WALL_OF_FAILURES]
 - **DO NOT ATTEMPT**: Python-based server actions on Vercel. Structural impossibility.
 - **DO NOT ATTEMPT**: Sub-directory dashboard nesting (causes Vercel trace failures).
 - **DO NOT ATTEMPT**: Reading from `/public` during build-time server execution on Vercel (causes `ENOENT`).
+- **RESOLVED**: OAuth2 'Identity Crisis' (Missing client_id/client_secret in constructor) - Fixed in Mission 7.8.
+- **RESOLVED**: 'Ghost Folder' issue where mission-critical JSON was untracked (Fixed in Mission 7.6.1).
 - **RESOLVED**: `.gitignore` conflict blocking build-time JSON access (Fixed in Mission 7.5).
 
 ## [LIVE_FILE_SYSTEM_MAP]
@@ -53,10 +55,15 @@
     - page.tsx
     - login/
       - page.tsx
+  - components/
+    - InteractiveDials.tsx
+    - InteractivePublish.tsx
+    - InteractiveWarRoom.tsx
   - lib/
     - actions.ts
     - auth.ts
     - youtube-publisher.ts
+  - middleware.ts
 - .env.example
 - .gitignore
 - AGENTS.md
