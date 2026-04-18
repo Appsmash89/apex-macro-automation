@@ -25,53 +25,59 @@ export default function InteractiveDials({ initialConfig }: InteractiveDialsProp
     setConfig(newConfig);
 
     startTransition(async () => {
-      await updateConfig(newConfig);
-      setLastSync(Date.now());
-      setTimeout(() => setLastSync(null), 3000); // Hide success after 3s
+      try {
+        await updateConfig(newConfig);
+        setLastSync(Date.now());
+        setTimeout(() => setLastSync(null), 3000);
+      } catch (err) {
+        console.error("Config update failed:", err);
+      }
     });
   }
 
   return (
-    <section className="bg-surface p-8 rounded-xl tactical-glow">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-lg font-bold flex items-center gap-3 font-space">
-          <Layers className="text-cyan-400" size={20} />
+    <section className="bg-surface p-10 lg:p-12 rounded-2xl tactical-glow border border-cyan-400/5 shadow-2xl">
+      <div className="flex items-center justify-between mb-10">
+        <h2 className="text-2xl font-black flex items-center gap-4 font-space uppercase tracking-tight">
+          <Layers className="text-cyan-400" size={28} />
           OVERRIDE MATRIX
         </h2>
-        {isPending ? (
-          <div className="flex items-center gap-2 text-[11px] text-cyan-400 font-mono animate-pulse">
-            <Loader2 size={12} className="animate-spin" />
-            SYNCING_INTEL
-          </div>
-        ) : lastSync ? (
-          <div className="flex items-center gap-2 text-[11px] text-emerald-400 font-mono">
-            <CheckCircle2 size={12} />
-            SYNC_SUCCESS
-          </div>
-        ) : (
-          <span className="text-[11px] text-gray-600 font-mono">STABLE</span>
-        )}
+        <div className="flex flex-col items-end">
+          {isPending ? (
+            <div className="flex items-center gap-3 text-sm text-cyan-400 font-mono font-black animate-pulse bg-cyan-400/5 px-3 py-1 rounded-md">
+              <Loader2 size={16} className="animate-spin" />
+              SYNCING_CONFIG
+            </div>
+          ) : lastSync ? (
+            <div className="flex items-center gap-3 text-sm text-emerald-400 font-mono font-black bg-emerald-400/5 px-3 py-1 rounded-md">
+              <CheckCircle2 size={16} />
+              SYNC_SUCCESS
+            </div>
+          ) : (
+            <span className="text-sm text-gray-500 font-mono font-bold tracking-widest bg-surface-low px-3 py-1 rounded-md uppercase border border-white/5">Link_Active</span>
+          )}
+        </div>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-10">
         {["high", "medium", "low"].map((level) => (
           <button
             key={level}
             onClick={() => toggleImpact(level)}
             disabled={isPending}
-            className="w-full group text-left space-y-3 block focus:outline-none"
+            className="w-full group text-left space-y-4 block focus:outline-none transition-all"
           >
-            <div className="flex justify-between items-end">
-              <p className={`text-xs font-mono uppercase tracking-widest transition-colors ${config.impact_threshold.includes(level) ? 'text-gray-300' : 'text-gray-600'}`}>
-                {level}_Impact_Threshold
+            <div className="flex justify-between items-end px-2">
+              <p className={`text-sm font-mono font-black uppercase tracking-[0.2em] transition-colors ${config.impact_threshold.includes(level) ? 'text-gray-100' : 'text-gray-600'}`}>
+                {level}_Intel_Gate
               </p>
-              <p className={`text-sm font-bold font-space uppercase transition-all ${config.impact_threshold.includes(level) ? 'text-cyan-400 scale-105' : 'text-gray-700'}`}>
-                {config.impact_threshold.includes(level) ? 'Active' : 'Bypassed'}
+              <p className={`text-base font-black font-space uppercase transition-all tracking-wider ${config.impact_threshold.includes(level) ? 'text-cyan-400 scale-105' : 'text-gray-700'}`}>
+                {config.impact_threshold.includes(level) ? 'OPERATIONAL' : 'BYPASSED'}
               </p>
             </div>
-            <div className="h-2 bg-surface-mid rounded-full overflow-hidden border border-cyan-400/5">
+            <div className="h-4 bg-surface-low rounded-xl overflow-hidden border border-white/5 p-1">
               <div 
-                className={`h-full transition-all duration-500 rounded-full ${config.impact_threshold.includes(level) ? 'bg-cyan-400 shadow-[0_0_10px_rgba(0,209,255,0.4)] w-full' : 'bg-gray-800 w-0'}`}
+                className={`h-full transition-all duration-700 rounded-lg ${config.impact_threshold.includes(level) ? 'bg-gradient-to-r from-cyan-600 to-cyan-400 shadow-[0_0_20px_rgba(0,209,255,0.4)] w-full' : 'bg-surface-mid w-0 opacity-20'}`}
               ></div>
             </div>
           </button>
