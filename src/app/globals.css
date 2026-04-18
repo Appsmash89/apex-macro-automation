@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-obsidian: #0B0C10;
-  --color-slate-950: #020617;
+  --color-obsidian: #0A0C10;
+  --color-midnight-onyx: #111318;
+  --color-velocity-blue: #00D1FF;
+  --color-market-crimson: #FF4D4D;
   --color-sage-green: #4C6545;
   --color-bone: #FAF9F5;
   
-  /* Tonal Surfaces (Industrial) */
-  --color-surface: #0E1013;
-  --color-surface-low: #14171A;
-  --color-surface-mid: #1B1E22;
+  /* Tonal Surface Hierarchy (Tactical) */
+  --color-surface-base: #111318;
+  --color-surface-low: #1a1c20;
+  --color-surface-std: #1e2024;
+  --color-surface-high: #282a2e;
 
   --font-space: "Space Grotesk", sans-serif;
   --font-inter: "Inter", sans-serif;
 }
 
 :root {
-  --background: #0B0C10;
+  --background: #111318;
   --foreground: #FAF9F5;
 }
 
@@ -24,27 +27,33 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter);
+  @apply selection:bg-velocity-blue/30 antialiased;
 }
 
 @layer utilities {
   .tactical-glow {
-    box-shadow: 0 0 20px 2px rgba(76, 101, 69, 0.1);
+    box-shadow: 0 0 32px 0 rgba(0, 209, 255, 0.05);
   }
 
-  .dream-pop-glow-sage {
-    filter: drop-shadow(0 0 8px rgba(76, 101, 69, 0.6));
+  .glow-cyan {
+    filter: drop-shadow(0 0 12px rgba(0, 209, 255, 0.4));
   }
 
-  .dream-pop-glow-amber {
-    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
+  .glow-crimson {
+    filter: drop-shadow(0 0 12px rgba(255, 77, 77, 0.4));
   }
   
-  .glass-morphism {
-    @apply backdrop-blur-xl bg-surface/60;
+  .glass-tactical {
+    @apply backdrop-blur-xl bg-surface-base/70;
   }
 
   .no-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  /* No-Line Mandate */
+  .no-line {
+    border: none !important;
   }
 }
 

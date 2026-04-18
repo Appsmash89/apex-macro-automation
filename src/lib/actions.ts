@@ -65,3 +65,13 @@ export async function publishToYouTube() {
     };
   }
 }
+export async function getLatestNews() {
+  const filePath = path.join(process.cwd(), "data", "latest_news.json");
+  try {
+    const content = await fs.readFile(filePath, "utf-8");
+    return JSON.parse(content);
+  } catch (err) {
+    console.error("Latest News Fetch Failed:", err);
+    return [];
+  }
+}

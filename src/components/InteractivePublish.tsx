@@ -18,7 +18,7 @@ export default function InteractivePublish({ initialStatus }: InteractivePublish
   useEffect(() => {
     if (initialStatus === "published") {
       setStatus("SUCCESS");
-      setMessage("Broadcast Synced Successfully (Locked)");
+      setMessage("BROADCAST_LOCKED // SYNC_SUCCESS");
     }
   }, [initialStatus]);
 
@@ -32,7 +32,7 @@ export default function InteractivePublish({ initialStatus }: InteractivePublish
             handlePublish();
             return 100;
           }
-          return prev + 5; // 2 seconds to full (100/5 * 100ms)
+          return prev + 5; 
         });
       }, 100);
     } else {
@@ -51,10 +51,10 @@ export default function InteractivePublish({ initialStatus }: InteractivePublish
       const result = await publishToYouTube();
       if (result.success) {
         setStatus("SUCCESS");
-        setMessage("Broadcast Synced Successfully");
+        setMessage("MISSION_PARITY_ACHIEVED");
       } else {
         setStatus("ERROR");
-        setMessage(result.error || "Broadcast Interrupted");
+        setMessage(result.error || "UPLINK_INTERRUPTED");
       }
     });
   }
@@ -68,70 +68,72 @@ export default function InteractivePublish({ initialStatus }: InteractivePublish
   };
 
   return (
-    <div className="w-full relative">
+    <div className="w-full relative group">
       <button
         onMouseDown={handleStartHold}
         onMouseUp={handleEndHold}
         onMouseLeave={handleEndHold}
         disabled={status === "UPLOADING" || status === "SUCCESS" || isPending}
-        className={`w-full py-6 rounded-xl font-space font-black text-lg uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-4 group shadow-2xl border-2 relative overflow-hidden ${
+        className={`w-full py-8 rounded-xl font-space font-black text-xl uppercase tracking-[0.25em] transition-all duration-500 flex items-center justify-center gap-6 relative overflow-hidden active:scale-95 ${
           status === "SUCCESS" 
-            ? "bg-emerald-500/10 border-emerald-500 text-emerald-500 cursor-not-allowed dream-pop-glow-sage" 
+            ? "bg-sage-green/10 text-sage-green cursor-not-allowed opacity-80" 
             : status === "ERROR"
-            ? "bg-red-500/10 border-red-500 text-red-500"
+            ? "bg-market-crimson/10 text-market-crimson"
             : status === "HOLDING"
-            ? "bg-sage-green/20 border-sage-green text-bone"
-            : "bg-surface-mid hover:bg-sage-green/10 border-white/10 text-gray-500 hover:text-sage-green hover:border-sage-green/40"
-        } disabled:opacity-70 disabled:cursor-not-allowed`}
+            ? "bg-velocity-blue/30 text-white"
+            : "bg-surface-std hover:bg-surface-high text-gray-600 hover:text-velocity-blue"
+        } disabled:cursor-not-allowed border-none shadow-2xl`}
       >
-        {/* Progress Bar (Hold) */}
+        {/* Background Gradient Layer for Primary Actions */}
+        {(status === "READY" || status === "HOLDING") && (
+            <div className={`absolute inset-0 bg-gradient-to-r from-velocity-blue/20 to-velocity-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`}></div>
+        )}
+
+        {/* Progress Trigger Indicator (Hold) */}
         {status === "HOLDING" && (
            <div 
-             className="absolute bottom-0 left-0 h-1.5 bg-sage-green transition-all" 
+             className="absolute bottom-0 left-0 h-1 bg-velocity-blue glow-cyan transition-all duration-100" 
              style={{ width: `${holdProgress}%` }}
            />
         )}
 
         {status === "HOLDING" ? (
           <>
-            <Loader2 className="animate-spin" size={24} />
-            HOLD_TO_CONFIRM...
+            <Loader2 className="animate-spin text-velocity-blue" size={28} />
+            <span className="glow-cyan">AUTHORIZING...</span>
           </>
         ) : status === "UPLOADING" ? (
           <>
-            <Loader2 className="animate-spin" size={24} />
-            UPLOADING_TO_YOUTUBE...
+            <Loader2 className="animate-spin text-velocity-blue" size={28} />
+            UPLINKING_DATA...
           </>
         ) : status === "SUCCESS" ? (
           <>
-            <CheckCircle2 size={24} />
-            BROADCAST_COMPLETE
+            <CheckCircle2 size={28} />
+            LOCKED_FOR_SYNDICATION
           </>
         ) : status === "ERROR" ? (
           <>
-            <AlertCircle size={24} />
-            UPLOAD_FAILED
+            <AlertCircle size={28} />
+            PROTOCOL_FAILURE
           </>
         ) : (
           <>
-            <Youtube className="group-hover:scale-110 transition-transform" size={24} />
-            INITIALIZE_PUBLISH
+            <PlaySquare className="group-hover:text-velocity-blue transition-colors" size={28} />
+            EXECUTION_TRIGGER
           </>
         )}
       </button>
 
       {message && (
-        <div className={`mt-4 p-4 rounded-lg font-mono text-xs uppercase tracking-widest border flex items-center gap-3 bg-surface-low ${
-          status === "SUCCESS" ? "border-emerald-500/20 text-emerald-400/70" : "border-red-500/20 text-red-400/70"
+        <div className={`mt-6 p-6 rounded-xl font-mono text-[10px] uppercase tracking-[0.3em] flex items-center gap-4 glass-tactical border-none relative overflow-hidden transition-all duration-1000 ${
+          status === "SUCCESS" ? "text-velocity-blue/60" : "text-market-crimson/60"
         }`}>
-          <PlaySquare size={14} />
+          <div className={`w-1 h-6 ${status === "SUCCESS" ? "bg-velocity-blue" : "bg-market-crimson"} opacity-20`}></div>
           {message}
+          <div className="ml-auto opacity-20">v2.2</div>
         </div>
       )}
-      
-      <p className="mt-4 text-[10px] text-gray-600 font-mono text-center uppercase tracking-widest opacity-60">
-        MISSION_2_CONTROL_MATRIX // SYNC: {status === "SUCCESS" ? "LOCKED" : "READY"}
-      </p>
     </div>
   );
 }

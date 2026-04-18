@@ -3,11 +3,13 @@
 ## [STRICT_ADHERENCE_REQUIRED]
 - Any AI interacting with this project MUST read this file in its entirety before generating code.
 - **ENVIRONMENTAL CONSTRAINT**: Production is Vercel (Node.js/Next.js). **NO PYTHON** execution is allowed in the production backend. All distribution logic must be Native TypeScript/Node.js.
-- **[PROJECT_SPECIFIC_DESIGN_CONSTRAINTS]**: Minimalist Editorial, 80s Dream-pop glow. 
-  - Primary Colors: Sage Green (#4C6545) and Bone (#FAF9F5).
-  - Background: Obsidian (#0B0C10) or Dark Slate.
-  - **CONSISTENCY MANDATE**: These design constraints (palette, 14px baseline) are specific to the Apex Macro Automation project only. They are NOT a global AI behavioral protocol. However, for THIS project, they are to be maintained with 100% consistency unless an explicit "Style Pivot" is ordered by the CEO.
-- **LEGIBILITY**: Minimum body font size 14px. Minimum label size 12px. Headers: 18px - 24px.
+- **[PROJECT_SPECIFIC_DESIGN_CONSTRAINTS]**: Sovereign Observer / High-Density Tactical Cockpit.
+  - Primary Colors: Midnight Onyx (#111318), Velocity Blue (#00D1FF), Bone (#FAF9F5).
+  - Background: Midnight Onyx (#111318).
+  - **NO-LINE MANDATE**: Component boundaries must be defined by background color shifts, not 1px borders.
+  - **TYPOGRAPHY**: Inter for UI/Headers; Space Grotesk for technical data and tactical readouts.
+  - **CONSISTENCY MANDATE**: These design constraints (palette, tactical glows) are specific to the Apex Macro Automation project only.
+- **LEGIBILITY**: Minimum body font size 14px. Deep contrast enforcement.
 
 ## [ARCHITECTURAL_TRUTH]
 - **Framework**: Next.js 16.2.4 (Security Hardened).
@@ -29,8 +31,8 @@
   - **Mission 0.3 Standard**: All engines must utilize **Absolute Root Pathing**. Python engines resolve root via file-directory anchors; TypeScript resolves via `process.cwd()`. Indexed Mapping using the [LIVE_FILE_SYSTEM_MAP] is the required navigation protocol.
 
 ## [CURRENT_MISSION_STATE]
-- **Mission 2.1**: The Control Matrix Overhaul.
-- **Status**: ACTIVE. UI transitioned to high-density Control Matrix. Implemented Sage Green (#4C6545) / Bone (#FAF9F5) industrial aesthetic. Hardened security interactions (Hold-to-Confirm Publish, Mechanical Toggle Matrix).
+- **Mission 2.2**: Sovereign Observer UI Implementation.
+- **Status**: COMPLETE. Rebuilt dashboard to 100% fidelity with the high-density tactical vision. Implemented Midnight Onyx (#111318) / Velocity Blue (#00D1FF) aesthetic. Enforced No-Line mandate and Space Grotesk technical typography.
 
 ## [WALL_OF_FAILURES]
 - **DO NOT ATTEMPT**: Python-based server actions on Vercel. Structural impossibility.
