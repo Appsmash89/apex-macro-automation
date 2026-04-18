@@ -33,4 +33,5 @@
 
 ## Mission 8: Fresh Start (Architecture Consolidation)
 - [x] [Mission 8.0: Fresh Start] - Consolidated architecture to root level for Vercel stability.
+- [x] [Mission 8.1: Root Alignment] - Fixed package scripts for successful Vercel deployment.
 - [ ] Production Launch: Verified flat-root Vercel sync.
