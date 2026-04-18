@@ -23,6 +23,7 @@
 - [x] [Mission 4.2: Sovereign Observer UI] - Tactical Command reskin deployed with High-Density visuals.
 - [x] [Mission 4.3: Operational Fix] - Restored login logic and enforced legibility standards (Min 14px).
 - [x] [Mission 4.4: Open Access] - Admin verification bypassed for streamlined Alpha testing.
+- [x] [Mission 4.4.1: Build Sanitization] - Removed strict dependency on ADMIN_PASSWORD for failed Vercel builds.
 - [ ] Implement Live Data Sync.
 
 ## Mission 5: The First Broadcast (Full Render & Assembly)

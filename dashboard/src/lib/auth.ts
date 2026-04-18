@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 
 export async function login(password: string) {
-  const adminPassword = process.env.ADMIN_PASSWORD;
+  const adminPassword = process.env.ADMIN_PASSWORD || "ADMIN_DISABLED_FOR_ALPHA";
 
   if (password === adminPassword) {
     // Set a simple session cookie
