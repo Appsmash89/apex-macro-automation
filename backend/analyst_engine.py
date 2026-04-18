@@ -54,7 +54,7 @@ def generate_short_script(news_data, snapshot):
 
 def main():
     # 1. Load News
-    news_path = "data/latest_news.json"
+    news_path = "public/data/latest_news.json"
     if not os.path.exists(news_path):
         print(f"Error: {news_path} not found.")
         return
@@ -76,7 +76,7 @@ def main():
     script = generate_short_script(news_data, market_snapshot)
 
     # 4. Save Script
-    output_path = "data/current_script.json"
+    output_path = "public/data/current_script.json"
     os.makedirs("data", exist_ok=True)
     with open(output_path, "w") as f:
         json.dump(script, f, indent=4)

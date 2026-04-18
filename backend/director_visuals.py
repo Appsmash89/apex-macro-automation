@@ -17,7 +17,7 @@ GOLD = "#C19A6B"
 class MacroPulseShort(Scene):
     def construct(self):
         # Load script data for labels
-        with open("data/current_script.json", "r") as f:
+        with open("public/data/current_script.json", "r") as f:
             script = json.load(f)
         
         # --- SCENE 1: BREAKOUT ---

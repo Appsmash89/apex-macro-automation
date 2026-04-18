@@ -40,8 +40,8 @@ export async function uploadToYouTube() {
   });
 
   // 2. Load Metadata
-  const scriptFilePath = path.join(process.cwd(), "data", "current_script.json");
-  const videoFilePath = path.join(process.cwd(), "data", "FINAL_OUTPUT.mp4");
+  const scriptFilePath = path.join(process.cwd(), "public", "data", "current_script.json");
+  const videoFilePath = path.join(process.cwd(), "public", "data", "FINAL_OUTPUT.mp4");
 
   if (!fs.existsSync(scriptFilePath) || !fs.existsSync(videoFilePath)) {
     throw new Error(`Missing files. Script: ${fs.existsSync(scriptFilePath)}, Video: ${fs.existsSync(videoFilePath)}`);
