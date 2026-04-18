@@ -11,42 +11,44 @@
 
 ## [ARCHITECTURAL_TRUTH]
 - **Framework**: Next.js 16.2.4 (Security Hardened).
+- **Architecture**: Modular Micro-Engine Framework. Project follows Domain-Driven Design (DDD). Logic is isolated within `/engines` (and `src/engines` for TS).
 - **React**: 19.0.0.
-- **Structure**: Flat Architecture (Root-level src/app).
+- **Structure**: Modular Architecture.
 - **Data Blueprint**: 
-  - **Internal Data**: JSON metadata (scripts, config) resides in root `/data` for build-time bundling and trace compliance.
+  - **Internal Data**: JSON metadata (scripts, news) resides in root `/data` for build-time bundling and trace compliance.
+  - **Shared Domain**: Cross-language configurations reside in root `/shared`.
   - **Public Assets**: Media files (MP4, MP3) reside in `/public/data` for runtime serving and external accessibility.
 - **Backend Restriction**: Python is strictly forbidden in the production environment.
-- **Distribution**: Unified TypeScript Engine (Native Node.js via googleapis).
+- **Distribution Domain**: Unified TypeScript Engine (Native Node.js via googleapis) located in `src/engines/distribution`.
 - **Idempotency**: Stateful Broadcast Locking. Distribution is gated by `broadcast_status` in `current_script.json`. Once set to `published`, the Unified Engine rejects further attempts.
 - **Pathing Resolution**: 
   - Metadata: Statically scoped `path.join(process.cwd(), 'data', filename)`.
+  - Shared Config: Statically scoped `path.join(process.cwd(), 'shared', filename)`.
   - Assets: Statically scoped `path.join(process.cwd(), 'public', 'data', filename)`.
 
 ## [CURRENT_MISSION_STATE]
-- **Mission 8.1**: Broadcast Idempotency & State Locking.
-- **Status**: Implemented metadata gatekeeper in Unified Engine. Successfully synchronized state between generation (Python) and distribution (TypeScript). UI button is now state-aware and prevents double-publishing.
-- **Mission [UI Sync]**: Clarified project-specific design boundaries.
+- **Mission 0.1**: Architectural Refactor - Domain Isolation.
+- **Status**: Completed transition to Modular Micro-Engine Framework. Migrated legacy `backend/` and `src/lib/` logic into domain-isolated directories. Established `/shared` for cross-language configurations. All logic is now functionally isolated.
 
 ## [WALL_OF_FAILURES]
 - **DO NOT ATTEMPT**: Python-based server actions on Vercel. Structural impossibility.
 - **DO NOT ATTEMPT**: Sub-directory dashboard nesting (causes Vercel trace failures).
 - **DO NOT ATTEMPT**: Reading from `/public` during build-time server execution on Vercel (causes `ENOENT`).
+- **RESOLVED**: Dependency Leakage - Fixed in Mission 0.1 with Domain Isolation.
 - **RESOLVED**: Double-Publish Risk - Fixed in Mission 8.1 with stateful idempotency.
-- **RESOLVED**: OAuth2 'Identity Crisis' (Missing client_id/client_secret in constructor) - Fixed in Mission 7.8.
-- **RESOLVED**: 'Ghost Folder' issue where mission-critical JSON was untracked (Fixed in Mission 7.6.1).
-- **RESOLVED**: `.gitignore` conflict blocking build-time JSON access (Fixed in Mission 7.5).
 
 ## [LIVE_FILE_SYSTEM_MAP]
-- backend/
-  - analyst_engine.py
-  - director_audio.py
-  - director_visuals.py
-  - scout_forex.py
 - data/
   - current_script.json
   - latest_news.json
   - session_cookies.json
+- engines/
+  - creative/
+    - director_audio.py
+    - director_visuals.py
+  - intelligence/
+    - analyst_engine.py
+    - scout_forex.py
 - media/
   - images
   - texts
@@ -56,11 +58,8 @@
     - FINAL_OUTPUT.mp4
     - visuals_raw.mp4
     - voiceover.mp3
-  - file.svg
-  - globe.svg
-  - next.svg
-  - vercel.svg
-  - window.svg
+- shared/
+  - config.json
 - src/
   - app/
     - favicon.ico
@@ -73,17 +72,18 @@
     - InteractiveDials.tsx
     - InteractivePublish.tsx
     - InteractiveWarRoom.tsx
+  - engines/
+    - distribution/
+      - youtube-publisher.ts
   - lib/
     - actions.ts
     - auth.ts
-    - youtube-publisher.ts
   - middleware.ts
 - .env.example
 - .gitignore
 - AGENTS.md
 - CLAUDE.md
 - client_secret.json
-- config.json
 - eslint.config.mjs
 - Gemini.md
 - next-env.d.ts

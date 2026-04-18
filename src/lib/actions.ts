@@ -3,7 +3,7 @@
 import fs from "fs/promises";
 import path from "path";
 import { revalidatePath } from "next/cache";
-import { uploadToYouTube } from "./youtube-publisher";
+import { uploadToYouTube } from "../engines/distribution/youtube-publisher";
 
 /**
  * MISSION 7.5: STATIC SCOPING
@@ -18,7 +18,7 @@ export async function getRoadmap() {
 }
 
 export async function getConfig() {
-  const filePath = path.join(process.cwd(), "config.json");
+  const filePath = path.join(process.cwd(), "shared", "config.json");
   const content = await fs.readFile(filePath, "utf-8");
   return JSON.parse(content);
 }
@@ -30,7 +30,7 @@ export async function getScript() {
 }
 
 export async function updateConfig(newConfig: any) {
-  const filePath = path.join(process.cwd(), "config.json");
+  const filePath = path.join(process.cwd(), "shared", "config.json");
   await fs.writeFile(filePath, JSON.stringify(newConfig, null, 4));
   revalidatePath("/");
 }

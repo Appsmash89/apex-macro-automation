@@ -6,7 +6,7 @@ from playwright.async_api import async_playwright
 
 async def run_scout():
     # 1. Load Configuration
-    with open("config.json", "r") as f:
+    with open("shared/config.json", "r") as f:
         config = json.load(f)
     
     impact_threshold = config.get("impact_threshold", ["high"])
