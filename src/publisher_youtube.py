@@ -1,84 +1,101 @@
 import os
 import json
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
+import googleapiclient.discovery
+import googleapiclient.http
+from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
-from googleapiclient.http import MediaFileUpload
 from dotenv import load_dotenv
 
 # 1. Configuration
 load_dotenv()
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+TOKEN_FILE = "token.json"
 
 def get_youtube_service():
     """
-    Initializes the YouTube Service using OAuth2.
-    Note: Requires client_secrets.json from Google Cloud Console.
+    Initializes the YouTube Service using existing token.json.
     """
-    client_id = os.getenv("YOUTUBE_CLIENT_ID")
-    client_secret = os.getenv("YOUTUBE_CLIENT_SECRET")
-
-    if not client_id or not client_secret:
-        print("\n" + "!"*60)
-        print("CEO WARNING: YouTube API credentials missing in .env")
-        print("Module initialized in 'PREP' mode. Uploads disabled.")
-        print("!"*60 + "\n")
+    if not os.path.exists(TOKEN_FILE):
+        print(f"ERROR: {TOKEN_FILE} missing. Run generate_token.py first.")
         return None
 
-    # Logic for token persistence and OAuth flow would go here
-    # For now, we are initializing the publisher logic structure
-    return None
+    creds = Credentials.from_authorized_user_file(TOKEN_FILE, SCOPES)
+    
+    # If creds are expired, refresh them
+    if creds and creds.expired and creds.refresh_token:
+        print("Refreshing authentication token...")
+        creds.refresh(Request())
+        with open(TOKEN_FILE, "w") as token:
+            token.write(creds.to_json())
 
-def prepare_upload_request(video_path, script_path):
-    """
-    Constructs the metadata for a YouTube upload from the current script.
-    """
-    if not os.path.exists(video_path):
-        print(f"Error: Video file {video_path} not found.")
-        return None
+    return googleapiclient.discovery.build("youtube", "v3", credentials=creds)
 
-    if not os.path.exists(script_path):
-        print(f"Error: Script file {script_path} not found.")
-        return None
+def upload_video(video_path, script_path):
+    """
+    Constructs metadata and uploads the video.
+    """
+    youtube = get_youtube_service()
+    if not youtube:
+        return False
+
+    if not os.path.exists(video_path) or not os.path.exists(script_path):
+        print("Error: Missing video or script files.")
+        return False
 
     with open(script_path, "r") as f:
         script = json.load(f)
 
-    # 2. Map Mission Intel to YouTube Metadata
+    # Map Metadata
     title = script.get("title", "Sovereign Observer // Crypto Pulse")
-    
-    # Description: Hook + Body + Alpha + CTA + Tags
     description = (
         f"{script.get('hook', '')}\n\n"
         f"{script.get('body', '')}\n\n"
         f"{script.get('alpha', '')}\n\n"
-        "--- DIGITAL COMMAND CENTER ---\n"
+        "--- SOVEREIGN OBSERVER DIGITAL COMMAND CENTER ---\n"
         f"{script.get('cta', '')}\n\n"
-        "#Bitcoin #Macro #CryptoPulse #ProjectApex"
+        "#Bitcoin #Macro #CryptoPulse #SovereignObserver"
     )
 
-    metadata = {
+    body = {
         "snippet": {
             "title": title,
             "description": description,
-            "tags": ["Bitcoin", "Macro", "Finance", "Trading"],
+            "tags": ["Bitcoin", "Macro", "Finance", "Trading", "Crypto"],
             "categoryId": "27"  # Education
         },
         "status": {
-            "privacyStatus": "unlisted",  # Default to unlisted for CEO review
+            "privacyStatus": "unlisted",  # Safety first
             "selfDeclaredMadeForKids": False
         }
     }
 
-    print(f"Publisher: Upload request prepared for '{title}'.")
-    return metadata
+    print(f"Publisher: Initiating upload for '{title}'...")
+    
+    media = googleapiclient.http.MediaFileUpload(
+        video_path, chunksize=-1, resumable=True
+    )
+    
+    request = youtube.videos().insert(
+        part="snippet,status",
+        body=body,
+        media_body=media
+    )
+
+    response = None
+    while response is None:
+        status, response = request.next_chunk()
+        if status:
+            print(f"Uploaded {int(status.progress() * 100)}%")
+
+    print(f"SUCCESS: Video Broadcasted! Video ID: {response['id']}")
+    print(f"URL: https://youtu.be/{response['id']}")
+    return True
 
 if __name__ == "__main__":
-    # 3. Execution (Dry Run/Prep)
-    print("Publisher: Initializing Mission 6.2 structure...")
-    video = "data/FINAL_OUTPUT.mp4"
-    script = "data/current_script.json"
+    # Standard output paths
+    VIDEO = "data/FINAL_OUTPUT.mp4"
+    SCRIPT = "data/current_script.json"
     
-    metadata = prepare_upload_request(video, script)
-    if metadata:
-        print(json.dumps(metadata, indent=4))
+    success = upload_video(VIDEO, SCRIPT)
+    if not success:
+        exit(1)

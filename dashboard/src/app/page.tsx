@@ -1,6 +1,7 @@
 import { getRoadmap, getConfig, getScript } from "@/lib/actions";
 import InteractiveDials from "@/components/InteractiveDials";
 import InteractiveWarRoom from "@/components/InteractiveWarRoom";
+import InteractivePublish from "@/components/InteractivePublish";
 import { 
   Terminal, 
   Settings, 
@@ -80,7 +81,7 @@ export default async function DashboardPage() {
               <Shield className="text-cyan-400" size={200} />
             </div>
             
-            <div className="relative z-10">
+            <div className="relative z-10 h-full flex flex-col">
               <div className="flex items-center justify-between mb-16">
                 <h2 className="text-3xl font-black flex items-center gap-5 font-space uppercase tracking-tight">
                   <Terminal className="text-cyan-400" size={32} />
@@ -96,7 +97,7 @@ export default async function DashboardPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-12 flex-grow">
                 <div className="space-y-12">
                   <div className="space-y-4">
                     <label className="text-sm text-cyan-400/60 font-mono uppercase tracking-[0.3em] font-black border-l-4 border-cyan-400 block pl-4">PRIMARY_INTEL_HOOK</label>
@@ -130,6 +131,11 @@ export default async function DashboardPage() {
                     <span className="text-emerald-400">LAST_UPDATE: {new Date().toLocaleTimeString()}</span>
                   </div>
                 </div>
+              </div>
+
+              {/* MISSION 7: PUBLISH TRIGGER INTEGRATION */}
+              <div className="mt-auto pt-10 border-t border-cyan-400/10">
+                <InteractivePublish />
               </div>
             </div>
           </section>

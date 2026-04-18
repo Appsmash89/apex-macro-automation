@@ -3,11 +3,15 @@
 import fs from "fs/promises";
 import path from "path";
 import { revalidatePath } from "next/cache";
+import { exec } from "child_process";
+import { promisify } from "util";
+
+const execAsync = promisify(exec);
 
 // 1. Robust Pathing: Check local 'src' (Vercel) then fall back to parent directory (Local Dev)
 async function getRobustPath(filename: string, subfolder: string = "") {
   const localSrcPath = path.join(process.cwd(), "src", subfolder, filename);
-  const localRootPath = path.join(process.cwd(), subfolder, filename); // Alternative internal local
+  const localRootPath = path.join(process.cwd(), subfolder, filename); 
   const devPath = path.join(process.cwd(), "..", subfolder, filename);
 
   try {
@@ -37,12 +41,11 @@ export async function getConfig() {
 
 export async function getScript() {
   const filePath = await getRobustPath("current_script.json", "data");
-  // Fallback if data/ was copied to src/ directly
   try {
     const content = await fs.readFile(filePath, "utf-8");
     return JSON.parse(content);
   } catch {
-    const backupPath = await getRobustPath("current_script.json"); // try root of src
+    const backupPath = await getRobustPath("current_script.json"); 
     const content = await fs.readFile(backupPath, "utf-8");
     return JSON.parse(content);
   }
@@ -58,4 +61,25 @@ export async function updateRoadmap(newContent: string) {
   const filePath = await getRobustPath("ROADMAP.md");
   await fs.writeFile(filePath, newContent);
   revalidatePath("/");
+}
+
+// MISSION 7: Automated YouTube Trigger
+export async function publishToYouTube() {
+  const scriptPath = path.join(process.cwd(), "..", "src", "publisher_youtube.py");
+  
+  try {
+    // Attempting to run with 'python' (adjust if CEO uses 'python3')
+    const { stdout, stderr } = await execAsync(`python "${scriptPath}"`);
+    
+    if (stderr) {
+      console.error("Publisher Error Output:", stderr);
+      return { success: false, error: stderr };
+    }
+    
+    console.log("Publisher Output:", stdout);
+    return { success: true, output: stdout };
+  } catch (error: any) {
+    console.error("Failed to execute publisher:", error);
+    return { success: false, error: error.message };
+  }
 }
