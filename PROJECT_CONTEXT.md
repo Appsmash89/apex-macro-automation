@@ -3,9 +3,10 @@
 ## [STRICT_ADHERENCE_REQUIRED]
 - Any AI interacting with this project MUST read this file in its entirety before generating code.
 - **ENVIRONMENTAL CONSTRAINT**: Production is Vercel (Node.js/Next.js). **NO PYTHON** execution is allowed in the production backend. All distribution logic must be Native TypeScript/Node.js.
-- **UI/UX STANDARD**: Minimalist Editorial, 80s Dream-pop glow. 
+- **[PROJECT_SPECIFIC_DESIGN_CONSTRAINTS]**: Minimalist Editorial, 80s Dream-pop glow. 
   - Primary Colors: Sage Green (#4C6545) and Bone (#FAF9F5).
   - Background: Obsidian (#0B0C10) or Dark Slate.
+  - **CONSISTENCY MANDATE**: These design constraints (palette, 14px baseline) are specific to the Apex Macro Automation project only. They are NOT a global AI behavioral protocol. However, for THIS project, they are to be maintained with 100% consistency unless an explicit "Style Pivot" is ordered by the CEO.
 - **LEGIBILITY**: Minimum body font size 14px. Minimum label size 12px. Headers: 18px - 24px.
 
 ## [ARCHITECTURAL_TRUTH]
@@ -24,6 +25,7 @@
 ## [CURRENT_MISSION_STATE]
 - **Mission 7.8**: Identity Restoration.
 - **Status**: Resolved OAuth2 'Identity Crisis' by explicitly initializing the client with client_id/client_secret. Unified Engine is now capable of determining identity during token refresh operations.
+- **Mission [UI Sync]**: Clarified project-specific design boundaries. Confirmed Design Constraints as project-level data, not model-level protocol.
 
 ## [WALL_OF_FAILURES]
 - **DO NOT ATTEMPT**: Python-based server actions on Vercel. Structural impossibility.
@@ -43,13 +45,23 @@
   - current_script.json
   - latest_news.json
   - session_cookies.json
+- media/
+  - images
+  - texts
+  - videos
 - public/
   - data/
     - FINAL_OUTPUT.mp4
     - visuals_raw.mp4
     - voiceover.mp3
+  - file.svg
+  - globe.svg
+  - next.svg
+  - vercel.svg
+  - window.svg
 - src/
   - app/
+    - favicon.ico
     - globals.css
     - layout.tsx
     - page.tsx
@@ -72,8 +84,11 @@
 - config.json
 - eslint.config.mjs
 - Gemini.md
+- next-env.d.ts
 - next.config.ts
+- package-lock.json
 - package.json
+- postcss.config.mjs
 - PROJECT_CONTEXT.md
 - requirements.txt
 - ROADMAP.md
