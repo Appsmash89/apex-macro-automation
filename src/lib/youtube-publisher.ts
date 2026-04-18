@@ -49,8 +49,9 @@ export async function uploadToYouTube() {
 
   const script = JSON.parse(fs.readFileSync(scriptFilePath, "utf8"));
 
-  const title = script.title || "Sovereign Observer // Crypto Pulse";
-  const description = [
+  // MISSION 7.3: Metadata Validation
+  let title = script.title || "Sovereign Observer // Crypto Pulse";
+  let description = [
     script.hook || "",
     script.body || "",
     script.alpha || "",
@@ -58,6 +59,16 @@ export async function uploadToYouTube() {
     script.cta || "",
     "#Bitcoin #Macro #CryptoPulse #SovereignObserver",
   ].join("\n\n");
+
+  // Enforce YouTube Limits
+  if (title.length > 100) {
+    console.warn(`Unified Engine: Title exceeding 100 chars (${title.length}). Truncating...`);
+    title = title.substring(0, 97) + "...";
+  }
+  if (description.length > 5000) {
+    console.warn(`Unified Engine: Description exceeding 5000 chars (${description.length}). Truncating...`);
+    description = description.substring(0, 4997) + "...";
+  }
 
   console.log(`Unified Engine: Preparing broadcast for '${title}'...`);
 
@@ -70,7 +81,7 @@ export async function uploadToYouTube() {
           title,
           description,
           tags: ["Bitcoin", "Macro", "Finance", "Trading", "Crypto"],
-          categoryId: "27", // Education
+          categoryId: "27", // Education (Must be string)
         },
         status: {
           privacyStatus: "unlisted", // Safety first
@@ -91,7 +102,11 @@ export async function uploadToYouTube() {
       url: `https://youtu.be/${response.data.id}`,
     };
   } catch (error: any) {
-    console.error("Unified Engine Error during upload:", error);
+    // MISSION 7.3: Enhanced Error Logging
+    console.error("Unified Engine Error during upload:", error.message);
+    if (error.response?.data) {
+      console.error("Detailed Google API Error Response:", JSON.stringify(error.response.data, null, 2));
+    }
     throw error;
   }
 }

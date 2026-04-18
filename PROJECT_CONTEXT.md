@@ -25,6 +25,7 @@
 - **DO NOT ATTEMPT**: Python-based server actions on Vercel. Structural impossibility.
 - **DO NOT ATTEMPT**: Sub-directory dashboard nesting (causes Vercel trace and build-path failures).
 - **DO NOT ATTEMPT**: Direct file-system writes in production Vercel environments (use ephemeral mirrors or external state if needed).
+- **IDENTIFIED FAILURE**: Metadata/Token parsing issues in Mission 7.2 transition (Resolved in Mission 7.3).
 
 ---
 *This file is the Source of Truth. Update it at the end of every session.*
