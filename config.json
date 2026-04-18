@@ -1,0 +1,4 @@
+{
+    "impact_threshold": ["high", "medium", "low"],
+    "auto_mode": false
+}
