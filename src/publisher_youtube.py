@@ -45,7 +45,7 @@ def prepare_upload_request(video_path, script_path):
         script = json.load(f)
 
     # 2. Map Mission Intel to YouTube Metadata
-    title = script.get("title", "Project Apex: Crypto Pulse")
+    title = script.get("title", "Sovereign Observer // Crypto Pulse")
     
     # Description: Hook + Body + Alpha + CTA + Tags
     description = (
