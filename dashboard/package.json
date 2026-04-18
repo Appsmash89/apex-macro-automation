@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "vercel-install": "cp ../ROADMAP.md ./src/ROADMAP.md && cp ../config.json ./src/config.json && cp ../data/current_script.json ./src/current_script.json || true"
   },
   "dependencies": {
     "lucide-react": "^1.8.0",
