@@ -18,18 +18,18 @@
 - **Backend Restriction**: Python is strictly forbidden in the production environment.
 - **Distribution**: Unified TypeScript Engine (Native Node.js via googleapis).
 - **Pathing Resolution**: 
-  - Metadata: `path.join(process.cwd(), 'data', filename)`
-  - Assets: `path.join(process.cwd(), 'public', 'data', filename)`
+  - Metadata: Statically scoped `path.join(process.cwd(), 'data', filename)`.
+  - Assets: Statically scoped `path.join(process.cwd(), 'public', 'data', filename)`.
 
 ## [CURRENT_MISSION_STATE]
-- **Mission 7.4**: Build Integrity & Data Separation.
-- **Status**: Metadata/Asset split implemented. JSON moved back to root `/data` to resolve Vercel `ENOENT` build failures. Unified Engine synchronized.
+- **Mission 7.5**: Build Restoration & Security Refinement.
+- **Status**: Resolved `.gitignore` conflicts blocking build-time metadata. Sanitized `next.config.ts` for Next.js 16 rules. Implemented static scoping for trace-compliant pathing.
 
 ## [WALL_OF_FAILURES]
 - **DO NOT ATTEMPT**: Python-based server actions on Vercel. Structural impossibility.
 - **DO NOT ATTEMPT**: Sub-directory dashboard nesting (causes Vercel trace failures).
 - **DO NOT ATTEMPT**: Reading from `/public` during build-time server execution on Vercel (causes `ENOENT`).
-- **IDENTIFIED FAILURE**: Metadata/Token parsing issues in Mission 7.2 transition (Resolved in Mission 7.3).
+- **RESOLVED**: `.gitignore` conflict blocking build-time JSON access (Fixed in Mission 7.5).
 
 ## [LIVE_FILE_SYSTEM_MAP]
 - backend/
@@ -58,6 +58,7 @@
     - auth.ts
     - youtube-publisher.ts
 - .env.example
+- .gitignore
 - AGENTS.md
 - CLAUDE.md
 - client_secret.json

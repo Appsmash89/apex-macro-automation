@@ -18,7 +18,9 @@ build/
 # Secrets
 token.json
 client_secret.json
-*.json
+
+# Data White-list
+!data/*.json
 !package.json
 !package-lock.json
 !tsconfig.json

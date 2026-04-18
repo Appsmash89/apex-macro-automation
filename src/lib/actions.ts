@@ -6,39 +6,37 @@ import { revalidatePath } from "next/cache";
 import { uploadToYouTube } from "./youtube-publisher";
 
 /**
- * MISSION 8.0: CONSOLIDATED PATHING
- * Reads directly from the project root.
+ * MISSION 7.5: STATIC SCOPING
+ * Replaced dynamic getRootPath with statically scoped path.join calls 
+ * to resolve Vercel NFT/Turbopack trace warnings.
  */
-async function getRootPath(filename: string, subfolder: string = "") {
-  return path.join(process.cwd(), subfolder, filename);
-}
 
 export async function getRoadmap() {
-  const filePath = await getRootPath("ROADMAP.md");
+  const filePath = path.join(process.cwd(), "ROADMAP.md");
   const content = await fs.readFile(filePath, "utf-8");
   return content;
 }
 
 export async function getConfig() {
-  const filePath = await getRootPath("config.json");
+  const filePath = path.join(process.cwd(), "config.json");
   const content = await fs.readFile(filePath, "utf-8");
   return JSON.parse(content);
 }
 
 export async function getScript() {
-  const filePath = await getRootPath("current_script.json", "data");
+  const filePath = path.join(process.cwd(), "data", "current_script.json");
   const content = await fs.readFile(filePath, "utf-8");
   return JSON.parse(content);
 }
 
 export async function updateConfig(newConfig: any) {
-  const filePath = await getRootPath("config.json");
+  const filePath = path.join(process.cwd(), "config.json");
   await fs.writeFile(filePath, JSON.stringify(newConfig, null, 4));
   revalidatePath("/");
 }
 
 export async function updateRoadmap(newContent: string) {
-  const filePath = await getRootPath("ROADMAP.md");
+  const filePath = path.join(process.cwd(), "ROADMAP.md");
   await fs.writeFile(filePath, newContent);
   revalidatePath("/");
 }
