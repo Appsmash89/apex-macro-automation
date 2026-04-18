@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+.next/
+out/
+build/
+
+# IDEs
+.vscode/
+.idea/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Secrets
+token.json
+client_secret.json
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!next.config.ts
+!config.json
+!Gemini.md
+!AGENTS.md
+!CLAUDE.md
+
+# Debug / Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
