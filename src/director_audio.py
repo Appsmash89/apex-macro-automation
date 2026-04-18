@@ -4,7 +4,7 @@ import os
 import edge_tts
 
 # 1. Configuration
-VOICE = "en-US-GuyNeural"  # Authoritative, deep male voice
+VOICE = "en-US-AndrewNeural"  # Authoritative, deep male voice (Andrew)
 OUTPUT_FILE = "data/voiceover.mp3"
 
 async def generate_voiceover():
