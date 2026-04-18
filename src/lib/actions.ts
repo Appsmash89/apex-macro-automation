@@ -3,10 +3,7 @@
 import fs from "fs/promises";
 import path from "path";
 import { revalidatePath } from "next/cache";
-import { exec } from "child_process";
-import { promisify } from "util";
-
-const execAsync = promisify(exec);
+import { uploadToYouTube } from "./youtube-publisher";
 
 /**
  * MISSION 8.0: CONSOLIDATED PATHING
@@ -46,28 +43,27 @@ export async function updateRoadmap(newContent: string) {
   revalidatePath("/");
 }
 
-// MISSION 7.1: Cloud-Ready Distribution
+/**
+ * MISSION 7.2: UNIFIED ENGINE
+ * Native Next.js Server Action for YouTube Distribution.
+ * Eradicates the "Python not found" blocker on Vercel.
+ */
 export async function publishToYouTube() {
-  const scriptPath = path.join(process.cwd(), "backend", "publisher_youtube.py");
+  console.log("Strategic Server Action: Triggering Unified Distribution Engine...");
   
   try {
-    /**
-     * MISSION 7.1: ENVIRONMENT PROPAGATION
-     * Explicitly passing process.env (containing YOUTUBE_TOKEN) to the Python process.
-     */
-    const { stdout, stderr } = await execAsync(`python "${scriptPath}"`, {
-      env: { ...process.env }
-    });
+    const result = await uploadToYouTube();
     
-    if (stderr) {
-      console.error("Publisher Error Output:", stderr);
-      return { success: false, error: stderr };
-    }
-    
-    console.log("Publisher Output:", stdout);
-    return { success: true, output: stdout };
+    return { 
+      success: true, 
+      output: `SUCCESS: Video Broadcasted! Video ID: ${result.videoId}`,
+      url: result.url 
+    };
   } catch (error: any) {
-    console.error("Failed to execute publisher:", error);
-    return { success: false, error: error.message };
+    console.error("Unified Engine Failure:", error);
+    return { 
+      success: false, 
+      error: error.message || "Unknown error during native distribution." 
+    };
   }
 }
