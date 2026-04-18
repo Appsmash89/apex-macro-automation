@@ -13,20 +13,40 @@ TOKEN_FILE = "token.json"
 
 def get_youtube_service():
     """
-    Initializes the YouTube Service using existing token.json.
+    Initializes the YouTube Service using Environment Variable or local token.json.
     """
-    if not os.path.exists(TOKEN_FILE):
-        print(f"ERROR: {TOKEN_FILE} missing. Run generate_token.py first.")
+    creds = None
+    
+    # MISSION 7.1: Cloud-Ready Auth (Environment Variables)
+    env_token = os.environ.get("YOUTUBE_TOKEN")
+    
+    if env_token:
+        print("Publisher: Utilizing Cloud-Based YOUTUBE_TOKEN secrets.")
+        try:
+            creds_data = json.loads(env_token)
+            creds = Credentials.from_authorized_user_info(creds_data, SCOPES)
+        except Exception as e:
+            print(f"ERROR: Failed to parse YOUTUBE_TOKEN from environment: {e}")
+            return None
+    elif os.path.exists(TOKEN_FILE):
+        print(f"Publisher: Utilizing local {TOKEN_FILE} for authentication.")
+        creds = Credentials.from_authorized_user_file(TOKEN_FILE, SCOPES)
+    else:
+        print(f"ERROR: Authentication missing. Set YOUTUBE_TOKEN env var or run generate_token.py.")
         return None
 
-    creds = Credentials.from_authorized_user_file(TOKEN_FILE, SCOPES)
-    
-    # If creds are expired, refresh them
+    # If creds are expired, refresh them (if possible)
     if creds and creds.expired and creds.refresh_token:
         print("Refreshing authentication token...")
-        creds.refresh(Request())
-        with open(TOKEN_FILE, "w") as token:
-            token.write(creds.to_json())
+        try:
+            creds.refresh(Request())
+            # Only update local file if we started from a local file
+            if not env_token and os.path.exists(TOKEN_FILE):
+                with open(TOKEN_FILE, "w") as token:
+                    token.write(creds.to_json())
+        except Exception as e:
+            print(f"ERROR: Token refresh failed: {e}")
+            return None
 
     return googleapiclient.discovery.build("youtube", "v3", credentials=creds)
 
@@ -39,7 +59,7 @@ def upload_video(video_path, script_path):
         return False
 
     if not os.path.exists(video_path) or not os.path.exists(script_path):
-        print("Error: Missing video or script files.")
+        print(f"Error: Missing files. Video: {os.path.exists(video_path)}, Script: {os.path.exists(script_path)}")
         return False
 
     with open(script_path, "r") as f:
@@ -92,7 +112,7 @@ def upload_video(video_path, script_path):
     return True
 
 if __name__ == "__main__":
-    # Standard output paths
+    # Standard output paths - updated for Root-Level architecture
     VIDEO = "data/FINAL_OUTPUT.mp4"
     SCRIPT = "data/current_script.json"
     

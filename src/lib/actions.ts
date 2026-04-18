@@ -46,13 +46,18 @@ export async function updateRoadmap(newContent: string) {
   revalidatePath("/");
 }
 
-// MISSION 7/8: Automated YouTube Trigger
+// MISSION 7.1: Cloud-Ready Distribution
 export async function publishToYouTube() {
-  // Now located in the /backend folder
   const scriptPath = path.join(process.cwd(), "backend", "publisher_youtube.py");
   
   try {
-    const { stdout, stderr } = await execAsync(`python "${scriptPath}"`);
+    /**
+     * MISSION 7.1: ENVIRONMENT PROPAGATION
+     * Explicitly passing process.env (containing YOUTUBE_TOKEN) to the Python process.
+     */
+    const { stdout, stderr } = await execAsync(`python "${scriptPath}"`, {
+      env: { ...process.env }
+    });
     
     if (stderr) {
       console.error("Publisher Error Output:", stderr);
