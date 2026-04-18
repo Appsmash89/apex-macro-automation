@@ -59,8 +59,24 @@ export async function uploadToYouTube() {
 
   const script = JSON.parse(fs.readFileSync(scriptFilePath, "utf8"));
 
+  // MISSION 0.2: Standardized Communication Contract
+  const configPath = path.join(process.cwd(), "shared", "config.json");
+  const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
+  const schema = config.METADATA_SCHEMA;
+
+  function validateScriptSchema(data: any, schemaMap: any) {
+    const mandatoryKeys = Object.keys(schemaMap);
+    for (const key of mandatoryKeys) {
+      if (!(schemaMap[key] in data)) {
+        throw new Error(`SCHEMA_VALIDATION_ERR: Missing mandatory key '${schemaMap[key]}' defined in contract.`);
+      }
+    }
+  }
+
+  validateScriptSchema(script, schema);
+
   // MISSION 8.1: Idempotency Gatekeeper
-  if (script.broadcast_status === "published") {
+  if (script[schema.broadcast_status] === "published") {
     console.error("INTEGRITY_ERR: This content version has already been broadcast. Aborting distribution.");
     throw new Error("INTEGRITY_ERR: Content already broadcasted.");
   }
@@ -112,15 +128,15 @@ export async function uploadToYouTube() {
     console.log(`SUCCESS: Video Broadcasted! Video ID: ${response.data.id}`);
     console.log(`URL: https://youtu.be/${response.data.id}`);
 
-    // MISSION 8.1: State Commitment
-    console.log("Unified Engine: Committing state to current_script.json...");
-    script.broadcast_status = "published";
-    script.published_at = new Date().toISOString();
-    script.youtube_id = response.data.id;
+    // MISSION 8.1 / 0.2: State Commitment
+    console.log("Unified Engine: Committing state using Communication Contract...");
+    script[schema.broadcast_status] = "published";
+    script[schema.generation_timestamp] = new Date().toISOString();
+    script[schema.video_id] = response.data.id;
     script.youtube_url = `https://youtu.be/${response.data.id}`;
     
     fs.writeFileSync(scriptFilePath, JSON.stringify(script, null, 4));
-    console.log("Unified Engine: State Lock Engaged.");
+    console.log("Unified Engine: State Lock Engaged (Schema Compliant).");
 
     return {
       success: true,

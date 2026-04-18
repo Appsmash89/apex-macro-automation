@@ -21,14 +21,16 @@
 - **Backend Restriction**: Python is strictly forbidden in the production environment.
 - **Distribution Domain**: Unified TypeScript Engine (Native Node.js via googleapis) located in `src/engines/distribution`.
 - **Idempotency**: Stateful Broadcast Locking. Distribution is gated by `broadcast_status` in `current_script.json`. Once set to `published`, the Unified Engine rejects further attempts.
+- **[COMMUNICATION_CONTRACT]**: The Shared Dictionary in `/shared/config.json` is the Source of Truth for engine data interchange. All engines must map their telemetry and status keys to this schema to prevent interface degradation.
 - **Pathing Resolution**: 
   - Metadata: Statically scoped `path.join(process.cwd(), 'data', filename)`.
   - Shared Config: Statically scoped `path.join(process.cwd(), 'shared', filename)`.
   - Assets: Statically scoped `path.join(process.cwd(), 'public', 'data', filename)`.
+  - **Mission 0.3 Standard**: All engines must utilize **Absolute Root Pathing**. Python engines resolve root via file-directory anchors; TypeScript resolves via `process.cwd()`. Indexed Mapping using the [LIVE_FILE_SYSTEM_MAP] is the required navigation protocol.
 
 ## [CURRENT_MISSION_STATE]
-- **Mission 0.1.1**: Final Housekeeping.
-- **Status**: Completed. Eliminated legacy `backend/` artifacts. Re-aligned `src/lib/actions.ts` with correct modular paths. Verified absolute isolation of Intelligence and Creative domains.
+- **Mission 2.1**: The Control Matrix Overhaul.
+- **Status**: ACTIVE. UI transitioned to high-density Control Matrix. Implemented Sage Green (#4C6545) / Bone (#FAF9F5) industrial aesthetic. Hardened security interactions (Hold-to-Confirm Publish, Mechanical Toggle Matrix).
 
 ## [WALL_OF_FAILURES]
 - **DO NOT ATTEMPT**: Python-based server actions on Vercel. Structural impossibility.

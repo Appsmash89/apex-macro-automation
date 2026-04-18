@@ -36,53 +36,51 @@ export default function InteractiveDials({ initialConfig }: InteractiveDialsProp
   }
 
   return (
-    <section className="bg-surface p-10 lg:p-12 rounded-2xl tactical-glow border border-cyan-400/5 shadow-2xl">
-      <div className="flex items-center justify-between mb-10">
-        <h2 className="text-2xl font-black flex items-center gap-4 font-space uppercase tracking-tight">
-          <Layers className="text-cyan-400" size={28} />
-          OVERRIDE MATRIX
+    <section className="bg-surface p-10 lg:p-12 rounded-2xl tactical-glow border border-white/5 shadow-2xl relative overflow-hidden">
+      <div className="flex items-center justify-between mb-12">
+        <h2 className="text-xl font-black flex items-center gap-4 font-space uppercase tracking-tight text-bone">
+          <Layers className="text-sage-green" size={24} />
+          OVERRIDE_MATRIX
         </h2>
-        <div className="flex flex-col items-end">
+        <div className="flex items-center gap-3">
           {isPending ? (
-            <div className="flex items-center gap-3 text-sm text-cyan-400 font-mono font-black animate-pulse bg-cyan-400/5 px-3 py-1 rounded-md">
-              <Loader2 size={16} className="animate-spin" />
-              SYNCING_CONFIG
-            </div>
-          ) : lastSync ? (
-            <div className="flex items-center gap-3 text-sm text-emerald-400 font-mono font-black bg-emerald-400/5 px-3 py-1 rounded-md">
-              <CheckCircle2 size={16} />
-              SYNC_SUCCESS
+            <div className="flex items-center gap-2 text-[10px] text-sage-green font-mono font-black animate-pulse uppercase bg-sage-green/5 px-2 py-1 rounded">
+              <Loader2 size={12} className="animate-spin" />
+              SYNCING
             </div>
           ) : (
-            <span className="text-sm text-gray-500 font-mono font-bold tracking-widest bg-surface-low px-3 py-1 rounded-md uppercase border border-white/5">Link_Active</span>
+            <span className="text-[10px] text-gray-600 font-mono font-black tracking-widest uppercase">STATION_ALPHA // READY</span>
           )}
         </div>
       </div>
 
-      <div className="space-y-10">
+      <div className="space-y-8">
         {["high", "medium", "low"].map((level) => (
-          <button
-            key={level}
-            onClick={() => toggleImpact(level)}
-            disabled={isPending}
-            className="w-full group text-left space-y-4 block focus:outline-none transition-all"
-          >
-            <div className="flex justify-between items-end px-2">
-              <p className={`text-sm font-mono font-black uppercase tracking-[0.2em] transition-colors ${config.impact_threshold.includes(level) ? 'text-gray-100' : 'text-gray-600'}`}>
-                {level}_Intel_Gate
-              </p>
-              <p className={`text-base font-black font-space uppercase transition-all tracking-wider ${config.impact_threshold.includes(level) ? 'text-cyan-400 scale-105' : 'text-gray-700'}`}>
-                {config.impact_threshold.includes(level) ? 'OPERATIONAL' : 'BYPASSED'}
+          <div key={level} className="flex items-center justify-between p-6 bg-surface-low rounded-xl border border-white/5 group transition-all hover:border-sage-green/20">
+            <div className="space-y-1">
+              <p className="text-[10px] text-gray-500 font-mono font-black uppercase tracking-[0.2em]">{level}_Gate</p>
+              <p className={`text-sm font-black font-space uppercase tracking-widest ${config.impact_threshold.includes(level) ? 'text-sage-green dream-pop-glow-sage' : 'text-gray-700'}`}>
+                {config.impact_threshold.includes(level) ? 'LINKED' : 'BYPASSED'}
               </p>
             </div>
-            <div className="h-4 bg-surface-low rounded-xl overflow-hidden border border-white/5 p-1">
+            
+            {/* Physical Style Switch */}
+            <button
+              onClick={() => toggleImpact(level)}
+              disabled={isPending}
+              className={`w-14 h-8 rounded-full p-1 transition-all duration-300 relative border ${config.impact_threshold.includes(level) ? 'bg-sage-green/20 border-sage-green' : 'bg-surface-mid border-white/10'}`}
+            >
               <div 
-                className={`h-full transition-all duration-700 rounded-lg ${config.impact_threshold.includes(level) ? 'bg-gradient-to-r from-cyan-600 to-cyan-400 shadow-[0_0_20px_rgba(0,209,255,0.4)] w-full' : 'bg-surface-mid w-0 opacity-20'}`}
-              ></div>
-            </div>
-          </button>
+                className={`w-5 h-5 rounded-full transition-all duration-300 transform shadow-lg ${config.impact_threshold.includes(level) ? 'translate-x-6 bg-sage-green dream-pop-glow-sage' : 'translate-x-0 bg-gray-600'}`}
+              />
+            </button>
+          </div>
         ))}
       </div>
+
+      <p className="mt-8 text-[10px] text-gray-700 font-mono uppercase tracking-widest italic text-center opacity-40">
+        MISSION_2_CONTROL // SECURE_TOGGLE_v1
+      </p>
     </section>
   );
 }

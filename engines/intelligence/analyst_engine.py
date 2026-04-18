@@ -1,7 +1,8 @@
-import json
 import os
+import json
+from datetime import datetime
 
-def generate_short_script(news_data, snapshot):
+def generate_short_script(news_data, snapshot, schema):
     """
     Generates a YouTube Shorts script based on news and market snapshot.
     Tone: Professional Institutional.
@@ -36,28 +37,44 @@ def generate_short_script(news_data, snapshot):
     visual_prompts = [
         "Digital Command Center intro - HUD overlay of Bitcoin breaking $78,100.",
         "Line chart showing Crude Oil (WTI) falling 10% alongside Bitcoin's vertical rise.",
-        "Map highlighting the Strait of Hormuz with 'OPEN' status indicator.",
+        "Map highlighting the Strait of Hormuz with 'OPEN' indicator.",
         "Sentiment gauge shifting from red (Extreme Fear) to green (Neutral/Greed).",
         "Upcoming event ticker: President Trump Speaking / IMF Meetings Day 6."
     ]
     
-    from datetime import datetime
     script = {
         "title": title,
         "hook": hook,
         "body": body,
-        "alpha": alpha,  # Added alpha field to match structure
+        "alpha": alpha,
         "cta": cta,
         "visual_prompts": visual_prompts,
-        "broadcast_status": "pending",
-        "generated_at": datetime.utcnow().isoformat()
+        schema["broadcast_status"]: "pending",
+        schema["video_id"]: None,
+        schema["generation_timestamp"]: datetime.utcnow().isoformat(),
+        schema["version"]: "1.0.0"
     }
     
     return script
 
 def main():
-    # 1. Load News
-    news_path = "data/latest_news.json"
+    # MISSION 0.3: Absolute Root Pathing
+    # Calculate project root relative to this file's location
+    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+    # 1. Load Configuration & Schema
+    config_path = os.path.join(base_dir, "shared", "config.json")
+    if not os.path.exists(config_path):
+        print(f"Error: {config_path} not found.")
+        return
+
+    with open(config_path, "r") as f:
+        config = json.load(f)
+    
+    schema = config.get("METADATA_SCHEMA")
+
+    # 2. Load News
+    news_path = os.path.join(base_dir, "data", "latest_news.json")
     if not os.path.exists(news_path):
         print(f"Error: {news_path} not found.")
         return
@@ -74,13 +91,13 @@ def main():
         "narrative": "Risk-On rally fueled by lower energy costs"
     }
 
-    # 3. Generate Script
+    # 4. Generate Script
     print("Analyst Engine: Processing data into script...", flush=True)
-    script = generate_short_script(news_data, market_snapshot)
+    script = generate_short_script(news_data, market_snapshot, schema)
 
     # 4. Save Script
-    output_path = "data/current_script.json"
-    os.makedirs("data", exist_ok=True)
+    output_path = os.path.join(base_dir, "data", "current_script.json")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w") as f:
         json.dump(script, f, indent=4)
 
@@ -88,3 +105,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

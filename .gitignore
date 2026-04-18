@@ -25,7 +25,7 @@ client_secret.json
 !package-lock.json
 !tsconfig.json
 !next.config.ts
-!config.json
+!shared/config.json
 !Gemini.md
 !AGENTS.md
 !CLAUDE.md

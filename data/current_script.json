@@ -7,8 +7,12 @@
     "visual_prompts": [
         "Digital Command Center intro - HUD overlay of Bitcoin breaking $78,100.",
         "Line chart showing Crude Oil (WTI) falling 10% alongside Bitcoin's vertical rise.",
-        "Map highlighting the Strait of Hormuz with 'OPEN' status indicator.",
+        "Map highlighting the Strait of Hormuz with 'OPEN' indicator.",
         "Sentiment gauge shifting from red (Extreme Fear) to green (Neutral/Greed).",
         "Upcoming event ticker: President Trump Speaking / IMF Meetings Day 6."
-    ]
+    ],
+    "broadcast_status": "pending",
+    "youtube_id": null,
+    "generated_at": "2026-04-18T20:14:33.602161",
+    "schema_version": "1.0.0"
 }
