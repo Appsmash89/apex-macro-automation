@@ -2,6 +2,7 @@
 
 import fs from "fs/promises";
 import path from "path";
+import { revalidatePath } from "next/cache";
 
 // 1. Robust Pathing: Check local 'src' (Vercel) then fall back to parent directory (Local Dev)
 async function getRobustPath(filename: string, subfolder: string = "") {
@@ -50,9 +51,11 @@ export async function getScript() {
 export async function updateConfig(newConfig: any) {
   const filePath = await getRobustPath("config.json");
   await fs.writeFile(filePath, JSON.stringify(newConfig, null, 4));
+  revalidatePath("/");
 }
 
 export async function updateRoadmap(newContent: string) {
   const filePath = await getRobustPath("ROADMAP.md");
   await fs.writeFile(filePath, newContent);
+  revalidatePath("/");
 }
