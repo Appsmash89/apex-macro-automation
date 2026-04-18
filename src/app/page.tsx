@@ -135,7 +135,7 @@ export default async function DashboardPage() {
 
               {/* MISSION 7: PUBLISH TRIGGER INTEGRATION */}
               <div className="mt-auto pt-10 border-t border-cyan-400/10">
-                <InteractivePublish />
+                <InteractivePublish initialStatus={script.broadcast_status} />
               </div>
             </div>
           </section>

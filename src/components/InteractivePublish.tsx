@@ -1,15 +1,30 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import { publishToYouTube } from "@/lib/actions";
 import { Youtube, Loader2, CheckCircle2, AlertCircle, PlaySquare } from "lucide-react";
 
-export default function InteractivePublish() {
+interface InteractivePublishProps {
+  initialStatus?: string;
+}
+
+export default function InteractivePublish({ initialStatus }: InteractivePublishProps) {
   const [status, setStatus] = useState<"READY" | "UPLOADING" | "SUCCESS" | "ERROR">("READY");
   const [message, setMessage] = useState("");
   const [isPending, startTransition] = useTransition();
 
+  // MISSION 8.1: State Synchronization
+  useEffect(() => {
+    if (initialStatus === "published") {
+      setStatus("SUCCESS");
+      setMessage("Broadcast Synced Successfully (Locked)");
+    }
+  }, [initialStatus]);
+
   async function handlePublish() {
+    // Final defensive check
+    if (status === "SUCCESS" || initialStatus === "published") return;
+
     setStatus("UPLOADING");
     setMessage("");
 
@@ -29,10 +44,10 @@ export default function InteractivePublish() {
     <div className="w-full">
       <button
         onClick={handlePublish}
-        disabled={status === "UPLOADING" || isPending}
+        disabled={status === "UPLOADING" || status === "SUCCESS" || isPending}
         className={`w-full py-5 rounded-xl font-space font-black text-lg uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-4 group shadow-lg border-2 ${
           status === "SUCCESS" 
-            ? "bg-emerald-500/10 border-emerald-500 text-emerald-400" 
+            ? "bg-emerald-500/10 border-emerald-500 text-emerald-400 cursor-not-allowed" 
             : status === "ERROR"
             ? "bg-red-500/10 border-red-500 text-red-500"
             : "bg-surface-mid hover:bg-cyan-400/10 border-cyan-400/30 text-cyan-400 hover:border-cyan-400"
@@ -71,7 +86,7 @@ export default function InteractivePublish() {
       )}
       
       <p className="mt-4 text-[11px] text-gray-600 font-mono text-center uppercase tracking-tighter opacity-60">
-        MISSION_7_ALPHA_BROADCAST // CHANNEL_SYNC: READY
+        MISSION_8_ALPHA_BROADCAST // CHANNEL_SYNC: {status === "SUCCESS" ? "LOCKED" : "READY"}
       </p>
     </div>
   );

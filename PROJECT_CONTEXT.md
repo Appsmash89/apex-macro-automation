@@ -18,19 +18,21 @@
   - **Public Assets**: Media files (MP4, MP3) reside in `/public/data` for runtime serving and external accessibility.
 - **Backend Restriction**: Python is strictly forbidden in the production environment.
 - **Distribution**: Unified TypeScript Engine (Native Node.js via googleapis).
+- **Idempotency**: Stateful Broadcast Locking. Distribution is gated by `broadcast_status` in `current_script.json`. Once set to `published`, the Unified Engine rejects further attempts.
 - **Pathing Resolution**: 
   - Metadata: Statically scoped `path.join(process.cwd(), 'data', filename)`.
   - Assets: Statically scoped `path.join(process.cwd(), 'public', 'data', filename)`.
 
 ## [CURRENT_MISSION_STATE]
-- **Mission 7.8**: Identity Restoration.
-- **Status**: Resolved OAuth2 'Identity Crisis' by explicitly initializing the client with client_id/client_secret. Unified Engine is now capable of determining identity during token refresh operations.
-- **Mission [UI Sync]**: Clarified project-specific design boundaries. Confirmed Design Constraints as project-level data, not model-level protocol.
+- **Mission 8.1**: Broadcast Idempotency & State Locking.
+- **Status**: Implemented metadata gatekeeper in Unified Engine. Successfully synchronized state between generation (Python) and distribution (TypeScript). UI button is now state-aware and prevents double-publishing.
+- **Mission [UI Sync]**: Clarified project-specific design boundaries.
 
 ## [WALL_OF_FAILURES]
 - **DO NOT ATTEMPT**: Python-based server actions on Vercel. Structural impossibility.
 - **DO NOT ATTEMPT**: Sub-directory dashboard nesting (causes Vercel trace failures).
 - **DO NOT ATTEMPT**: Reading from `/public` during build-time server execution on Vercel (causes `ENOENT`).
+- **RESOLVED**: Double-Publish Risk - Fixed in Mission 8.1 with stateful idempotency.
 - **RESOLVED**: OAuth2 'Identity Crisis' (Missing client_id/client_secret in constructor) - Fixed in Mission 7.8.
 - **RESOLVED**: 'Ghost Folder' issue where mission-critical JSON was untracked (Fixed in Mission 7.6.1).
 - **RESOLVED**: `.gitignore` conflict blocking build-time JSON access (Fixed in Mission 7.5).

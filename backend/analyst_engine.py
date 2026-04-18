@@ -41,13 +41,16 @@ def generate_short_script(news_data, snapshot):
         "Upcoming event ticker: President Trump Speaking / IMF Meetings Day 6."
     ]
     
+    from datetime import datetime
     script = {
         "title": title,
         "hook": hook,
         "body": body,
         "alpha": alpha,  # Added alpha field to match structure
         "cta": cta,
-        "visual_prompts": visual_prompts
+        "visual_prompts": visual_prompts,
+        "broadcast_status": "pending",
+        "generated_at": datetime.utcnow().isoformat()
     }
     
     return script
