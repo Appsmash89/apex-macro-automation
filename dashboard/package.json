@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "vercel-install": "cp ../ROADMAP.md ./src/ROADMAP.md && cp ../config.json ./src/config.json && cp ../data/current_script.json ./src/current_script.json || true"
+    "vercel-install": "mkdir -p ./src/data_mirror && cp ../ROADMAP.md ./src/data_mirror/ROADMAP.md && cp ../config.json ./src/data_mirror/config.json && cp ../data/current_script.json ./src/data_mirror/current_script.json || true"
   },
   "dependencies": {
     "lucide-react": "^1.8.0",

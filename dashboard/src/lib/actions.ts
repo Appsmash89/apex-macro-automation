@@ -8,23 +8,32 @@ import { promisify } from "util";
 
 const execAsync = promisify(exec);
 
-// 1. Robust Pathing: Check local 'src' (Vercel) then fall back to parent directory (Local Dev)
+// 1. Robust Pathing: Check local 'src/data_mirror' (Vercel) THEN 'src' THEN parent directory (Local Dev)
 async function getRobustPath(filename: string, subfolder: string = "") {
+  // Mirror Path (Primary for Vercel Builds)
+  const mirrorPath = path.join(process.cwd(), "src", "data_mirror", filename);
+  
+  // Local Deployment Paths
   const localSrcPath = path.join(process.cwd(), "src", subfolder, filename);
   const localRootPath = path.join(process.cwd(), subfolder, filename); 
+  
+  // Local Dev Path (Parent Directory)
   const devPath = path.join(process.cwd(), "..", subfolder, filename);
 
-  try {
-    await fs.access(localSrcPath);
-    return localSrcPath;
-  } catch {
+  // Tactical verification loop
+  const candidates = [mirrorPath, localSrcPath, localRootPath, devPath];
+  
+  for (const cand of candidates) {
     try {
-      await fs.access(localRootPath);
-      return localRootPath;
+      await fs.access(cand);
+      return cand;
     } catch {
-      return devPath;
+      continue;
     }
   }
+
+  // Fallback to dev path if all else fails
+  return devPath;
 }
 
 export async function getRoadmap() {
@@ -45,8 +54,9 @@ export async function getScript() {
     const content = await fs.readFile(filePath, "utf-8");
     return JSON.parse(content);
   } catch {
-    const backupPath = await getRobustPath("current_script.json"); 
-    const content = await fs.readFile(backupPath, "utf-8");
+    // If mirroring is active, it might be in data_mirror/current_script.json
+    const mirrorPath = await getRobustPath("current_script.json"); 
+    const content = await fs.readFile(mirrorPath, "utf-8");
     return JSON.parse(content);
   }
 }
