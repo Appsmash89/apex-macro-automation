@@ -12,7 +12,7 @@
 - [ ] TBD
 
 ## Mission 3: The Director (Asset Generation Engine)
-- [x] [Mission 3.0: Director Engine Initialized] - Voice and Visual modules created.
+- [x] [Mission 3.1: Audio Pivot] - Replaced ElevenLabs with Edge-TTS for zero-cost production.
 - [!] [Dependency Warning] - FFmpeg installation requires manual CEO intervention due to permissions.
 - [ ] Render `data/voiceover.mp3` (Pending API Key)
 - [ ] Render `data/visuals_raw.mp4` (Pending FFmpeg)

@@ -5,3 +5,5 @@ asyncio
 playwright
 requests
 beautifulsoup4
+
+# No API keys required for zero-cost architecture (Edge-TTS)
