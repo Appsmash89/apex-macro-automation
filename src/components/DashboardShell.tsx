@@ -36,8 +36,8 @@ interface DashboardShellProps {
 }
 
 /**
- * MISSION 2.9: End-to-End Functional Integration
- * Features: Live Asset Discovery + Local Bridge Relay Sync.
+ * MISSION 3.0: Sovereign Factory Recovery
+ * Features: Absolute One-Click Orchestration + Local Bridge v3.0.
  */
 export default function DashboardShell({ 
   latestNews, 

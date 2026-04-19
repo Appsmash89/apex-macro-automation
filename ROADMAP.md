@@ -41,13 +41,15 @@
   - [x] Implement Top-Navigation Departments (Intelligence, Architect, Studio).
   - [x] Implement Macro Ticker news stream.
   - [x] Create persistent Architect parameter matrix (Auto-Publish Toggle).
-  - [x] MISSION 2.9: End-to-End Functional Orchestration.
-    - [x] Implement Live Asset Discovery (localhost:5000/list-assets).
-    - [x] Integrate real-time log pumping from relay to dashboard telemetry.
-    - [x] Connect 'InteractivePublish' snap-trigger to distribution engine.
-  - [x] MISSION 2.9.1: Production Recovery - Reference Audit.
-    - [x] Resolve 'ReferenceError: Elisa is not defined' in DashboardShell.
-    - [x] Verify production build parity via local 'next build'.
+- [x] MISSION 3.0: Sovereign Factory Recovery & Full Automation.
+  - [x] Institutional v3.0 Version Bump and UI Harmonization.
+  - [x] Hardened 'START_APEX.bat' One-Click Entry.
+  - [x] Confirmed Total Functional Factory Orchestration.
+- [x] MISSION 2.9.2: Sovereign Launcher & Production Recovery.
+  - [x] Purge final ghost reference (Elisa artifact) from START_APEX.bat.
+  - [x] Integrate One-Click Factory Launcher into project root.
+- [x] MISSION 2.9.1: Production Recovery - Reference Audit - RESOLVED.
+- [x] MISSION 2.9: End-to-End Functional Orchestration - RESOLVED.
   - [x] Harden Studio list with Sovereign Guard safety locks.
 - [x] MISSION 2.8: Sovereign Launcher & Full Pipeline Integration.
   - [x] Deployed 'engines/bridge_relay.py' Command Bridge.
