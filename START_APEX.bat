@@ -35,5 +35,4 @@ echo   FACTORY_ACTIVE: NODE_01 IS OPERATIONAL
 echo   Close windows manually to terminate.
 echo ============================================================
 echo.
-pause
- Elisa 
+
