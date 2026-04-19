@@ -15,7 +15,7 @@ export async function getPipelineStatus() {
   }
 }
 
-export async function updatePipelineStage(stage: number, status: "idle" | "running" | "complete" | "error") {
+export async function updatePipelineStage(stage: number, status: "idle" | "running" | "complete" | "error" | "AWAITING_VERIFICATION" | "PAUSED") {
   try {
     const content = await fs.readFile(STATUS_PATH, "utf-8");
     const data = JSON.parse(content);

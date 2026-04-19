@@ -41,11 +41,11 @@
   - [x] Implement Top-Navigation Departments (Intelligence, Architect, Studio).
   - [x] Implement Macro Ticker news stream.
   - [x] Create persistent Architect parameter matrix (Auto-Publish Toggle).
+- [x] MISSION 3.2.1: Robust Cloudflare Detection & Handover.
+  - [x] Implemented Multi-Signal Detection Engine (Headers/Title/Network).
+  - [x] Deployed Adaptive Headless-to-Headed Browser Transition.
+  - [x] Created Native UI 'RESUME_FACTORY' Pulse Button.
 - [x] MISSION 3.1: Local-Only Industrial Pivot & Terminal Fix.
-  - [x] Resolved Pip installation crash (Purged requirements.txt).
-  - [x] Transitioned credentials to local .env configuration.
-  - [x] Confirmed Native Engine Triggers (child_process.spawn).
-  - [x] Pivoted Dashboard to Local Server Action Discovery.
 - [x] MISSION 2.9.2: Sovereign Launcher & Production Recovery.
   - [x] Purge final ghost reference (Elisa artifact) from START_APEX.bat.
   - [x] Integrate One-Click Factory Launcher into project root.

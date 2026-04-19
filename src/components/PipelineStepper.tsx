@@ -12,7 +12,7 @@ import {
   RotateCcw,
   Power
 } from "lucide-react";
-import { getPipelineStatus, resumePipeline, triggerNativeEngine } from "@/lib/actions";
+import { getPipelineStatus, resumePipeline, triggerNativeEngine, resumeVerification } from "@/lib/actions";
 
 interface PipelineStepperProps {
   initialStatus: any;
@@ -108,6 +108,16 @@ export default function PipelineStepper({ initialStatus }: PipelineStepperProps)
                >
                   <Play size={18} fill="black" />
                   RESUME_PIPELINE
+               </button>
+            )}
+
+            {currentStageData?.status === "AWAITING_VERIFICATION" && (
+               <button 
+               onClick={() => resumeVerification(pipeline.current_stage)}
+               className="flex items-center gap-4 bg-velocity-blue text-black px-10 py-4 rounded-2xl font-black font-space uppercase text-xs tracking-widest glow-cyan-bg transition-all hover:scale-105 active:scale-95 animate-pulse shadow-[0_0_30px_rgba(0,209,255,0.4)] border border-white/20"
+               >
+                  <ShieldCheck size={18} fill="black" />
+                  RESUME_FACTORY
                </button>
             )}
          </div>

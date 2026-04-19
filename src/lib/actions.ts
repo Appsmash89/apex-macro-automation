@@ -178,3 +178,11 @@ export async function resumePipeline(stage: number) {
 export async function pausePipeline(stage: number) {
     return await setPipelinePause(stage, true);
 }
+
+/**
+ * MISSION 3.2.1: Verification Resume
+ * Resets the stage status to 'running' to release the Python Handover loop.
+ */
+export async function resumeVerification(stage: number) {
+    return await updatePipelineStage(stage, "running");
+}

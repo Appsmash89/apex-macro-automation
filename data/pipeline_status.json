@@ -2,12 +2,37 @@
     "current_stage": 1,
     "is_paused": false,
     "logs": [
+        "[6:07:42 PM] STAGE_1 >> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+        "[6:07:39 PM] STAGE_1 >> Navigating to https://www.forexfactory.com/calendar?day=today...",
+        "[6:07:38 PM] STAGE_1 >> Launching browser in HEADED mode for CEO verification...",
+        "[6:07:37 PM] STAGE_1 >> ORCHESTRATOR_SYNC: Stage [1] marked as [running]",
+        "[18:07:37] Stage 1: RUNNING",
+        "[6:07:37 PM] Stage 1: RUNNING",
         "Sovereign Orchestrator Initialized."
     ],
     "stages": {
-        "1": { "status": "idle", "label": "Intelligence (Scouting)", "manual_pause": false },
-        "2": { "status": "idle", "label": "Analysis (Scripting)", "manual_pause": true },
-        "3": { "status": "idle", "label": "Director (Rendering)", "manual_pause": true },
-        "4": { "status": "idle", "label": "Studio (Distribution)", "manual_pause": false }
+        "1": {
+            "status": "running",
+            "label": "Intelligence (Scouting)",
+            "manual_pause": false
+        },
+        "2": {
+            "status": "idle",
+            "label": "Analysis (Scripting)",
+            "manual_pause": true
+        },
+        "3": {
+            "status": "idle",
+            "label": "Director (Rendering)",
+            "manual_pause": true
+        },
+        "4": {
+            "status": "idle",
+            "label": "Studio (Distribution)",
+            "manual_pause": false
+        }
+    }
+} }
+}     }
     }
 }

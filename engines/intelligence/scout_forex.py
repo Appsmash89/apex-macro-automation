@@ -4,6 +4,39 @@ import os
 from datetime import datetime
 from playwright.async_api import async_playwright
 
+import asyncio
+import json
+import os
+import time
+from datetime import datetime
+from playwright.async_api import async_playwright
+
+async def check_for_challenge(page, response=None):
+    """
+    MISSION 3.2.1: Multi-Signal Auditor
+    Detection Vectors: Headers (403/503 + cf-ray), Title ("Just a moment..."), Visuals.
+    """
+    # Vector 1: Response Headers
+    if response:
+        headers = response.headers
+        if response.status in [403, 503] and ("cf-ray" in headers or "cloudflare" in str(headers).lower()):
+            print("SIGNAL_AUDIT: CHALLENGE_DETECTED via Status/Headers", flush=True)
+            return True
+        
+    # Vector 2: Page Title
+    title = await page.title()
+    if "Just a moment..." in title or "Cloudflare" in title:
+        print(f"SIGNAL_AUDIT: CHALLENGE_DETECTED via Title ({title})", flush=True)
+        return True
+    
+    # Vector 3: Content Heuristics
+    content = await page.content()
+    if "challenges.cloudflare.com" in content or "Ray ID:" in content:
+        print("SIGNAL_AUDIT: CHALLENGE_DETECTED via Content Elements", flush=True)
+        return True
+
+    return False
+
 async def run_scout():
     # 1. Load Configuration
     with open("shared/config.json", "r") as f:
@@ -15,37 +48,64 @@ async def run_scout():
         # 2. Setup Data Directory
         os.makedirs("data", exist_ok=True)
         
-        # 3. Launch Browser in HEADED mode
-        print("Launching browser in HEADED mode for CEO verification...", flush=True)
-        browser = await p.chromium.launch(headless=False)
-        context = await browser.new_context()
+        # 3. Initial Launch (Headless attempt for automation)
+        print("Launching stealth browser for automated scouting...", flush=True)
+        browser = await p.chromium.launch(headless=True)
+        context = await browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        )
         page = await context.new_page()
         
         url = "https://www.forexfactory.com/calendar?day=today"
         print(f"Navigating to {url}...", flush=True)
-        await page.goto(url)
         
-        # 4. CEO Handover / Pause
-        print("\n" + "!"*60, flush=True)
-        print("ATTENTION CEO: Please solve the Cloudflare/Verification puzzle in the browser.", flush=True)
-        print("Press ENTER in THIS terminal once the Calendar is fully visible.", flush=True)
-        print("!"*60 + "\n", flush=True)
+        try:
+            response = await page.goto(url, wait_until="domcontentloaded", timeout=60000)
+            is_blocked = await check_for_challenge(page, response)
+        except Exception as e:
+            print(f"Navigation Failure: {e}", flush=True)
+            is_blocked = True
+
+        # MISSION 3.2.1: Handover Protocol
+        if is_blocked:
+            print("\n" + "!"*60, flush=True)
+            print("SIGNAL_AUDIT: VERIFICATION_WALL_DETECTED", flush=True)
+            print("MISSION_3.2.1: TRIGGERING_MANUAL_HANDOVER", flush=True)
+            print("!"*60 + "\n", flush=True)
+            
+            await browser.close()
+            
+            # Update Orchestrator to AWAITING_VERIFICATION
+            from pipeline_utils import update_pipeline_status
+            update_pipeline_status(1, "AWAITING_VERIFICATION")
+            
+            # Relaunch in HEADED mode
+            print("Starting Visible Browser for CEO Intervention...", flush=True)
+            browser = await p.chromium.launch(headless=False)
+            context = await browser.new_context()
+            page = await context.new_page()
+            await page.goto(url)
+            
+            # Wait for RESUME signal from UI
+            print("System Locking... Waiting for 'RESUME FACTORY' signal from Dashboard.", flush=True)
+            status_file = "data/pipeline_status.json"
+            while True:
+                await asyncio.sleep(2)
+                try:
+                    with open(status_file, "r") as f:
+                        data = json.load(f)
+                    if data["stages"]["1"]["status"] == "running":
+                        print("HANDOVER_COMPLETE: Resume signal detected. Proceeding.", flush=True)
+                        break
+                except Exception:
+                    continue
         
-        # Use asyncio to wait for user input in a non-blocking way for the event loop
-        # But since we are in a script, a simple input() in a thread or just loop is fine.
-        # Actually, in this environment, input() might block the whole process.
-        # However, for a one-off script run via run_command, it's the standard way.
-        loop = asyncio.get_event_loop()
-        await loop.run_in_executor(None, input, "Waiting for CEO confirmation... (Press Enter to continue)")
-        
-        print("CEO confirmed. Proceeding with data extraction...", flush=True)
-        
-        # 5. Data Extraction
+        # 4. Data Extraction (Visible or Headless)
+        print("Extracting intelligence from Forex Factory...", flush=True)
+        await page.wait_for_selector("tr.calendar__row", timeout=30000)
         rows = await page.query_selector_all("tr.calendar__row")
         
         extracted_news = []
-        
-        # Mapping impact names to their CSS patterns
         impact_map = {
             "high": "icon--ff-impact-red",
             "medium": "icon--ff-impact-ora",
@@ -53,7 +113,6 @@ async def run_scout():
         }
         
         for row in rows:
-            # Check impact
             impact_found = None
             for level, css_class in impact_map.items():
                 if level in impact_threshold:
@@ -76,24 +135,16 @@ async def run_scout():
                     "time": (await time_cell.inner_text()).strip() if time_cell else "N/A"
                 })
         
-        # 6. Save Data
-        output_path = "data/latest_news.json"
-        with open(output_path, "w") as f:
+        # 5. Save Data
+        with open("data/latest_news.json", "w") as f:
             json.dump(extracted_news, f, indent=4)
             
         print(f"Scout Agent: Extraction Complete. Found {len(extracted_news)} events.", flush=True)
-        print(f"Data saved to {output_path}", flush=True)
-        
-        # 7. Close Browser
-        await browser.close()
-
 if __name__ == "__main__":
     import sys
-    # Add parent to path to find pipeline_utils
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     from pipeline_utils import update_pipeline_status
     
-    # MISSION 2.7: Stage 1 (Intelligence Scouting)
     update_pipeline_status(1, "running")
     try:
         asyncio.run(run_scout())
