@@ -46,6 +46,9 @@
   - [x] Implement 4-Stage State Controller (Scouting/Analysis/Rendering/Distribution).
   - [x] Create Hard-Lock Manual Pause gates in Python Domain.
   - [x] Implement 2s Live Telemetry Polling in UI.
+- [x] MISSION 2.7.1: Production Recovery - Pipeline Integration.
+  - [x] Resolve 'getPipelineStatus' ReferenceError in page.tsx.
+  - [x] Verify data registry persistence for Vercel trace.
 
 ## Mission 0: Evolution (Structural Integrity)
 - [x] [Mission 0.1: Domain Isolation] - Transitioned to Modular Micro-Engine Framework. Logic isolated into intelligence, creative, and distribution domains.

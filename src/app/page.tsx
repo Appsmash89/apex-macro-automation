@@ -1,4 +1,4 @@
-import { getRoadmap, getConfig, getScript, getLatestNews, getAssets, getBroadcastHistory } from "@/lib/actions";
+import { getRoadmap, getConfig, getScript, getLatestNews, getAssets, getBroadcastHistory, getPipelineStatus } from "@/lib/actions";
 import DashboardShell from "@/components/DashboardShell";
 import { 
   Shield, 
