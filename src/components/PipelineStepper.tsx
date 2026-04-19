@@ -12,7 +12,7 @@ import {
   RotateCcw,
   Power
 } from "lucide-react";
-import { getPipelineStatus, resumePipeline, triggerNativeEngine, resumeVerification } from "@/lib/actions";
+import { getPipelineStatus, resumePipeline, triggerNativeEngine, resumeVerification, forceResetStage } from "@/lib/actions";
 
 interface PipelineStepperProps {
   initialStatus: any;
@@ -107,14 +107,25 @@ export default function PipelineStepper({ initialStatus }: PipelineStepperProps)
 
          <div className="flex items-center gap-6">
             {/* MISSION 3.1: Native Global Trigger */}
-            {currentStageData?.status === "idle" && !pipeline.is_paused && (
+            {(currentStageData?.status === "idle" || currentStageData?.status === "error") && !pipeline.is_paused && (
                <button 
                   onClick={() => handleTriggerNative(pipeline.current_stage)}
                   disabled={isExecuting}
                   className="flex items-center gap-4 bg-white text-black px-10 py-4 rounded-2xl font-black font-space uppercase text-xs tracking-widest transition-all hover:bg-velocity-blue hover:text-white glow-cyan-bg disabled:opacity-50"
                >
                   <Power size={18} />
-                  {isExecuting ? "INITIALIZING..." : `START_STAGE_${pipeline.current_stage}`}
+                  {isExecuting ? "INITIALIZING..." : (currentStageData?.status === "error" ? `RESTART_STAGE_${pipeline.current_stage}` : `START_STAGE_${pipeline.current_stage}`)}
+               </button>
+            )}
+
+            {/* MISSION 3.2.2: Force Reset Utility */}
+            {currentStageData?.status === "running" && (
+               <button 
+                  onClick={() => forceResetStage(pipeline.current_stage)}
+                  className="flex items-center gap-4 bg-market-crimson/20 text-market-crimson px-10 py-4 rounded-2xl font-black font-space uppercase text-xs tracking-widest border border-market-crimson/30 hover:bg-market-crimson hover:text-white transition-all"
+               >
+                  <RotateCcw size={18} />
+                  FORCE_RESET
                </button>
             )}
 

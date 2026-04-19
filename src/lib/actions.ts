@@ -157,6 +157,12 @@ export async function triggerNativeEngine(stage: number) {
     addPipelineLog(`AGENT_ERR [${stage}] >> ${data.toString().trim()}`);
   });
 
+  pythonProcess.on("error")?.((err) => {
+    console.error(`AGENT_SPAWN_ERR [${stage}]: ${err.message}`);
+    addPipelineLog(`AGENT_SPAWN_ERR [${stage}] >> ${err.message}`);
+    updatePipelineStage(stage, "error");
+  });
+
   pythonProcess.on("close", (code) => {
     console.log(`AGENT_DONE [${stage}]: Process exited with code ${code}`);
     if (code === 0) {
@@ -185,4 +191,11 @@ export async function pausePipeline(stage: number) {
  */
 export async function resumeVerification(stage: number) {
     return await updatePipelineStage(stage, "running");
+}
+/**
+ * MISSION 3.2.2: Force Reset Utility
+ * Clears stuck 'running' states manually.
+ */
+export async function forceResetStage(stage: number) {
+    return await updatePipelineStage(stage, "idle");
 }

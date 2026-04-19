@@ -1,12 +1,6 @@
 import asyncio
 import json
 import os
-from datetime import datetime
-from playwright.async_api import async_playwright
-
-import asyncio
-import json
-import os
 import time
 from datetime import datetime
 from playwright.async_api import async_playwright

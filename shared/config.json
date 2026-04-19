@@ -1,6 +1,10 @@
 {
-    "impact_threshold": ["high", "medium", "low"],
-    "auto_mode": false,
+    "impact_threshold": [
+        "high",
+        "medium",
+        "low"
+    ],
+    "auto_mode": true,
     "METADATA_SCHEMA": {
         "broadcast_status": "broadcast_status",
         "video_id": "youtube_id",

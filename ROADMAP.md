@@ -41,10 +41,11 @@
   - [x] Implement Top-Navigation Departments (Intelligence, Architect, Studio).
   - [x] Implement Macro Ticker news stream.
   - [x] Create persistent Architect parameter matrix (Auto-Publish Toggle).
+- [x] MISSION 3.2.2: Dead Button Audit & Signal Restoration.
+  - [x] Resolved JSON Metadata Corruption & State Lock.
+  - [x] Hardened native 'spawn' logic with Error Listeners (actions.ts).
+  - [x] Deployed CEO 'FORCE_RESET' Interface in Dashboard.
 - [x] MISSION 3.2.1: Robust Cloudflare Detection & Handover.
-  - [x] Implemented Multi-Signal Detection Engine (Headers/Title/Network).
-  - [x] Deployed Adaptive Headless-to-Headed Browser Transition.
-  - [x] Created Native UI 'RESUME_FACTORY' Pulse Button.
 - [x] MISSION 3.1: Local-Only Industrial Pivot & Terminal Fix.
 - [x] MISSION 2.9.2: Sovereign Launcher & Production Recovery.
   - [x] Purge final ghost reference (Elisa artifact) from START_APEX.bat.
