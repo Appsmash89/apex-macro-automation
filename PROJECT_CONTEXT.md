@@ -32,7 +32,7 @@
 - **Institutional Standard**: Design follows the Stitch No-Line Mandate. Component boundaries defined by background color shifts. Typography set to Inter (UI) and Space Grotesk (Data).
 
 ## [CURRENT_MISSION_STATE]
-"Mission 2.7.1 Complete: Pipeline Orchestrator active and Build Restored."
+"Mission 2.8 Complete: One-Click Factory Active."
 - **Status**: COMPLETE.
 
 ## [WALL_OF_FAILURES]
@@ -43,6 +43,7 @@
 - **RESOLVED**: Legacy Artifacts - Fixed in Mission 0.1.1 with `backend/` removal.
 
 ## [LIVE_FILE_SYSTEM_MAP]
+- START_APEX.bat
 - data/
   - broadcast_history.json
   - current_script.json
@@ -50,6 +51,7 @@
   - pipeline_status.json
   - session_cookies.json
 - engines/
+  - bridge_relay.py
   - pipeline_utils.py
   - creative/
     - director_audio.py
@@ -112,5 +114,8 @@
 - token.json
 - tsconfig.json
 
----
+- [x] MISSION 2.8: Sovereign Launcher & Full Pipeline Integration.
+  - [x] Create 'engines/bridge_relay.py' Command Relay.
+  - [x] Create 'START_APEX.bat' One-Click Launcher.
+  - [x] Integrate UI buttons with Local Bridge triggers.
 *This file is the Source of Truth. Update it at the end of every session.*

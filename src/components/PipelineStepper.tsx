@@ -9,21 +9,22 @@ import {
   Zap,
   ArrowRight,
   ShieldCheck,
-  RotateCcw
+  RotateCcw,
+  Power
 } from "lucide-react";
-import { getPipelineStatus, resumePipeline, pausePipeline } from "@/lib/actions";
+import { getPipelineStatus, resumePipeline } from "@/lib/actions";
 
 interface PipelineStepperProps {
   initialStatus: any;
 }
 
 /**
- * MISSION 2.7: Sovereign Orchestrator Stepper
- * 4-Stage Multi-Engine Telemetry: Scouting -> Analysis -> Rendering -> Distribution.
- * Features: 2s Polling + Hard-Lock "RESUME" Gates.
+ * MISSION 2.8: Sovereign Orchestrator (Fully Integrated)
+ * Features: 2s Polling + Hard-Lock Gates + Local Bridge Command Relay.
  */
 export default function PipelineStepper({ initialStatus }: PipelineStepperProps) {
   const [pipeline, setPipeline] = useState(initialStatus);
+  const [isRelayLoading, setIsRelayLoading] = useState(false);
 
   // MISSION 2.7: Live Telemetry Pulse (2s Polling)
   useEffect(() => {
@@ -44,20 +45,38 @@ export default function PipelineStepper({ initialStatus }: PipelineStepperProps)
     { id: 4, label: "Studio", sub: "Distribution", icon: ShieldCheck }
   ];
 
+  // MISSION 2.8: Local Bridge Trigger Logic
+  const triggerLocalEngine = async (stageId: number) => {
+    setIsRelayLoading(true);
+    try {
+      const response = await fetch(`http://localhost:5000/trigger/${stageId}`, {
+        method: "POST",
+      });
+      const data = await response.json();
+      console.log("RELAY_RESPONSE:", data);
+    } catch (err) {
+      console.error("RELAY_OFFLINE: Ensure engines/bridge_relay.py is running locally.", err);
+      alert("BRIDGE_OFFLINE: Ensure the Command Relay is running on Port 5000.");
+    } finally {
+      setIsRelayLoading(false);
+    }
+  };
+
   const handleResume = async () => {
     await resumePipeline(pipeline.current_stage);
   };
 
   const stageData = (id: number) => pipeline.stages[id.toString()];
+  const currentStageData = stageData(pipeline.current_stage);
 
   return (
     <div className="bg-surface-low/30 rounded-3xl p-12 border border-white/5 space-y-12 shadow-2xl relative overflow-hidden group/pipeline">
       {/* 1. Header: Sovereign Guard Status */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between relative z-10">
          <div className="space-y-2">
             <h2 className="text-2xl font-black flex items-center gap-5 font-space uppercase tracking-tight">
                <ShieldCheck className="text-velocity-blue" size={30} />
-               SOVEREIGN_ORCHESTRATOR_v2.7
+               SOVEREIGN_ORCHESTRATOR_v2.8
             </h2>
             <div className="flex items-center gap-4">
                <div className={`w-2 h-2 rounded-full ${pipeline.is_paused ? "bg-market-crimson glow-crimson" : "bg-emerald-500 glow-sage animate-pulse"}`}></div>
@@ -67,20 +86,33 @@ export default function PipelineStepper({ initialStatus }: PipelineStepperProps)
             </div>
          </div>
 
-         {pipeline.is_paused && (
-            <button 
-              onClick={handleResume}
-              className="flex items-center gap-4 bg-velocity-blue text-black px-10 py-4 rounded-2xl font-black font-space uppercase text-xs tracking-widest glow-cyan-bg transition-all hover:scale-105 active:scale-95 animate-bounce"
-            >
-               <Play size={18} fill="black" />
-               RESUME_PIPELINE
-            </button>
-         )}
+         <div className="flex items-center gap-6">
+            {/* MISSION 2.8: Global Trigger Button */}
+            {currentStageData?.status === "idle" && !pipeline.is_paused && (
+               <button 
+                  onClick={() => triggerLocalEngine(pipeline.current_stage)}
+                  disabled={isRelayLoading}
+                  className="flex items-center gap-4 bg-white text-black px-10 py-4 rounded-2xl font-black font-space uppercase text-xs tracking-widest transition-all hover:bg-velocity-blue hover:text-white glow-cyan-bg disabled:opacity-50"
+               >
+                  <Power size={18} />
+                  {isRelayLoading ? "INITIALIZING..." : `START_STAGE_${pipeline.current_stage}`}
+               </button>
+            )}
+
+            {pipeline.is_paused && (
+               <button 
+               onClick={handleResume}
+               className="flex items-center gap-4 bg-velocity-blue text-black px-10 py-4 rounded-2xl font-black font-space uppercase text-xs tracking-widest glow-cyan-bg transition-all hover:scale-105 active:scale-95 animate-bounce"
+               >
+                  <Play size={18} fill="black" />
+                  RESUME_PIPELINE
+               </button>
+            )}
+         </div>
       </div>
 
       {/* 2. 4-Stage Stepper Matrix */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative items-start">
-         {/* Adaptive Connector Line */}
          <div className="hidden md:block absolute top-[2.75rem] left-0 w-full h-[2px] bg-white/5 -z-10 overflow-hidden">
             <div 
                className="h-full bg-velocity-blue transition-all duration-1000 glow-cyan"

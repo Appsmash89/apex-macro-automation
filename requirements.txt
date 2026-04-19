@@ -8,6 +8,8 @@ beautifulsoup4
 google-api-python-client
 google-auth-oauthlib
 google-auth-httplib2
+flask
+flask-cors
 
 # PROJECT APEX: SECURE LAUNCH CONFIGURATION
 # No API keys required for core modules (Edge-TTS)
