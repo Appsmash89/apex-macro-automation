@@ -85,6 +85,8 @@
 - .gitignore
 - ROADMAP.md
 - PROJECT_CONTEXT.md
+- DESIGN.md
+- DECISION_LOG.md
 - AGENTS.md
 - CLAUDE.md
 - client_secret.json
