@@ -65,8 +65,25 @@ export default function PipelineStepper({ initialStatus }: PipelineStepperProps)
   };
 
   const handleResume = async () => {
+    if (!pipeline) return;
     await resumePipeline(pipeline.current_stage);
   };
+
+  // MISSION 3.2.1: Defensive Rendering Bridge
+  // Prevents "null" descriptor crashes during cold-start or telemetry gaps.
+  if (!pipeline || !pipeline.stages) {
+    return (
+      <div className="bg-surface-low/30 rounded-3xl p-12 border border-white/5 space-y-12 shadow-2xl relative overflow-hidden flex flex-col items-center justify-center min-h-[400px]">
+         <div className="space-y-6 text-center">
+            <Activity className="text-velocity-blue mx-auto animate-pulse" size={48} />
+            <div className="space-y-2">
+               <h2 className="text-xl font-black font-space uppercase tracking-tight text-white">WAR_ROOM_INITIALIZING</h2>
+               <p className="text-[10px] font-mono text-gray-600 uppercase tracking-widest">AWAITING_LOCAL_ORCHESTRATOR_SYNC...</p>
+            </div>
+         </div>
+      </div>
+    );
+  }
 
   const stageData = (id: number) => pipeline.stages[id.toString()];
   const currentStageData = stageData(pipeline.current_stage);

@@ -11,7 +11,18 @@ export async function getPipelineStatus() {
     const content = await fs.readFile(STATUS_PATH, "utf-8");
     return JSON.parse(content);
   } catch (err) {
-    return null;
+    // MISSION 3.2.1: Default Telemetry Blueprint
+    return {
+       current_stage: 1,
+       is_paused: false,
+       logs: ["ORCHESTRATOR_WARMUP: Awaiting industrial telemetry..."],
+       stages: {
+          "1": { status: "idle", label: "Intelligence", manual_pause: false },
+          "2": { status: "idle", label: "Analysis", manual_pause: true },
+          "3": { status: "idle", label: "Director", manual_pause: true },
+          "4": { status: "idle", label: "Studio", manual_pause: false }
+       }
+    };
   }
 }
 
