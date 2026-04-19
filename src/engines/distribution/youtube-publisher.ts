@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { google } from "googleapis";
+import { BroadcastRegistry } from "../../../shared/broadcast_registry";
 
 const SCOPES = ["https://www.googleapis.com/auth/youtube.upload"];
 
@@ -75,10 +76,10 @@ export async function uploadToYouTube() {
 
   validateScriptSchema(script, schema);
 
-  // MISSION 8.1: Idempotency Gatekeeper
-  if (script[schema.broadcast_status] === "published") {
+  // MISSION 8.1 / 2.4: Idempotency Gatekeeper
+  if (script[schema.broadcast_status] === "published" || BroadcastRegistry.isPublished("FINAL_OUTPUT.mp4")) {
     console.error("INTEGRITY_ERR: This content version has already been broadcast. Aborting distribution.");
-    throw new Error("INTEGRITY_ERR: Content already broadcasted.");
+    throw new Error("409 Conflict: Content already broadcasted.");
   }
 
   // MISSION 7.3: Metadata Validation
@@ -136,6 +137,10 @@ export async function uploadToYouTube() {
     script.youtube_url = `https://youtu.be/${response.data.id}`;
     
     fs.writeFileSync(scriptFilePath, JSON.stringify(script, null, 4));
+    
+    // MISSION 2.4: Registry Commitment
+    BroadcastRegistry.register("FINAL_OUTPUT.mp4", response.data.id!, `https://youtu.be/${response.data.id}`);
+    
     console.log("Unified Engine: State Lock Engaged (Schema Compliant).");
 
     return {

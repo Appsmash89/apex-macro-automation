@@ -75,3 +75,14 @@ export async function getLatestNews() {
     return [];
   }
 }
+
+export async function getAssets() {
+  const dataPath = path.join(process.cwd(), "public", "data");
+  try {
+    const files = await fs.readdir(dataPath);
+    return files.filter(f => f.endsWith(".mp4") || f.endsWith(".mp3"));
+  } catch (err) {
+    console.error("Asset Fetch Failed:", err);
+    return [];
+  }
+}
