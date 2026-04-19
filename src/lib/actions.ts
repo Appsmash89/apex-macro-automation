@@ -157,7 +157,7 @@ export async function triggerNativeEngine(stage: number) {
     addPipelineLog(`AGENT_ERR [${stage}] >> ${data.toString().trim()}`);
   });
 
-  pythonProcess.on("error")?.((err) => {
+  pythonProcess.on("error", (err) => {
     console.error(`AGENT_SPAWN_ERR [${stage}]: ${err.message}`);
     addPipelineLog(`AGENT_SPAWN_ERR [${stage}] >> ${err.message}`);
     updatePipelineStage(stage, "error");

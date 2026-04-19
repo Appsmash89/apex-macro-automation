@@ -2,12 +2,18 @@
     "current_stage": 1,
     "is_paused": false,
     "logs": [
+        "[6:26:52 PM] STAGE_1 >> Extracting intelligence from Forex Factory...",
+        "[6:26:50 PM] STAGE_1 >> Navigating to https://www.forexfactory.com/calendar?day=today...",
+        "[6:26:50 PM] STAGE_1 >> Launching stealth browser for automated scouting...",
+        "[6:26:49 PM] STAGE_1 >> ORCHESTRATOR_SYNC: Stage [1] marked as [running]",
+        "[18:26:49] Stage 1: RUNNING",
+        "[6:26:49 PM] Stage 1: RUNNING",
         "[18:07:37] Stage 1: IDLE_RESET",
         "Sovereign Orchestrator Initialized."
     ],
     "stages": {
         "1": {
-            "status": "idle",
+            "status": "running",
             "label": "Intelligence (Scouting)",
             "manual_pause": false
         },
