@@ -1,137 +1,147 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Activity, 
   CheckCircle2, 
   Pause, 
   Play, 
   Zap,
-  ArrowRight
+  ArrowRight,
+  ShieldCheck,
+  RotateCcw
 } from "lucide-react";
-import { togglePipelinePause, togglePipelineAutoNext } from "@/lib/actions";
+import { getPipelineStatus, resumePipeline, pausePipeline } from "@/lib/actions";
 
 interface PipelineStepperProps {
   initialStatus: any;
 }
 
 /**
- * MISSION 2.7: Integrated Pipeline Stepper
- * Visualization for: Intelligence -> Creative -> Studio -> Distribution.
- * Controls: Auto-Progression toggle + Stage-level pause guards.
+ * MISSION 2.7: Sovereign Orchestrator Stepper
+ * 4-Stage Multi-Engine Telemetry: Scouting -> Analysis -> Rendering -> Distribution.
+ * Features: 2s Polling + Hard-Lock "RESUME" Gates.
  */
 export default function PipelineStepper({ initialStatus }: PipelineStepperProps) {
   const [pipeline, setPipeline] = useState(initialStatus);
 
+  // MISSION 2.7: Live Telemetry Pulse (2s Polling)
+  useEffect(() => {
+    const pollInterval = setInterval(async () => {
+      const latest = await getPipelineStatus();
+      if (latest) {
+        setPipeline(latest);
+      }
+    }, 2000);
+
+    return () => clearInterval(pollInterval);
+  }, []);
+
   const stages = [
-    { id: "intelligence", label: "Intelligence Relay", sub: "Scout / Analyst" },
-    { id: "creative", label: "Creative Engine", sub: "Video / Audio" },
-    { id: "studio", label: "Apex Studio", sub: "Assembly / Guard" }
+    { id: 1, label: "Intelligence", sub: "Scouting (Live)", icon: Activity },
+    { id: 2, label: "Analysis", sub: "Scripting (Gate)", icon: Zap },
+    { id: 3, label: "Director", sub: "Rendering (Gate)", icon: RotateCcw },
+    { id: 4, label: "Studio", sub: "Distribution", icon: ShieldCheck }
   ];
 
-  const handleToggleAutoNext = async () => {
-    const newVal = !pipeline.auto_next;
-    setPipeline({ ...pipeline, auto_next: newVal });
-    await togglePipelineAutoNext(newVal);
+  const handleResume = async () => {
+    await resumePipeline(pipeline.current_stage);
   };
 
-  const handleTogglePause = async (stageId: string) => {
-    const newVal = !pipeline.stages[stageId].paused;
-    const newPipeline = { ...pipeline };
-    newPipeline.stages[stageId].paused = newVal;
-    setPipeline(newPipeline);
-    await togglePipelinePause(stageId, newVal);
-  };
-
-  const getStageStatus = (stageId: string) => {
-    if (pipeline.stage === stageId) return pipeline.status;
-    // Simple logic for non-active stages
-    const stageIdx = stages.findIndex(s => s.id === stageId);
-    const activeIdx = stages.findIndex(s => s.id === pipeline.stage);
-    if (stageIdx < activeIdx) return "complete";
-    return "idle";
-  };
+  const stageData = (id: number) => pipeline.stages[id.toString()];
 
   return (
-    <div className="bg-surface-low/30 rounded-3xl p-12 border border-white/5 space-y-12 shadow-2xl relative overflow-hidden">
+    <div className="bg-surface-low/30 rounded-3xl p-12 border border-white/5 space-y-12 shadow-2xl relative overflow-hidden group/pipeline">
+      {/* 1. Header: Sovereign Guard Status */}
       <div className="flex items-center justify-between">
-         <h2 className="text-2xl font-black flex items-center gap-5 font-space uppercase tracking-tight">
-            <Zap className="text-velocity-blue" size={30} />
-            PIPELINE_CONTROLLER_v2.7
-         </h2>
-         <div className="flex items-center gap-6">
-            <button 
-              onClick={handleToggleAutoNext}
-              className={`flex items-center gap-3 px-6 py-2 rounded-full border transition-all ${
-                pipeline.auto_next ? "bg-velocity-blue/10 border-velocity-blue text-velocity-blue" : "bg-surface-std border-white/5 text-gray-500"
-              }`}
-            >
-               <div className={`w-1.5 h-1.5 rounded-full ${pipeline.auto_next ? "bg-velocity-blue glow-cyan animate-pulse" : "bg-gray-600"}`}></div>
-               <span className="text-[10px] font-mono font-black uppercase tracking-widest">AUTO_PROG: {pipeline.auto_next ? "ACTIVE" : "PAUSED"}</span>
-            </button>
+         <div className="space-y-2">
+            <h2 className="text-2xl font-black flex items-center gap-5 font-space uppercase tracking-tight">
+               <ShieldCheck className="text-velocity-blue" size={30} />
+               SOVEREIGN_ORCHESTRATOR_v2.7
+            </h2>
+            <div className="flex items-center gap-4">
+               <div className={`w-2 h-2 rounded-full ${pipeline.is_paused ? "bg-market-crimson glow-crimson" : "bg-emerald-500 glow-sage animate-pulse"}`}></div>
+               <span className="text-[9px] font-mono font-black uppercase tracking-widest text-gray-500">
+                  SYSTEM_LOCK: {pipeline.is_paused ? "PAUSED_FOR_REVIEW" : "AUTONOMOUS_FLOW"}
+               </span>
+            </div>
          </div>
+
+         {pipeline.is_paused && (
+            <button 
+              onClick={handleResume}
+              className="flex items-center gap-4 bg-velocity-blue text-black px-10 py-4 rounded-2xl font-black font-space uppercase text-xs tracking-widest glow-cyan-bg transition-all hover:scale-105 active:scale-95 animate-bounce"
+            >
+               <Play size={18} fill="black" />
+               RESUME_PIPELINE
+            </button>
+         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-         {/* Connector Lines */}
-         <div className="hidden md:block absolute top-[2.75rem] left-0 w-full h-[1px] bg-white/5 -z-10"></div>
+      {/* 2. 4-Stage Stepper Matrix */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative items-start">
+         {/* Adaptive Connector Line */}
+         <div className="hidden md:block absolute top-[2.75rem] left-0 w-full h-[2px] bg-white/5 -z-10 overflow-hidden">
+            <div 
+               className="h-full bg-velocity-blue transition-all duration-1000 glow-cyan"
+               style={{ width: `${((pipeline.current_stage - 1) / 3) * 100}%` }}
+            ></div>
+         </div>
          
-         {stages.map((stage, idx) => {
-           const status = getStageStatus(stage.id);
-           const isPaused = pipeline.stages[stage.id]?.paused;
+         {stages.map((stage) => {
+           const data = stageData(stage.id);
+           const isActive = pipeline.current_stage === stage.id;
+           const isComplete = pipeline.current_stage > stage.id;
+           const StatusIcon = stage.icon;
 
            return (
-             <div key={stage.id} className="space-y-6 group">
-                <div className="flex items-center gap-6">
-                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center border-2 transition-all duration-500 ${
-                     status === "running" ? "bg-velocity-blue/10 border-velocity-blue glow-cyan" :
-                     status === "complete" ? "bg-emerald-500/10 border-emerald-500" :
+             <div key={stage.id} className={`space-y-6 transition-all duration-700 ${isActive ? "opacity-100 scale-100" : "opacity-30 scale-95"}`}>
+                <div className="flex flex-col items-center gap-6 text-center md:items-start md:text-left">
+                   <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border-2 transition-all duration-500 ${
+                     isActive ? "bg-velocity-blue/10 border-velocity-blue glow-cyan" :
+                     isComplete ? "bg-emerald-500/10 border-emerald-500" :
                      "bg-surface-std border-white/5"
                    }`}>
-                      {status === "running" ? <Activity size={20} className="text-velocity-blue animate-pulse" /> :
-                       status === "complete" ? <CheckCircle2 size={20} className="text-emerald-500" /> :
-                       <Zap size={20} className="text-gray-700" />}
+                      {isComplete ? <CheckCircle2 size={24} className="text-emerald-500" /> : <StatusIcon size={24} className={isActive ? "text-velocity-blue animate-pulse" : "text-gray-700"} />}
                    </div>
-                   <div className="flex-1">
-                      <h4 className="text-[11px] font-black font-space uppercase tracking-widest leading-none mb-1 group-hover:text-velocity-blue transition-colors">{stage.label}</h4>
-                      <p className="text-[8px] text-gray-600 font-mono uppercase tracking-[0.2em]">{stage.sub}</p>
+                   <div className="space-y-1">
+                      <h4 className="text-[11px] font-black font-space uppercase tracking-widest text-white leading-none">{stage.label}</h4>
+                      <p className="text-[8px] text-gray-600 font-mono uppercase tracking-widest">{stage.sub}</p>
                    </div>
                 </div>
 
-                <div className="p-6 bg-surface-base/50 rounded-2xl border border-white/5 flex items-center justify-between group-hover:bg-surface-std transition-all">
-                   <div className="flex items-center gap-4">
-                      {isPaused ? <Pause size={14} className="text-market-crimson" /> : <Play size={14} className="text-velocity-blue" />}
-                      <span className={`text-[9px] font-mono font-black uppercase tracking-widest ${isPaused ? "text-market-crimson" : "text-gray-600"}`}>
-                        {isPaused ? "HOLD_ACTIVE" : "FLOW_ENABLED"}
-                      </span>
+                {isActive && (
+                   <div className="p-4 bg-surface-base/80 rounded-xl border border-white/5 backdrop-blur-md">
+                      <div className="flex items-center justify-between font-mono text-[8px] tracking-widest">
+                         <span className="text-gray-600">STATUS:</span>
+                         <span className="text-velocity-blue font-black uppercase text-[10px]">{data.status}</span>
+                      </div>
                    </div>
-                   <button 
-                     onClick={() => handleTogglePause(stage.id)}
-                     className={`px-4 py-2 rounded-lg text-[9px] font-mono font-black uppercase tracking-widest transition-all ${
-                       isPaused ? "bg-market-crimson/10 text-market-crimson hover:bg-market-crimson/20" : "bg-surface-high text-gray-400 hover:text-white"
-                     }`}
-                   >
-                     {isPaused ? "RESUME" : "PAUSE"}
-                   </button>
-                </div>
+                )}
              </div>
            );
          })}
       </div>
 
-      <div className="bg-surface-std p-8 rounded-2xl border border-white/5 relative overflow-hidden">
-         <div className="flex items-center justify-between font-mono text-[9px] tracking-widest">
-            <div className="flex items-center gap-4">
-               <span className="text-gray-600 uppercase">CURRENT_PIPELINE_STATUS:</span>
-               <span className={`font-black uppercase ${pipeline.status === "running" ? "text-velocity-blue animate-pulse" : "text-emerald-500"}`}>
-                 {pipeline.stage} // {pipeline.status}
-               </span>
-            </div>
-            <div className="flex items-center gap-4 text-gray-600">
-               <Activity size={12} />
-               <span>SYSTEM_SYNC_STABLE</span>
-            </div>
+      {/* 3. Real-Time Command Logs */}
+      <div className="bg-surface-std/50 p-8 rounded-2xl border border-white/5 space-y-4">
+         <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
+            <h3 className="text-[9px] font-black font-space uppercase tracking-widest text-gray-500 italic">// COMMAND_LOGS_STREAM</h3>
+            <span className="text-[8px] font-mono text-gray-700 uppercase">Buffer: 10/10</span>
          </div>
+         <div className="space-y-3">
+            {pipeline.logs.map((log: string, idx: number) => (
+              <div key={idx} className={`font-mono text-[9px] tracking-widest transition-all duration-500 ${idx === 0 ? "text-velocity-blue translate-x-2" : "text-gray-600 opacity-60"}`}>
+                <span className="text-velocity-blue/30 mr-4">{">"}</span>
+                {log}
+              </div>
+            ))}
+         </div>
+      </div>
+
+      {/* Background Decor */}
+      <div className="absolute -bottom-20 -right-20 opacity-5 pointer-events-none group-hover/pipeline:opacity-10 transition-opacity duration-1000">
+         <ShieldCheck size={300} className="text-velocity-blue" />
       </div>
     </div>
   );

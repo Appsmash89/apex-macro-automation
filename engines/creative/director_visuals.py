@@ -122,7 +122,8 @@ if __name__ == "__main__":
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     from pipeline_utils import update_pipeline_status
     
-    update_pipeline_status("creative", "running")
+    # MISSION 2.7: Stage 3 (Director Rendering)
+    update_pipeline_status(3, "running")
     # To run: manim -pql src/director_visuals.py MacroPulseShort
     # (Note: Manim usually handles exit codes, but we wrap for pipeline sync)
-    update_pipeline_status("creative", "complete")
+    update_pipeline_status(3, "complete")

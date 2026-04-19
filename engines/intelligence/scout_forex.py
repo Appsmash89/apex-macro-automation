@@ -93,10 +93,11 @@ if __name__ == "__main__":
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     from pipeline_utils import update_pipeline_status
     
-    update_pipeline_status("intelligence", "running")
+    # MISSION 2.7: Stage 1 (Intelligence Scouting)
+    update_pipeline_status(1, "running")
     try:
         asyncio.run(run_scout())
-        update_pipeline_status("intelligence", "complete")
+        update_pipeline_status(1, "complete")
     except Exception as e:
-        update_pipeline_status("intelligence", "failed")
+        update_pipeline_status(1, "error")
         raise e

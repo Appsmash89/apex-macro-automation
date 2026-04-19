@@ -42,10 +42,10 @@
   - [x] Implement Macro Ticker news stream.
   - [x] Create persistent Architect parameter matrix (Auto-Publish Toggle).
   - [x] Harden Studio list with Sovereign Guard safety locks.
-- [x] MISSION 2.7: Integrated Pipeline & Automation Guard.
-  - [x] Implement stateful Pipeline Controller (PipelineStepper).
-  - [x] Create Automation Safety Guards (Manual Pause points).
-  - [x] Instrument Python Engines with pipeline telemetry hooks.
+- [x] MISSION 2.7: Integrated Pipeline & Automation Guard - The Sovereign Orchestrator.
+  - [x] Implement 4-Stage State Controller (Scouting/Analysis/Rendering/Distribution).
+  - [x] Create Hard-Lock Manual Pause gates in Python Domain.
+  - [x] Implement 2s Live Telemetry Polling in UI.
 
 ## Mission 0: Evolution (Structural Integrity)
 - [x] [Mission 0.1: Domain Isolation] - Transitioned to Modular Micro-Engine Framework. Logic isolated into intelligence, creative, and distribution domains.

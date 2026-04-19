@@ -1,10 +1,13 @@
 {
-    "stage": "intelligence",
-    "status": "idle",
-    "auto_next": true,
+    "current_stage": 1,
+    "is_paused": false,
+    "logs": [
+        "Sovereign Orchestrator Initialized."
+    ],
     "stages": {
-        "intelligence": { "paused": false, "label": "Scout // Analyst" },
-        "creative": { "paused": false, "label": "Social Director" },
-        "studio": { "paused": false, "label": "Apex Studio" }
+        "1": { "status": "idle", "label": "Intelligence (Scouting)", "manual_pause": false },
+        "2": { "status": "idle", "label": "Analysis (Scripting)", "manual_pause": true },
+        "3": { "status": "idle", "label": "Director (Rendering)", "manual_pause": true },
+        "4": { "status": "idle", "label": "Studio (Distribution)", "manual_pause": false }
     }
 }

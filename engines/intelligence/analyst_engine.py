@@ -109,11 +109,12 @@ if __name__ == "__main__":
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     from pipeline_utils import update_pipeline_status
     
-    update_pipeline_status("intelligence", "running")
+    # MISSION 2.7: Stage 2 (Analysis Scripting)
+    update_pipeline_status(2, "running")
     try:
         main()
-        update_pipeline_status("intelligence", "complete")
+        update_pipeline_status(2, "complete")
     except Exception as e:
-        update_pipeline_status("intelligence", "failed")
+        update_pipeline_status(2, "error")
         raise e
 
