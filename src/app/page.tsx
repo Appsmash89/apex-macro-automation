@@ -11,6 +11,7 @@ export default async function DashboardPage() {
   const script = await getScript();
   const latestNews = await getLatestNews();
   const assets = await getAssets();
+  const broadcastHistory = await getBroadcastHistory();
 
   // DASHBOARD MISSION PARSING (Recent 10)
   const roadmapMissions = roadmapText
@@ -63,6 +64,7 @@ export default async function DashboardPage() {
         script={script}
         roadmapMissions={roadmapMissions}
         assets={assets}
+        broadcastHistory={broadcastHistory}
       />
 
       {/* 3. TACTICAL FOOTER (TELEMETRY STRIP) */}

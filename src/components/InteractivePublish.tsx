@@ -2,29 +2,29 @@
 
 import { useState, useTransition, useEffect } from "react";
 import { publishToYouTube } from "@/lib/actions";
-import { Youtube, Loader2, CheckCircle2, AlertCircle, PlaySquare, X, ShieldAlert } from "lucide-react";
+import { Loader2, CheckCircle2, AlertCircle, PlaySquare, X, ShieldAlert, Lock } from "lucide-react";
 
 interface InteractivePublishProps {
   initialStatus?: string;
 }
 
 /**
- * MISSION 2.4: Tactical Interaction Hardening
+ * MISSION 2.4 Hardened: Tactical Interaction Logic
  * Law: 0.5s Precision Trigger + Industrial Confirmation Modal.
- * Telemetry: Mocked progress bar for uplink visibility.
+ * Law: Explicit LOCKED state for Idempotency Guard triggers.
  */
 export default function InteractivePublish({ initialStatus }: InteractivePublishProps) {
-  const [status, setStatus] = useState<"READY" | "HOLDING" | "CONFIRMING" | "UPLOADING" | "SUCCESS" | "ERROR">("READY");
+  const [status, setStatus] = useState<"READY" | "HOLDING" | "CONFIRMING" | "UPLOADING" | "SUCCESS" | "LOCKED" | "ERROR">("READY");
   const [message, setMessage] = useState("");
   const [holdProgress, setHoldProgress] = useState(0);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isPending, startTransition] = useTransition();
 
-  // MISSION 8.1: State Synchronization
+  // MISSION 8.1 / 2.4: State Synchronization
   useEffect(() => {
     if (initialStatus === "published") {
-      setStatus("SUCCESS");
-      setMessage("BROADCAST_LOCKED // SYNC_SUCCESS");
+      setStatus("LOCKED");
+      setMessage("BROADCAST_REGISTRY // CONTENT_LOCKED");
     }
   }, [initialStatus]);
 
@@ -47,7 +47,7 @@ export default function InteractivePublish({ initialStatus }: InteractivePublish
     return () => clearInterval(interval);
   }, [status]);
 
-  // Telemetry Progress Simulation (Mocking the fetch stream for UI)
+  // Telemetry Progress Simulation
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (status === "UPLOADING") {
@@ -76,8 +76,14 @@ export default function InteractivePublish({ initialStatus }: InteractivePublish
         setStatus("SUCCESS");
         setMessage("MISSION_PARITY_ACHIEVED");
       } else {
-        setStatus("ERROR");
-        setMessage(result.error || "UPLINK_INTERRUPTED");
+        // DETECT 409 CONFLICT (IDEMPOTENCY TRIGGER)
+        if (result.error?.includes("409")) {
+          setStatus("LOCKED");
+          setMessage("IDEMPOTENCY_GUARD: CONTENT_ALREADY_BROADCASTED");
+        } else {
+          setStatus("ERROR");
+          setMessage(result.error || "UPLINK_INTERRUPTED");
+        }
       }
     });
   }
@@ -96,10 +102,12 @@ export default function InteractivePublish({ initialStatus }: InteractivePublish
         onMouseDown={handleStartHold}
         onMouseUp={handleEndHold}
         onMouseLeave={handleEndHold}
-        disabled={status === "UPLOADING" || status === "SUCCESS" || isPending}
+        disabled={status === "UPLOADING" || status === "SUCCESS" || status === "LOCKED" || isPending}
         className={`w-full py-8 rounded-xl font-space font-black text-xl uppercase tracking-[0.25em] transition-all duration-500 flex items-center justify-center gap-6 relative overflow-hidden active:scale-95 ${
           status === "SUCCESS" 
             ? "bg-sage-green/10 text-sage-green cursor-not-allowed opacity-80" 
+            : status === "LOCKED"
+            ? "bg-market-crimson/10 text-market-crimson cursor-not-allowed opacity-80"
             : status === "ERROR"
             ? "bg-market-crimson/10 text-market-crimson"
             : status === "HOLDING" || status === "CONFIRMING"
@@ -131,7 +139,12 @@ export default function InteractivePublish({ initialStatus }: InteractivePublish
         ) : status === "SUCCESS" ? (
           <>
             <CheckCircle2 size={28} />
-            LOCKED_FOR_SYNDICATION
+            SYNDICATION_COMPLETE
+          </>
+        ) : status === "LOCKED" ? (
+          <>
+            <Lock size={28} className="text-market-crimson glow-crimson" />
+            BROADCAST_LOCKED
           </>
         ) : status === "ERROR" ? (
           <>
@@ -183,11 +196,11 @@ export default function InteractivePublish({ initialStatus }: InteractivePublish
 
       {message && (
         <div className={`mt-6 p-6 rounded-xl font-mono text-[10px] uppercase tracking-[0.3em] flex items-center gap-4 glass-tactical border-none relative overflow-hidden ${
-          status === "SUCCESS" ? "text-velocity-blue/60" : "text-market-crimson/60"
+          status === "SUCCESS" ? "text-velocity-blue/60" : "status" === "LOCKED" ? "text-market-crimson/60" : "text-market-crimson/60"
         }`}>
           <div className={`w-1 h-6 ${status === "SUCCESS" ? "bg-velocity-blue" : "bg-market-crimson"} opacity-20`}></div>
           {message}
-          <div className="ml-auto opacity-20 uppercase font-black tracking-tighter">{status === "SUCCESS" ? "LOCKED" : "v2.4"}</div>
+          <div className="ml-auto opacity-20 uppercase font-black tracking-tighter">{status === "SUCCESS" ? "PARITY" : status === "LOCKED" ? "LOCKED" : "v2.4"}</div>
         </div>
       )}
     </div>

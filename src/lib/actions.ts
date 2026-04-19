@@ -86,3 +86,13 @@ export async function getAssets() {
     return [];
   }
 }
+
+export async function getBroadcastHistory() {
+  const filePath = path.join(process.cwd(), "data", "broadcast_history.json");
+  try {
+    const content = await fs.readFile(filePath, "utf-8");
+    return JSON.parse(content);
+  } catch (err) {
+    return [];
+  }
+}
