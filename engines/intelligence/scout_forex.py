@@ -88,4 +88,15 @@ async def run_scout():
         await browser.close()
 
 if __name__ == "__main__":
-    asyncio.run(run_scout())
+    import sys
+    # Add parent to path to find pipeline_utils
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from pipeline_utils import update_pipeline_status
+    
+    update_pipeline_status("intelligence", "running")
+    try:
+        asyncio.run(run_scout())
+        update_pipeline_status("intelligence", "complete")
+    except Exception as e:
+        update_pipeline_status("intelligence", "failed")
+        raise e

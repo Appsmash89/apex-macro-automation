@@ -104,5 +104,16 @@ def main():
     print(f"Analyst Engine: Mission 2.0 Complete. Script saved to {output_path}", flush=True)
 
 if __name__ == "__main__":
-    main()
+    import sys
+    # Add parent to path to find pipeline_utils
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from pipeline_utils import update_pipeline_status
+    
+    update_pipeline_status("intelligence", "running")
+    try:
+        main()
+        update_pipeline_status("intelligence", "complete")
+    except Exception as e:
+        update_pipeline_status("intelligence", "failed")
+        raise e
 

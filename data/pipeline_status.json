@@ -1,0 +1,10 @@
+{
+    "stage": "intelligence",
+    "status": "idle",
+    "auto_next": true,
+    "stages": {
+        "intelligence": { "paused": false, "label": "Scout // Analyst" },
+        "creative": { "paused": false, "label": "Social Director" },
+        "studio": { "paused": false, "label": "Apex Studio" }
+    }
+}

@@ -111,3 +111,58 @@ export async function toggleAutoMode(enabled: boolean) {
     return { success: false };
   }
 }
+
+export async function getPipelineStatus() {
+  const filePath = path.join(process.cwd(), "data", "pipeline_status.json");
+  try {
+    const content = await fs.readFile(filePath, "utf-8");
+    return JSON.parse(content);
+  } catch (err) {
+    return { stage: "intelligence", status: "idle", auto_next: true, stages: {} };
+  }
+}
+
+export async function updatePipelineStatus(stage: string, status: string) {
+  const filePath = path.join(process.cwd(), "data", "pipeline_status.json");
+  try {
+    const content = await fs.readFile(filePath, "utf-8");
+    const data = JSON.parse(content);
+    data.stage = stage;
+    data.status = status;
+    await fs.writeFile(filePath, JSON.stringify(data, null, 4));
+    revalidatePath("/");
+    return { success: true };
+  } catch (err) {
+    return { success: false };
+  }
+}
+
+export async function togglePipelinePause(stageId: string, paused: boolean) {
+  const filePath = path.join(process.cwd(), "data", "pipeline_status.json");
+  try {
+    const content = await fs.readFile(filePath, "utf-8");
+    const data = JSON.parse(content);
+    if (data.stages[stageId]) {
+      data.stages[stageId].paused = paused;
+    }
+    await fs.writeFile(filePath, JSON.stringify(data, null, 4));
+    revalidatePath("/");
+    return { success: true };
+  } catch (err) {
+    return { success: false };
+  }
+}
+
+export async function togglePipelineAutoNext(autoNext: boolean) {
+  const filePath = path.join(process.cwd(), "data", "pipeline_status.json");
+  try {
+    const content = await fs.readFile(filePath, "utf-8");
+    const data = JSON.parse(content);
+    data.auto_next = autoNext;
+    await fs.writeFile(filePath, JSON.stringify(data, null, 4));
+    revalidatePath("/");
+    return { success: true };
+  } catch (err) {
+    return { success: false };
+  }
+}

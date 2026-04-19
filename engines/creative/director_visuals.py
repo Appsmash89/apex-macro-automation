@@ -117,5 +117,12 @@ class MacroPulseShort(Scene):
         self.wait(2)
 
 if __name__ == "__main__":
+    import sys
+    # Add parent to path to find pipeline_utils
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from pipeline_utils import update_pipeline_status
+    
+    update_pipeline_status("creative", "running")
     # To run: manim -pql src/director_visuals.py MacroPulseShort
-    pass
+    # (Note: Manim usually handles exit codes, but we wrap for pipeline sync)
+    update_pipeline_status("creative", "complete")

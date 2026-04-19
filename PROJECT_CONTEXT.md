@@ -32,7 +32,7 @@
 - **Institutional Standard**: Design follows the Stitch No-Line Mandate. Component boundaries defined by background color shifts. Typography set to Inter (UI) and Space Grotesk (Data).
 
 ## [CURRENT_MISSION_STATE]
-"Mission 2.6: Institutional Tabbed Suite Live."
+"Mission 2.7: Pipeline Controller Active."
 - **Status**: COMPLETE.
 
 ## [WALL_OF_FAILURES]
@@ -47,8 +47,10 @@
   - broadcast_history.json
   - current_script.json
   - latest_news.json
+  - pipeline_status.json
   - session_cookies.json
 - engines/
+  - pipeline_utils.py
   - creative/
     - director_audio.py
     - director_visuals.py
@@ -72,6 +74,7 @@
     - InteractivePublish.tsx
     - InteractiveWarRoom.tsx
     - MacroTicker.tsx
+    - PipelineStepper.tsx
     - Toggle.tsx
   - engines/
     - distribution/

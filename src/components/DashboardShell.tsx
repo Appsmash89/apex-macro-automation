@@ -24,6 +24,7 @@ import InteractiveWarRoom from "./InteractiveWarRoom";
 import InteractivePublish from "./InteractivePublish";
 import MacroTicker from "./MacroTicker";
 import Toggle from "./Toggle";
+import PipelineStepper from "./PipelineStepper";
 import { toggleAutoMode } from "@/lib/actions";
 
 interface DashboardShellProps {
@@ -33,12 +34,13 @@ interface DashboardShellProps {
   roadmapMissions: any[];
   assets: string[];
   broadcastHistory: any[];
+  pipelineStatus: any;
 }
 
 /**
- * MISSION 2.6: Institutional Tabbed Suite
+ * MISSION 2.7: Integrated Pipeline Controller
  * Layout: Top-Nav Departments with Tonal Surface Hierarchy.
- * High-Fidelity: Institutional authority through data density and precise calibration.
+ * High-Fidelity: Shift from static metrics to active pipeline orchestration.
  */
 export default function DashboardShell({ 
   latestNews, 
@@ -46,7 +48,8 @@ export default function DashboardShell({
   script, 
   roadmapMissions,
   assets,
-  broadcastHistory
+  broadcastHistory,
+  pipelineStatus
 }: DashboardShellProps) {
   const [activeTab, setActiveTab] = useState<"INTELLIGENCE" | "ARCHITECT" | "STUDIO">("INTELLIGENCE");
   const [tacticalGlow, setTacticalGlow] = useState(1);
@@ -77,7 +80,7 @@ export default function DashboardShell({
         "--surface-layer-1": `${surfaceLayer1}px` 
       }}
     >
-      {/* 1. INSTITUTIONAL TOP NAVIGATION (Surface Shift: Midnight Onyx -> Surface Low) */}
+      {/* 1. INSTITUTIONAL TOP NAVIGATION */}
       <nav className="h-16 bg-surface-low/95 backdrop-blur-xl flex items-center px-10 gap-2 border-b border-white/5 sticky top-20 z-40 shadow-xl">
         {tabs.map((tab) => (
           <button
@@ -92,48 +95,40 @@ export default function DashboardShell({
             {activeTab === tab.id && (
               <div className="absolute bottom-0 left-0 w-full h-[2px] bg-velocity-blue glow-cyan"></div>
             )}
-            <div className="absolute inset-0 bg-velocity-blue/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500 pointer-events-none"></div>
           </button>
         ))}
         
         <div className="ml-auto flex items-center gap-6">
            <div className="flex items-center gap-4 px-6 py-2 bg-surface-base/80 rounded-full border border-white/5">
               <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${autoPublish ? "bg-velocity-blue glow-cyan" : "bg-market-crimson"}`}></div>
-              <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest">AUTO_MODE: {autoPublish ? "ENGAGED" : "OFFLINE"}</span>
+              <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest">PRODUCTION_MODE: {autoPublish ? "AUTO" : "MANUAL"}</span>
            </div>
         </div>
       </nav>
 
       <div className="flex-1 grid grid-cols-12">
-        {/* SECTOR ALPHA: MISSION CONTROL (Main content) */}
+        {/* SECTOR ALPHA: MISSION CONTROL (Main content: 8 Cols) */}
         <div className="col-span-12 lg:col-span-8 p-10 lg:p-14 space-y-14 bg-surface-base">
           {activeTab === "INTELLIGENCE" && (
             <div className="space-y-14 flex flex-col min-h-full">
-              <section className="bg-surface-low/30 rounded-3xl p-12 relative overflow-hidden group border border-white/5">
-                <div className="flex items-center justify-between mb-12">
-                  <h2 className="text-2xl font-black flex items-center gap-5 font-space uppercase tracking-tight">
-                    <Terminal className="text-velocity-blue" size={30} />
-                    NARRATIVE_MATRIX
-                  </h2>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {latestNews.slice(0, 3).map((news, idx) => (
-                    <div key={idx} className="bg-surface-std/50 p-8 rounded-2xl hover:bg-surface-high transition-all duration-500 group/item relative shadow-xl border border-white/5">
-                      <div className="flex justify-between items-start mb-6">
-                        <span className="text-[9px] text-velocity-blue font-mono font-black uppercase tracking-widest bg-velocity-blue/10 px-3 py-1 rounded border border-velocity-blue/10">
-                          {news.currency} // {news.impact}
-                        </span>
-                      </div>
-                      <h3 className="text-lg font-black font-space leading-tight mb-6 uppercase tracking-wide group-hover/item:text-velocity-blue transition-colors">
-                        {news.event}
-                      </h3>
-                    </div>
-                  ))}
-                </div>
-              </section>
+              {/* MISSION 2.7: Live Pipeline Visualization */}
+              <PipelineStepper initialStatus={pipelineStatus} />
 
-              <InteractiveDials initialConfig={config} />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                 <InteractiveDials initialConfig={config} />
+                 
+                 <div className="bg-surface-low/30 rounded-3xl p-10 border border-white/5 space-y-8 h-full">
+                    <h3 className="text-[10px] font-black font-space uppercase text-gray-500 tracking-[0.4em]">MARKET_SUMMARY</h3>
+                    <div className="space-y-6">
+                       {latestNews.slice(0, 4).map((news, idx) => (
+                         <div key={idx} className="flex items-center justify-between group/item">
+                            <span className="text-[9px] font-mono font-black uppercase text-gray-600 group-hover/item:text-velocity-blue transition-colors">{news.event}</span>
+                            <span className={`text-[9px] font-mono font-black uppercase ${news.impact === "high" ? "text-market-crimson" : "text-velocity-blue"}`}>{news.impact}</span>
+                         </div>
+                       ))}
+                    </div>
+                 </div>
+              </div>
               
               <div className="mt-auto pt-10">
                  <MacroTicker news={latestNews} />
@@ -142,63 +137,64 @@ export default function DashboardShell({
           )}
 
           {activeTab === "ARCHITECT" && (
-            <section className="bg-surface-low/30 rounded-3xl p-12 space-y-12 border border-white/5">
-              <div className="flex items-center justify-between">
+            <div className="space-y-12">
+              <section className="bg-surface-low/30 rounded-3xl p-12 space-y-12 border border-white/5">
                 <h2 className="text-2xl font-black flex items-center gap-5 font-space uppercase tracking-tight">
                   <Settings className="text-velocity-blue" size={30} />
                   PARAMETER_MATRIX
                 </h2>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                 <div className="space-y-12">
-                   <div className="space-y-6">
-                      <label className="text-[10px] text-gray-500 font-mono font-black uppercase tracking-[0.4em]">TACTICAL_GLOW_INTENSITY</label>
-                      <input 
-                        type="range" min="0" max="2" step="0.1" 
-                        value={tacticalGlow}
-                        onChange={(e) => setTacticalGlow(parseFloat(e.target.value))}
-                        className="w-full accent-velocity-blue bg-surface-std h-2 rounded-full appearance-none cursor-pointer"
-                      />
-                      <div className="flex justify-between font-mono text-[9px] text-gray-600">
-                         <span>0.0</span>
-                         <span>{tacticalGlow.toFixed(1)}</span>
-                         <span>2.0</span>
-                      </div>
-                   </div>
-
-                   <div className="space-y-6">
-                      <label className="text-[10px] text-gray-500 font-mono font-black uppercase tracking-[0.4em]">SURFACE_LAYER_1_OFFSET</label>
-                      <input 
-                        type="range" min="-20" max="20" step="1" 
-                        value={surfaceLayer1}
-                        onChange={(e) => setSurfaceLayer1(parseInt(e.target.value))}
-                        className="w-full accent-velocity-blue bg-surface-std h-2 rounded-full appearance-none cursor-pointer"
-                      />
-                      <div className="flex justify-between font-mono text-[9px] text-gray-600">
-                         <span>-20PX</span>
-                         <span>{surfaceLayer1}PX</span>
-                         <span>+20PX</span>
-                      </div>
-                   </div>
-                 </div>
-
-                 <div className="space-y-8">
-                    <Toggle 
-                      enabled={autoPublish} 
-                      onChange={handleToggleAutoMode} 
-                      label="Automated Broadcast Mode" 
-                    />
-                    <div className="p-8 bg-surface-base rounded-2xl border border-white/5 space-y-4">
-                       <h4 className="text-[10px] font-black font-space uppercase text-velocity-blue">PROTOCOL_NOTES</h4>
-                       <p className="text-[9px] text-gray-500 font-mono leading-relaxed uppercase tracking-widest">
-                         // Auto-publish mode enables lights-out distribution of generated assets.
-                         // Parameter shifts are transient to session.
-                       </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                  <div className="space-y-12">
+                    <div className="space-y-6">
+                        <label className="text-[10px] text-gray-500 font-mono font-black uppercase tracking-[0.4em]">TACTICAL_GLOW_INTENSITY</label>
+                        <input 
+                          type="range" min="0" max="2" step="0.1" 
+                          value={tacticalGlow}
+                          onChange={(e) => setTacticalGlow(parseFloat(e.target.value))}
+                          className="w-full accent-velocity-blue bg-surface-std h-2 rounded-full appearance-none cursor-pointer"
+                        />
+                        <div className="flex justify-between font-mono text-[9px] text-gray-600">
+                          <span>0.0</span>
+                          <span>{tacticalGlow.toFixed(1)}</span>
+                          <span>2.0</span>
+                        </div>
                     </div>
-                 </div>
-              </div>
-            </section>
+
+                    <div className="space-y-6">
+                        <label className="text-[10px] text-gray-500 font-mono font-black uppercase tracking-[0.4em]">SURFACE_LAYER_1_OFFSET</label>
+                        <input 
+                          type="range" min="-20" max="20" step="1" 
+                          value={surfaceLayer1}
+                          onChange={(e) => setSurfaceLayer1(parseInt(e.target.value))}
+                          className="w-full accent-velocity-blue bg-surface-std h-2 rounded-full appearance-none cursor-pointer"
+                        />
+                        <div className="flex justify-between font-mono text-[9px] text-gray-600">
+                          <span>-20PX</span>
+                          <span>{surfaceLayer1}PX</span>
+                          <span>+20PX</span>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-8">
+                      <Toggle 
+                        enabled={autoPublish} 
+                        onChange={handleToggleAutoMode} 
+                        label="Automated Broadcast Mode" 
+                      />
+                      <div className="p-8 bg-surface-base rounded-2xl border border-white/5 space-y-4">
+                        <h4 className="text-[10px] font-black font-space uppercase text-velocity-blue italic">// PROTOCOL_NOTES</h4>
+                        <ul className="text-[9px] text-gray-500 font-mono leading-relaxed uppercase tracking-widest list-disc pl-4 space-y-2">
+                          <li>Auto-publish enables lights-out distribution.</li>
+                          <li>Safety locks in Studio prevent redundant broadcasts.</li>
+                          <li>Parameter shifts are session-scoped.</li>
+                        </ul>
+                      </div>
+                  </div>
+                </div>
+              </section>
+            </div>
           )}
 
           {activeTab === "STUDIO" && (
@@ -222,7 +218,7 @@ export default function DashboardShell({
                           </div>
                           <div>
                              <h4 className="text-xs font-black font-space uppercase tracking-widest group-hover/video:text-velocity-blue transition-colors">{asset}</h4>
-                             <p className="text-[8px] text-gray-700 font-mono uppercase mt-2">1080p // H.264 // STEREO</p>
+                             <p className="text-[8px] text-gray-700 font-mono uppercase mt-2">{asset.endsWith(".mp4") ? "1080p // H.264" : "48KHz // STEREO"}</p>
                           </div>
                        </div>
                        
@@ -241,8 +237,8 @@ export default function DashboardShell({
                        </div>
 
                        <div className="col-span-3 text-right">
-                          <button className="p-3 bg-surface-base hover:bg-surface-std text-gray-600 hover:text-velocity-blue rounded-xl border border-white/5 transition-all group/btn relative overflow-hidden">
-                             <Download size={16} className="relative z-10" />
+                          <button className="p-3 bg-surface-base hover:bg-surface-std text-gray-600 hover:text-velocity-blue rounded-xl border border-white/5 transition-all group/btn">
+                             <Download size={16} />
                           </button>
                        </div>
                     </div>
@@ -260,8 +256,11 @@ export default function DashboardShell({
               COMMAND_SCRIPT
             </h2>
 
-            <div className="bg-surface-std p-12 rounded-3xl space-y-12 shadow-2xl relative border border-white/5">
-               <div className="space-y-6">
+            <div className="bg-surface-std p-12 rounded-3xl space-y-12 shadow-2xl relative border border-white/5 overflow-hidden">
+               <div className="absolute top-0 right-0 p-8 opacity-5">
+                   <Zap size={150} className="text-velocity-blue" />
+               </div>
+               <div className="space-y-6 relative z-10">
                   <label className="text-[10px] text-gray-500 font-mono font-black uppercase tracking-[0.4em]">CONTENT_STREAM</label>
                   <div className="h-[250px] overflow-y-auto no-scrollbar pr-6 text-xs font-mono leading-loose text-gray-400 bg-surface-base/80 p-8 rounded-2xl border border-white/5">
                     {script.body || "NO_DATA_LINK_DETECTED"}
