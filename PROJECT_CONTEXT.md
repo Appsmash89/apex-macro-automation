@@ -44,6 +44,7 @@
 
 ## [LIVE_FILE_SYSTEM_MAP]
 - data/
+  - broadcast_history.json
   - current_script.json
   - latest_news.json
   - session_cookies.json
@@ -55,6 +56,7 @@
     - analyst_engine.py
     - scout_forex.py
 - shared/
+  - broadcast_registry.ts
   - config.json
 - src/
   - app/
@@ -65,6 +67,7 @@
     - login/
       - page.tsx
   - components/
+    - DashboardShell.tsx
     - InteractiveDials.tsx
     - InteractivePublish.tsx
     - InteractiveWarRoom.tsx
