@@ -10,14 +10,4 @@ google-auth-oauthlib
 google-auth-httplib2
 flask
 flask-cors
-
-# PROJECT APEX: SECURE LAUNCH CONFIGURATION
-# No API keys required for core modules (Edge-TTS)
-
-# Dashboard Auth
-ADMIN_PASSWORD=your_secure_password_here
-
-# YouTube Data API v3
-# Create credentials: https://console.cloud.google.com/apis/credentials
-YOUTUBE_CLIENT_ID=your_client_id_here
-YOUTUBE_CLIENT_SECRET=your_client_secret_here
+edge-tts
