@@ -20,3 +20,8 @@
 - **Context**: High-risk of context decay during session restarts.
 - **Rationale**: Established a mandatory handshake protocol and a final state-lock prompt for Antigravity to ensure 100% resume accuracy.
 - **Status**: ACTIVE
+
+## [DECISION-012] Dynamic Dependency Hardening (FFmpeg)
+- **Context**: Video engine vulnerability due to environment-specific hardcoded paths.
+- **Rationale**: Implemented the "Discovery Handshake" using `shutil.which`. Synchronized the system path with `shared/config.json` to ensure cross-engine environmental awareness.
+- **Status**: IMPLEMENTED (Mission 2.3 Complete)

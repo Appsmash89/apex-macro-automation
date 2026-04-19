@@ -32,9 +32,8 @@
 - **Institutional Standard**: Design follows the Stitch No-Line Mandate. Component boundaries defined by background color shifts. Typography set to Inter (UI) and Space Grotesk (Data).
 
 ## [CURRENT_MISSION_STATE]
-- **Mission 2.2**: Sovereign Observer UI Implementation.
-- **Status**: COMPLETE. High-fidelity reskin finalized and build verified.
-- **Current Phase**: Manifest reconstructed and verified. Ready for Mission 2.3.
+- **Mission 2.3**: Video Engine Hardening (FFmpeg Discovery).
+- **Status**: COMPLETE. FFmpeg dynamic discovery implemented via `shutil.which`. System paths synchronized in `shared/config.json`.
 
 ## [WALL_OF_FAILURES]
 - **DO NOT ATTEMPT**: Python-based server actions on Vercel. Structural impossibility.

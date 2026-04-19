@@ -1,6 +1,21 @@
 from manim import *
 import json
 import os
+import shutil
+
+# MISSION 2.3: Dynamic FFmpeg Discovery
+# Resolves ffmpeg path at runtime to eliminate environment-specific errors
+FFMPEG_DISCOVERED = shutil.which("ffmpeg")
+if FFMPEG_DISCOVERED:
+    config.ffmpeg_executable = FFMPEG_DISCOVERED
+else:
+    # Fallback to Shared Dictionary recorded path
+    try:
+        with open(os.path.join(os.getcwd(), "shared", "config.json"), "r") as f:
+            shared_cfg = json.load(f)
+            config.ffmpeg_executable = shared_cfg.get("DEPS", {}).get("ffmpeg_path")
+    except Exception:
+        pass
 
 # 1. Vertical Shorts Configuration
 config.pixel_height = 1920
