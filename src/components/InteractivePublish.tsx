@@ -159,10 +159,10 @@ export default function InteractivePublish({ initialStatus }: InteractivePublish
         )}
       </button>
 
-      {/* INDUSTRIAL CONFIRMATION MODAL */}
+      {/* INDUSTRIAL GLASS_TACTICAL CONFIRMATION MODAL */}
       {status === "CONFIRMING" && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-10">
-           <div className="max-w-md w-full bg-surface-base border border-white/5 rounded-3xl p-12 space-y-12 shadow-[0_0_100px_rgba(0,0,0,1)] relative overflow-hidden">
+           <div className="max-w-md w-full glass-tactical border border-white/5 rounded-3xl p-12 space-y-12 shadow-[0_0_100px_rgba(0,0,0,1)] relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-velocity-blue to-transparent glow-cyan"></div>
               
               <div className="space-y-6 text-center">

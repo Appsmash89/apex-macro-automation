@@ -96,3 +96,18 @@ export async function getBroadcastHistory() {
     return [];
   }
 }
+
+export async function toggleAutoMode(enabled: boolean) {
+  const filePath = path.join(process.cwd(), "shared", "config.json");
+  try {
+    const content = await fs.readFile(filePath, "utf-8");
+    const config = JSON.parse(content);
+    config.auto_mode = enabled;
+    await fs.writeFile(filePath, JSON.stringify(config, null, 4));
+    revalidatePath("/");
+    return { success: true };
+  } catch (err) {
+    console.error("Auto Mode Toggle Failed:", err);
+    return { success: false };
+  }
+}
