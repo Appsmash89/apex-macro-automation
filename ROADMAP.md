@@ -45,6 +45,9 @@
     - [x] Implement Live Asset Discovery (localhost:5000/list-assets).
     - [x] Integrate real-time log pumping from relay to dashboard telemetry.
     - [x] Connect 'InteractivePublish' snap-trigger to distribution engine.
+  - [x] MISSION 2.9.1: Production Recovery - Reference Audit.
+    - [x] Resolve 'ReferenceError: Elisa is not defined' in DashboardShell.
+    - [x] Verify production build parity via local 'next build'.
   - [x] Harden Studio list with Sovereign Guard safety locks.
 - [x] MISSION 2.8: Sovereign Launcher & Full Pipeline Integration.
   - [x] Deployed 'engines/bridge_relay.py' Command Bridge.

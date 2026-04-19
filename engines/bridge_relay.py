@@ -103,9 +103,10 @@ def list_assets():
     path = os.path.join(BASE_DIR, "public", "data")
     if not os.path.exists(path):
         return jsonify([])
-    
-    files = [f for f in os.listdir(path) if f.endswith(".mp4") or f.endswith(".mp3")]
-    return jsonify(files)
+    if os.path.exists(path):
+        files = [f for f in os.listdir(path) if f.endswith(".mp4") or f.endswith(".mp3")]
+        return jsonify(files)
+    return jsonify([])
 
 @app.route("/health", methods=["GET"])
 def health_check():
@@ -117,4 +118,3 @@ if __name__ == "__main__":
     print("Locked on BASE_DIR:", BASE_DIR)
     print("="*60 + "\n")
     app.run(port=5000, debug=False)
- Elisa 

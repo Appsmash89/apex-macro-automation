@@ -32,7 +32,7 @@
 - **Institutional Standard**: Design follows the Stitch No-Line Mandate. Component boundaries defined by background color shifts. Typography set to Inter (UI) and Space Grotesk (Data).
 
 ## [CURRENT_MISSION_STATE]
-"Mission 2.9 Complete: End-to-End Functional Pipeline Active."
+"Mission 2.9.1 Complete: Build Restored & Reference Error Fixed."
 - **Status**: COMPLETE.
 
 ## [WALL_OF_FAILURES]
@@ -118,4 +118,7 @@
   - [x] Implement Live Asset Discovery (localhost:5000/list-assets).
   - [x] Integrate real-time log pumping from relay to 'War Room' telemetry.
   - [x] Connect 'InteractivePublish' snap-trigger to distribution engine.
+- [x] MISSION 2.9.1: Production Recovery - Reference Audit.
+  - [x] Resolve 'ReferenceError: Elisa is not defined' in DashboardShell.
+  - [x] Verify production build parity via local 'next build'.
 *This file is the Source of Truth. Update it at the end of every session.*
