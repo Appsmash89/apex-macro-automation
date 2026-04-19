@@ -112,10 +112,63 @@ export async function toggleAutoMode(enabled: boolean) {
   }
 }
 
-import { getPipelineStatus as getStatus, updatePipelineStage, setPipelinePause } from "./pipeline";
+import { getPipelineStatus as getStatus, updatePipelineStage, setPipelinePause, addPipelineLog } from "./pipeline";
+import { spawn } from "child_process";
 
 export async function getPipelineStatus() {
   return await getStatus();
+}
+
+/**
+ * MISSION 3.1: Native Engine Trigger
+ * Executes local Python agents directly from the Node.js server.
+ * Pushes telemetry logs into the pipeline status registry.
+ */
+export async function triggerNativeEngine(stage: number) {
+  const commands: Record<number, string> = {
+    1: "engines/intelligence/scout_forex.py",
+    2: "engines/intelligence/analyst_engine.py",
+    3: "engines/creative/director_visuals.py" // Note: v3 uses manim command usually
+  };
+
+  const scriptPath = commands[stage];
+  if (!scriptPath) return { success: false, error: "Protocol Error: Invalid Stage ID" };
+
+  console.log(`NATIVE_EXEC: Spawning Stage ${stage} Agent -> ${scriptPath}`);
+
+  // 1. Initial State Update
+  await updatePipelineStage(stage, "running");
+  
+  // 2. Spawn Subprocess
+  const pythonProcess = spawn("python", [path.join(process.cwd(), scriptPath)]);
+
+  // 3. Telemetry Pumping (Logs)
+  pythonProcess.stdout.on("data", (data) => {
+    const lines = data.toString().split("\n");
+    lines.forEach((line: string) => {
+      if (line.trim()) {
+        addPipelineLog(`STAGE_${stage} >> ${line.trim()}`);
+      }
+    });
+  });
+
+  pythonProcess.stderr.on("data", (data) => {
+    console.error(`AGENT_ERR [${stage}]: ${data}`);
+    addPipelineLog(`AGENT_ERR [${stage}] >> ${data.toString().trim()}`);
+  });
+
+  pythonProcess.on("close", (code) => {
+    console.log(`AGENT_DONE [${stage}]: Process exited with code ${code}`);
+    if (code === 0) {
+      updatePipelineStage(stage, "complete");
+      addPipelineLog(`STAGE_${stage} // EXECUTION_SUCCESS`);
+    } else {
+      updatePipelineStage(stage, "error");
+      addPipelineLog(`STAGE_${stage} // CRITICAL_FAILURE [EXIT_${code}]`);
+    }
+  });
+
+  return { success: true, message: `System: Agent ${stage} deployed natively.` };
 }
 
 export async function resumePipeline(stage: number) {

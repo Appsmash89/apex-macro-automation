@@ -12,19 +12,19 @@ import {
   RotateCcw,
   Power
 } from "lucide-react";
-import { getPipelineStatus, resumePipeline } from "@/lib/actions";
+import { getPipelineStatus, resumePipeline, triggerNativeEngine } from "@/lib/actions";
 
 interface PipelineStepperProps {
   initialStatus: any;
 }
 
 /**
- * MISSION 2.8: Sovereign Orchestrator (Fully Integrated)
- * Features: 2s Polling + Hard-Lock Gates + Local Bridge Command Relay.
+ * MISSION 3.1: Sovereign Orchestrator (Local-Only Pivot)
+ * Features: Native Server Action Triggers (Bypassing Port 5000).
  */
 export default function PipelineStepper({ initialStatus }: PipelineStepperProps) {
   const [pipeline, setPipeline] = useState(initialStatus);
-  const [isRelayLoading, setIsRelayLoading] = useState(false);
+  const [isExecuting, setIsExecuting] = useState(false);
 
   // MISSION 2.7: Live Telemetry Pulse (2s Polling)
   useEffect(() => {
@@ -45,20 +45,22 @@ export default function PipelineStepper({ initialStatus }: PipelineStepperProps)
     { id: 4, label: "Studio", sub: "Distribution", icon: ShieldCheck }
   ];
 
-  // MISSION 2.8: Local Bridge Trigger Logic
-  const triggerLocalEngine = async (stageId: number) => {
-    setIsRelayLoading(true);
+  // MISSION 3.1: Native Server Action Trigger
+  const handleTriggerNative = async (stageId: number) => {
+    setIsExecuting(true);
     try {
-      const response = await fetch(`http://localhost:5000/trigger/${stageId}`, {
-        method: "POST",
-      });
-      const data = await response.json();
-      console.log("RELAY_RESPONSE:", data);
+      const result = await triggerNativeEngine(stageId);
+      if (result.success) {
+        console.log("NATIVE_EXEC_INITIATED:", result.message);
+      } else {
+        console.error("NATIVE_EXEC_FAILED:", result.error);
+        alert(`System Failure: ${result.error}`);
+      }
     } catch (err) {
-      console.error("RELAY_OFFLINE: Ensure engines/bridge_relay.py is running locally.", err);
-      alert("BRIDGE_OFFLINE: Ensure the Command Relay is running on Port 5000.");
+      console.error("UNEXPECTED_PIPELINE_ERROR:", err);
+      alert("CRITICAL_ERROR: The Node.js production factory encountered an exception.");
     } finally {
-      setIsRelayLoading(false);
+      setIsExecuting(false);
     }
   };
 
@@ -76,7 +78,7 @@ export default function PipelineStepper({ initialStatus }: PipelineStepperProps)
          <div className="space-y-2">
             <h2 className="text-2xl font-black flex items-center gap-5 font-space uppercase tracking-tight">
                <ShieldCheck className="text-velocity-blue" size={30} />
-               SOVEREIGN_ORCHESTRATOR_v2.8
+               SOVEREIGN_ORCHESTRATOR_v3.1
             </h2>
             <div className="flex items-center gap-4">
                <div className={`w-2 h-2 rounded-full ${pipeline.is_paused ? "bg-market-crimson glow-crimson" : "bg-emerald-500 glow-sage animate-pulse"}`}></div>
@@ -87,15 +89,15 @@ export default function PipelineStepper({ initialStatus }: PipelineStepperProps)
          </div>
 
          <div className="flex items-center gap-6">
-            {/* MISSION 2.8: Global Trigger Button */}
+            {/* MISSION 3.1: Native Global Trigger */}
             {currentStageData?.status === "idle" && !pipeline.is_paused && (
                <button 
-                  onClick={() => triggerLocalEngine(pipeline.current_stage)}
-                  disabled={isRelayLoading}
+                  onClick={() => handleTriggerNative(pipeline.current_stage)}
+                  disabled={isExecuting}
                   className="flex items-center gap-4 bg-white text-black px-10 py-4 rounded-2xl font-black font-space uppercase text-xs tracking-widest transition-all hover:bg-velocity-blue hover:text-white glow-cyan-bg disabled:opacity-50"
                >
                   <Power size={18} />
-                  {isRelayLoading ? "INITIALIZING..." : `START_STAGE_${pipeline.current_stage}`}
+                  {isExecuting ? "INITIALIZING..." : `START_STAGE_${pipeline.current_stage}`}
                </button>
             )}
 

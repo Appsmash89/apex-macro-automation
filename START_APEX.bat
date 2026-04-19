@@ -16,16 +16,12 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b
 )
 
-:: 2. Start Command Bridge (Background)
-echo [2/4] STARTING_SOVEREIGN_RELAY_BRIDGE...
-start "APEX_RELAY" /min python engines/bridge_relay.py
-
-:: 3. Start Institutional Dashboard (Background)
-echo [3/4] INITIALIZING_COMMAND_DASHBOARD...
+:: 2. Start Institutional Dashboard (Background)
+echo [2/3] INITIALIZING_COMMAND_DASHBOARD...
 start "APEX_DASHBOARD" /min npm run dev
 
-:: 4. Navigate to Command Center
-echo [4/4] STEERING_BROWSER_TO_DCC_ALPHA...
+:: 3. Navigate to Command Center
+echo [3/3] STEERING_BROWSER_TO_DCC_ALPHA...
 timeout /t 5 >nul
 start http://localhost:3000
 

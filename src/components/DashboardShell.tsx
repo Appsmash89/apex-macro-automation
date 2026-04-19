@@ -23,7 +23,7 @@ import InteractivePublish from "./InteractivePublish";
 import MacroTicker from "./MacroTicker";
 import Toggle from "./Toggle";
 import PipelineStepper from "./PipelineStepper";
-import { toggleAutoMode } from "@/lib/actions";
+import { toggleAutoMode, getAssets } from "@/lib/actions";
 
 interface DashboardShellProps {
   latestNews: any[];
@@ -36,8 +36,8 @@ interface DashboardShellProps {
 }
 
 /**
- * MISSION 3.0: Sovereign Factory Recovery
- * Features: Absolute One-Click Orchestration + Local Bridge v3.0.
+ * MISSION 3.1: Sovereign Factory (Local-Only Pivot)
+ * Features: Native Server Action Discovery (Bypassing Port 5000).
  */
 export default function DashboardShell({ 
   latestNews, 
@@ -53,22 +53,19 @@ export default function DashboardShell({
   const [surfaceLayer1, setSurfaceLayer1] = useState(0);
   const [autoPublish, setAutoPublish] = useState(config.auto_mode || false);
   
-  // MISSION 2.9: Dynamic Asset Discovery State
+  // MISSION 3.1: Native Asset Discovery State
   const [liveAssets, setLiveAssets] = useState<string[]>(initialAssets);
-  const [relayStatus, setRelayStatus] = useState<"ONLINE" | "OFFLINE">("OFFLINE");
+  const [engineStatus, setEngineStatus] = useState<"ACTIVE" | "IDLE">("IDLE");
 
-  // MISSION 2.9: Live Asset Discovery Polling (5s)
+  // MISSION 3.1: Native Asset Discovery Polling (5s)
   useEffect(() => {
     const fetchAssets = async () => {
       try {
-        const res = await fetch("http://localhost:5000/list-assets");
-        const data = await res.json();
-        if (Array.isArray(data)) {
-           setLiveAssets(data);
-           setRelayStatus("ONLINE");
-        }
+        const assets = await getAssets();
+        setLiveAssets(assets);
+        setEngineStatus("ACTIVE"); // If we can fetch assets, the Node.js server is active.
       } catch (err) {
-        setRelayStatus("OFFLINE");
+        setEngineStatus("IDLE");
       }
     };
 
@@ -120,9 +117,9 @@ export default function DashboardShell({
         ))}
         
         <div className="ml-auto flex items-center gap-6">
-           <div className={`flex items-center gap-4 px-6 py-2 rounded-full border ${relayStatus === "ONLINE" ? "bg-velocity-blue/10 border-velocity-blue/20" : "bg-market-crimson/10 border-market-crimson/20"}`}>
-              {relayStatus === "ONLINE" ? <RefreshCw size={12} className="text-velocity-blue animate-spin-slow" /> : <AlertCircle size={12} className="text-market-crimson animate-pulse" />}
-              <span className={`text-[9px] font-mono font-black uppercase tracking-widest ${relayStatus === "ONLINE" ? "text-velocity-blue" : "text-market-crimson"}`}>RELAY_{relayStatus}</span>
+           <div className={`flex items-center gap-4 px-6 py-2 rounded-full border ${engineStatus === "ACTIVE" ? "bg-velocity-blue/10 border-velocity-blue/20" : "bg-market-crimson/10 border-market-crimson/20"}`}>
+              {engineStatus === "ACTIVE" ? <RefreshCw size={12} className="text-velocity-blue animate-spin-slow" /> : <AlertCircle size={12} className="text-market-crimson animate-pulse" />}
+              <span className={`text-[9px] font-mono font-black uppercase tracking-widest ${engineStatus === "ACTIVE" ? "text-velocity-blue" : "text-market-crimson"}`}>FACTORY_{engineStatus}</span>
            </div>
            <div className="h-6 w-[1px] bg-white/5"></div>
            <div className="flex items-center gap-4 px-6 py-2 bg-surface-base/80 rounded-full border border-white/5">

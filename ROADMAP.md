@@ -41,10 +41,10 @@
   - [x] Implement Top-Navigation Departments (Intelligence, Architect, Studio).
   - [x] Implement Macro Ticker news stream.
   - [x] Create persistent Architect parameter matrix (Auto-Publish Toggle).
-- [x] MISSION 3.0: Sovereign Factory Recovery & Full Automation.
-  - [x] Institutional v3.0 Version Bump and UI Harmonization.
-  - [x] Hardened 'START_APEX.bat' One-Click Entry.
-  - [x] Confirmed Total Functional Factory Orchestration.
+- [x] MISSION 3.1: Local-Only Operational Pivot.
+  - [x] Replaced Bridge Relay with Native `child_process` triggers.
+  - [x] Unified Factory Dashboard on Port 3000.
+  - [x] Streamlined One-Click Launcher.
 - [x] MISSION 2.9.2: Sovereign Launcher & Production Recovery.
   - [x] Purge final ghost reference (Elisa artifact) from START_APEX.bat.
   - [x] Integrate One-Click Factory Launcher into project root.

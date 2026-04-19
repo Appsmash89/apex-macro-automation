@@ -32,7 +32,7 @@
 - **Institutional Standard**: Design follows the Stitch No-Line Mandate. Component boundaries defined by background color shifts. Typography set to Inter (UI) and Space Grotesk (Data).
 
 ## [CURRENT_MISSION_STATE]
-"Mission 3.0 Complete: Functional Factory & Launcher Active."
+"Mission 3.1 Complete: Local-Only Dashboard Functional."
 - **Status**: COMPLETE.
 
 ## [WALL_OF_FAILURES]
@@ -51,7 +51,7 @@
   - pipeline_status.json
   - session_cookies.json
 - engines/
-  - bridge_relay.py
+  - bridge_relay.py (LEGACY/ARCHIVED)
   - pipeline_utils.py
   - creative/
     - director_audio.py
@@ -114,8 +114,8 @@
 - token.json
 - tsconfig.json
 
-- [x] MISSION 3.0: Sovereign Factory Recovery & Full Automation.
-  - [x] Finalized Mission 3.0 UI & Institutional Alignment.
-  - [x] Hardened 'START_APEX.bat' One-Click Entry.
-  - [x] Verified End-to-End functional polarity (Relay -> Engine -> UI).
+- [x] MISSION 3.1: Local-Only Operational Pivot.
+  - [x] Implemented Native Engine Trigger (child_process.spawn).
+  - [x] Pivoted Dashboard to Local Server Action Discovery.
+  - [x] Streamlined START_APEX.bat for zero-relay bootstrap.
 *This file is the Source of Truth. Update it at the end of every session.*

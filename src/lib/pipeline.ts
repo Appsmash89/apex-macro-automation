@@ -57,6 +57,29 @@ export async function setPipelinePause(stage: number, paused: boolean) {
   }
 }
 
+/**
+ * MISSION 3.1: Native Telemetry Ingestion
+ * High-speed logging utility for child_process stdout.
+ */
+export async function addPipelineLog(message: string, truncate: boolean = false) {
+  try {
+    const content = await fs.readFile(STATUS_PATH, "utf-8");
+    const data = JSON.parse(content);
+    
+    const timestamp = new Date().toLocaleTimeString();
+    data.logs.unshift(`[${timestamp}] ${message}`);
+    
+    // Keep logs manageable but informative for the War Room
+    if (data.logs.length > 20) data.logs.pop();
+
+    await fs.writeFile(STATUS_PATH, JSON.stringify(data, null, 4));
+    revalidatePath("/");
+    return { success: true };
+  } catch (err) {
+    return { success: false };
+  }
+}
+
 export async function toggleManualPauseGate(stage: string, enabled: boolean) {
     try {
       const content = await fs.readFile(STATUS_PATH, "utf-8");
