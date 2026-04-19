@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Terminal, 
   Cpu, 
@@ -9,15 +9,13 @@ import {
   Settings, 
   Box, 
   Activity,
-  Maximize2,
   Video,
   Music,
   Download,
-  Eye,
-  BarChart2,
   CheckCircle2,
-  Clock,
-  Lock
+  Lock,
+  RefreshCw,
+  AlertCircle
 } from "lucide-react";
 import InteractiveDials from "./InteractiveDials";
 import InteractiveWarRoom from "./InteractiveWarRoom";
@@ -38,16 +36,15 @@ interface DashboardShellProps {
 }
 
 /**
- * MISSION 2.7: Integrated Pipeline Controller
- * Layout: Top-Nav Departments with Tonal Surface Hierarchy.
- * High-Fidelity: Shift from static metrics to active pipeline orchestration.
+ * MISSION 2.9: End-to-End Functional Integration
+ * Features: Live Asset Discovery + Local Bridge Relay Sync.
  */
 export default function DashboardShell({ 
   latestNews, 
   config, 
   script, 
   roadmapMissions,
-  assets,
+  assets: initialAssets,
   broadcastHistory,
   pipelineStatus
 }: DashboardShellProps) {
@@ -55,6 +52,30 @@ export default function DashboardShell({
   const [tacticalGlow, setTacticalGlow] = useState(1);
   const [surfaceLayer1, setSurfaceLayer1] = useState(0);
   const [autoPublish, setAutoPublish] = useState(config.auto_mode || false);
+  
+  // MISSION 2.9: Dynamic Asset Discovery State
+  const [liveAssets, setLiveAssets] = useState<string[]>(initialAssets);
+  const [relayStatus, setRelayStatus] = useState<"ONLINE" | "OFFLINE">("OFFLINE");
+
+  // MISSION 2.9: Live Asset Discovery Polling (5s)
+  useEffect(() => {
+    const fetchAssets = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/list-assets");
+        const data = await res.json();
+        if (Array.isArray(data)) {
+           setLiveAssets(data);
+           setRelayStatus("ONLINE");
+        }
+      } catch (err) {
+        setRelayStatus("OFFLINE");
+      }
+    };
+
+    fetchAssets(); // Initial fetch
+    const interval = setInterval(fetchAssets, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const tabs = [
     { id: "INTELLIGENCE", icon: Terminal, label: "Strategic Intelligence" },
@@ -99,6 +120,11 @@ export default function DashboardShell({
         ))}
         
         <div className="ml-auto flex items-center gap-6">
+           <div className={`flex items-center gap-4 px-6 py-2 rounded-full border ${relayStatus === "ONLINE" ? "bg-velocity-blue/10 border-velocity-blue/20" : "bg-market-crimson/10 border-market-crimson/20"}`}>
+              {relayStatus === "ONLINE" ? <RefreshCw size={12} className="text-velocity-blue animate-spin-slow" /> : <AlertCircle size={12} className="text-market-crimson animate-pulse" />}
+              <span className={`text-[9px] font-mono font-black uppercase tracking-widest ${relayStatus === "ONLINE" ? "text-velocity-blue" : "text-market-crimson"}`}>RELAY_{relayStatus}</span>
+           </div>
+           <div className="h-6 w-[1px] bg-white/5"></div>
            <div className="flex items-center gap-4 px-6 py-2 bg-surface-base/80 rounded-full border border-white/5">
               <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${autoPublish ? "bg-velocity-blue glow-cyan" : "bg-market-crimson"}`}></div>
               <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest">PRODUCTION_MODE: {autoPublish ? "AUTO" : "MANUAL"}</span>
@@ -107,11 +133,9 @@ export default function DashboardShell({
       </nav>
 
       <div className="flex-1 grid grid-cols-12">
-        {/* SECTOR ALPHA: MISSION CONTROL (Main content: 8 Cols) */}
         <div className="col-span-12 lg:col-span-8 p-10 lg:p-14 space-y-14 bg-surface-base">
           {activeTab === "INTELLIGENCE" && (
             <div className="space-y-14 flex flex-col min-h-full">
-              {/* MISSION 2.7: Live Pipeline Visualization */}
               <PipelineStepper initialStatus={pipelineStatus} />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -205,7 +229,7 @@ export default function DashboardShell({
               </h2>
 
                <div className="space-y-2">
-                  {assets.map((asset, idx) => (
+                  {liveAssets.length > 0 ? liveAssets.map((asset, idx) => (
                     <div key={idx} className="grid grid-cols-12 px-8 py-6 bg-surface-std/30 hover:bg-surface-std/80 rounded-2xl border border-white/5 transition-all duration-300 group/video items-center">
                        <div className="col-span-6 flex items-center gap-6">
                           <div className="w-24 h-14 bg-surface-base rounded-lg relative overflow-hidden flex items-center justify-center border border-white/5">
@@ -213,7 +237,7 @@ export default function DashboardShell({
                              {isPublished(asset) && (
                                <div className="absolute inset-0 bg-velocity-blue/10 flex items-center justify-center">
                                   <Lock size={16} className="text-velocity-blue glow-cyan" />
-                               </div>
+                                </div>
                              )}
                           </div>
                           <div>
@@ -242,13 +266,17 @@ export default function DashboardShell({
                           </button>
                        </div>
                     </div>
-                  ))}
+                  )) : (
+                    <div className="py-20 text-center space-y-6">
+                       <Box size={40} className="mx-auto text-gray-700 opacity-20" />
+                       <p className="text-[10px] font-mono text-gray-700 uppercase tracking-widest">NO_ASSETS_FOUND_IN_BUFFER</p>
+                    </div>
+                  )}
                </div>
             </section>
           )}
         </div>
 
-        {/* SECTOR BETA: MISSION ARCHITECTURE (4 Cols) */}
         <div className="col-span-12 lg:col-span-4 p-10 lg:p-14 bg-surface-low space-y-14 shadow-[-40px_0_60px_-15px_rgba(0,0,0,0.5)] z-10 border-l border-white/5">
            <section className="space-y-10">
             <h2 className="text-2xl font-black flex items-center gap-5 font-space uppercase tracking-tight">
@@ -277,3 +305,4 @@ export default function DashboardShell({
     </div>
   );
 }
+ Elisa 
